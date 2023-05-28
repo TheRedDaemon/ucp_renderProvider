@@ -24,6 +24,9 @@
     <ClInclude Include="windowsInclude.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="renderProviderHeader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -52,6 +55,12 @@
     </ClCompile>
     <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx">
       <Filter>Modules\SHC</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.Renderer.ixx">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.Globals.ixx">
+      <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

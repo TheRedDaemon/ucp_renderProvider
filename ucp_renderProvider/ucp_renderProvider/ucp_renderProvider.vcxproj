@@ -245,11 +245,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="renderProviderHeader.h" />
     <ClInclude Include="windowsInclude.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="RenderProvider.Globals.ixx" />
     <ClCompile Include="RenderProvider.Lua.ixx" />
+    <ClCompile Include="RenderProvider.Renderer.ixx" />
     <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx" />
     <ClCompile Include="RenderProvider.SHC-RenderTarget.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextManager.ixx" />

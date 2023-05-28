@@ -6,6 +6,7 @@ module;
 export module RenderProvider.Lua;
 
 import RenderProvider.SHC;
+import RenderProvider.Globals;
 
 module :private; // prevents re-compilation of other importing modules if the following part is changed
 
@@ -27,6 +28,8 @@ extern "C" __declspec(dllexport) int __cdecl lua_test(lua_State * L)
 extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * L)
 {
   lua_newtable(L); // push a new table on the stack
+
+  // TODO: fill structs, create functions
 
   // return lua funcs
   lua_pushcfunction(L, lua_test);

@@ -8,7 +8,7 @@ export namespace SHC
   struct PencilRenderCore
   {
     const int unused[3]; // here unused
-    RenderTarget surfaceTarget;
+    RenderTarget pencilSurfaceTarget;
     // there is more, but not relevant if used by functions
   };
 }
