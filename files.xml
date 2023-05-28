@@ -1,0 +1,16 @@
+<module>
+  <project path="ucp_renderProvider/ucp_renderProvider/ucp_renderProvider.vcxproj"/>
+  
+  <files> <!-- first without could be equal to build="Release"-->
+    <file src="ucp_renderProvider/$(Configuration)/renderProvider.dll" />
+    <file src="*.lua" target="." />
+    <file src="*.yml" target="." />
+  </files>
+  
+  <files build="Debug">
+    <file src="ucp_renderProvider/$(Configuration)/renderProvider.dll" />
+    <file src="ucp_renderProvider/$(Configuration)/renderProvider.pdb" />
+    <file src="*.lua" target="." />
+    <file src="*.yml" target="." />
+  </files>
+</module>
