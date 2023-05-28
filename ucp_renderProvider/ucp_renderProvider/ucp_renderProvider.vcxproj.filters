@@ -32,7 +32,25 @@
     <ClCompile Include="RenderProvider.Lua.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="renderProvider.SHC.ixx">
+    <ClCompile Include="RenderProvider.SHC.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-WindowAndDirectDraw.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-TextManager.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-RenderTarget.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.Utility.ixx">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx">
       <Filter>Modules\SHC</Filter>
     </ClCompile>
   </ItemGroup>
