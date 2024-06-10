@@ -1,5 +1,7 @@
 module;
 
+#include <string>
+
 #include "windowsInclude.h"
 #include "lua.hpp"
 
@@ -10,18 +12,12 @@ import RenderProvider.Globals;
 
 module :private; // prevents re-compilation of other importing modules if the following part is changed
 
-SHC::WindowAndDirectDraw* windowAndDirectDraw{ reinterpret_cast<SHC::WindowAndDirectDraw*>(0x00f98338) };
-SHC::TextManager* textManager{ reinterpret_cast<SHC::TextManager*>(0x02157578) };
-SHC::PencilRenderCore* pencilRenderCore{ reinterpret_cast<SHC::PencilRenderCore*>(0x0191d720) };
-SHC::TextureRenderCore* textureRenderCore{ reinterpret_cast<SHC::TextureRenderCore*>(0x01fea090) };
-
-extern "C" __declspec(dllexport) int __cdecl lua_test(lua_State * L)
+static void addFillAddress(lua_State* L, DWORD fillAddress, const char* name)
 {
-  SHC::WindowAndDirectDraw* test1{ windowAndDirectDraw };
-  SHC::TextManager* test2{ textManager };
-  SHC::PencilRenderCore* test3{ pencilRenderCore };
-  SHC::TextureRenderCore* test4{ textureRenderCore };
-  return 1;
+  static const std::string PREFIX{ "address_" };
+
+  lua_pushinteger(L, fillAddress);
+  lua_setfield(L, -2, (PREFIX + name).c_str());
 }
 
 // lua module load
@@ -29,11 +25,11 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
 {
   lua_newtable(L); // push a new table on the stack
 
-  // TODO: fill structs, create functions
-
-  // return lua funcs
-  lua_pushcfunction(L, lua_test);
-  lua_setfield(L, -2, "lua_test");
+  // add struct addresses
+  addFillAddress(L, (DWORD) &GameStruct::PencilRenderCore, "PencilRenderCore");
+  addFillAddress(L, (DWORD) &GameStruct::TextManager, "TextManager");
+  addFillAddress(L, (DWORD) &GameStruct::TextureRenderCore, "TextureRenderCore");
+  addFillAddress(L, (DWORD) &GameStruct::WindowAndDirectDraw, "WindowAndDirectDraw");
 
   return 1;
 }
