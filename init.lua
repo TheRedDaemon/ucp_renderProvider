@@ -41,6 +41,14 @@ exports.enable = function(self, moduleConfig, globalConfig)
     "'renderProvider' was unable to find the address for the 'WindowAndDirectDraw' object.",
     function(foundAddress) return core.readInteger(foundAddress + 1) end
   )
+  
+  local addrOfCallAddrOfTestFunctionMenuToMapSurface = getAddress(
+    "E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 39",
+    "'renderProvider' was unable to find the address for the 'MenuToMapSurface'-function used for testing.",
+    function(foundAddress) return foundAddress + 1 end
+  )
+   local addrOfTestFunctionMenuToMapSurface = core.readInteger(addrOfCallAddrOfTestFunctionMenuToMapSurface) + addrOfCallAddrOfTestFunctionMenuToMapSurface + 4
+  
 
   --[[ load module ]]--
   
@@ -50,6 +58,16 @@ exports.enable = function(self, moduleConfig, globalConfig)
   fillAddress(requireTable.address_TextManager, addrOfTextManager)
   fillAddress(requireTable.address_TextureRenderCore, addrOfTextureRenderCore)
   fillAddress(requireTable.address_WindowAndDirectDraw, addrOfWindowAndDirectDraw)
+  
+  core.writeCode(
+    requireTable.address_ActualMenuToMapSurface,
+    {addrOfTestFunctionMenuToMapSurface}
+  )
+  
+  core.writeCode(
+    addrOfCallAddrOfTestFunctionMenuToMapSurface,
+    {requireTable.funcAddress_DetouredMenuToMapSurface - addrOfCallAddrOfTestFunctionMenuToMapSurface - 4}
+  )
 
 end
 

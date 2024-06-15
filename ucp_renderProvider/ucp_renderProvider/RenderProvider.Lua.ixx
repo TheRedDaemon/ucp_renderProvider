@@ -9,6 +9,7 @@ export module RenderProvider.Lua;
 
 import RenderProvider.SHC;
 import RenderProvider.Globals;
+import RenderProvider.Testing;
 
 module :private; // prevents re-compilation of other importing modules if the following part is changed
 
@@ -17,6 +18,14 @@ static void addFillAddress(lua_State* L, DWORD fillAddress, const char* name)
   static const std::string PREFIX{ "address_" };
 
   lua_pushinteger(L, fillAddress);
+  lua_setfield(L, -2, (PREFIX + name).c_str());
+}
+
+static void addMemberFunctionAddress(lua_State* L, auto memberFunctionAddress, const char* name)
+{
+  static const std::string PREFIX{ "funcAddress_" };
+
+  lua_pushinteger(L, *(DWORD*) &memberFunctionAddress);
   lua_setfield(L, -2, (PREFIX + name).c_str());
 }
 
@@ -30,6 +39,10 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
   addFillAddress(L, (DWORD) &GameStruct::TextManager, "TextManager");
   addFillAddress(L, (DWORD) &GameStruct::TextureRenderCore, "TextureRenderCore");
   addFillAddress(L, (DWORD) &GameStruct::WindowAndDirectDraw, "WindowAndDirectDraw");
+
+  // add addresses for testing
+  addFillAddress(L, (DWORD) &FakeTextureRenderCore::actualMenuToMapSurface, "ActualMenuToMapSurface");
+  addMemberFunctionAddress(L, &FakeTextureRenderCore::detouredMenuToMapSurface, "DetouredMenuToMapSurface");
 
   return 1;
 }
