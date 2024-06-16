@@ -59,14 +59,17 @@
     <ClCompile Include="RenderProvider.Renderer.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="RenderProvider.Globals.ixx">
+    <ClCompile Include="RenderProvider.GamePointer.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="RenderProvider.Testing.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="RenderProvider.Logger.ixx">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API.ixx">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

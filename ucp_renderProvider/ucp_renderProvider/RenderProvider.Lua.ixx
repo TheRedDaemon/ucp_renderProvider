@@ -8,7 +8,7 @@ module;
 export module RenderProvider.Lua;
 
 import RenderProvider.SHC;
-import RenderProvider.Globals;
+import RenderProvider.GamePointer;
 import RenderProvider.Testing;
 
 module :private; // prevents re-compilation of other importing modules if the following part is changed

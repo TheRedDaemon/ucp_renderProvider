@@ -2,7 +2,10 @@
 #ifndef RENDER_PROVIDER_HEADER
 #define RENDER_PROVIDER_HEADER
 
+// TODO?
+
 #include <lua.hpp>
+#include <ucp3.h>
 
 namespace RenderProviderHeader
 {
@@ -19,11 +22,11 @@ namespace RenderProviderHeader
 
   /* Functions */
 
-  using Renderer = void*;
+  using Renderer = const void*;
 
-  using FuncRenderAction = void(__stdcall*)(Renderer renderer, void* misc);
-  using FuncRender = void(__stdcall*)(const RenderTarget target, FuncRenderAction renderAction, void* misc);
-  using FuncSizedRender = void(__stdcall*)(const RenderTarget target, int xStart, int xEnd, int yStart, int yEnd,
+  using FuncRenderAction = void(__stdcall)(Renderer renderer, void* misc);
+  using FuncRender = void(__stdcall)(RenderTarget target, FuncRenderAction renderAction, void* misc);
+  using FuncSizedRender = void(__stdcall)(RenderTarget target, int xStart, int xEnd, int yStart, int yEnd,
     FuncRenderAction renderAction, void* misc);
 
   namespace Render

@@ -1,4 +1,4 @@
-export module RenderProvider.Globals;
+export module RenderProvider.GamePointer;
 
 import RenderProvider.SHC;
 
@@ -10,7 +10,22 @@ export struct GameStruct
   inline static SHC::TextManager* TextManager{ nullptr };
 };
 
-export struct GameFunction
+export struct WindowAndDirectDrawFunction
+{
+
+};
+
+export struct TextureRenderCoreFunction
+{
+
+};
+
+export struct PencilRenderCoreFunction
+{
+
+};
+
+export struct TextManagerDrawFunction
 {
 
 };

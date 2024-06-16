@@ -253,7 +253,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="RenderProvider.Globals.ixx" />
+    <ClCompile Include="RenderProvider.API.ixx" />
+    <ClCompile Include="RenderProvider.GamePointer.ixx" />
+    <ClCompile Include="RenderProvider.Logger.ixx" />
     <ClCompile Include="RenderProvider.Lua.ixx" />
     <ClCompile Include="RenderProvider.Renderer.ixx" />
     <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx" />
@@ -265,17 +267,5 @@
     <ClCompile Include="RenderProvider.Testing.ixx" />
     <ClCompile Include="RenderProvider.Utility.ixx" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\lua.5.4.6\build\native\Lua.targets" Condition="Exists('..\packages\lua.5.4.6\build\native\Lua.targets')" />
-  </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\lua.5.4.6\build\native\Lua.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\lua.5.4.6\build\native\Lua.targets'))" />
-  </Target>
 </Project>
