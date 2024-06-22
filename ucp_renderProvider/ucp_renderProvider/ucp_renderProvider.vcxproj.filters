@@ -56,7 +56,7 @@
     <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx">
       <Filter>Modules\SHC</Filter>
     </ClCompile>
-    <ClCompile Include="RenderProvider.Renderer.ixx">
+    <ClCompile Include="RenderProvider.RenderState.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="RenderProvider.GamePointer.ixx">

@@ -22,9 +22,9 @@ namespace RenderProviderHeader
 
   /* Functions */
 
-  using Renderer = const void*;
+  using RenderKey = const void*;
 
-  using FuncRenderAction = void(__stdcall)(Renderer renderer, void* misc);
+  using FuncRenderAction = void(__stdcall)(RenderKey renderer, void* misc);
   using FuncRender = void(__stdcall)(RenderTarget target, FuncRenderAction renderAction, void* misc);
   using FuncSizedRender = void(__stdcall)(RenderTarget target, int xStart, int xEnd, int yStart, int yEnd,
     FuncRenderAction renderAction, void* misc);

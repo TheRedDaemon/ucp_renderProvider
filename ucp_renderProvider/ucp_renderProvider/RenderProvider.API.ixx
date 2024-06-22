@@ -7,55 +7,48 @@ module;
 export module RenderProvider.API;
 
 import RenderProvider.Logger;
-import RenderProvider.Renderer;
-
-export namespace Render
-{
-  using RenderProviderHeader::Renderer;
-  using RenderProviderHeader::RenderTarget;
-  using RenderProviderHeader::FuncRenderAction;
-}
+import RenderProvider.RenderState;
 
 export extern "C" __declspec(dllexport) RenderProviderHeader::FuncRender render;
 
 
 module :private;
 
-class RendererKeeper
+class RenderStateKeeper
 {
 private:
-  static inline std::stack<Renderer::Renderer> rendererStack{};
+  static inline std::stack<RenderState> rendererStack{};
 
 public:
-  static bool isActiveRenderer(RenderProviderHeader::Renderer receivedRenderer)
+  static bool isActiveRenderer(RenderProviderHeader::RenderKey receivedKey)
   {
     if (rendererStack.empty())
     {
       return false;
     }
 
-    return &rendererStack.top() == receivedRenderer;
+    return &rendererStack.top() == receivedKey;
   }
 
 private:
-  const Renderer::Renderer& rendererRef;
+  const RenderState& rendererRef;
 
 public:
-  RendererKeeper() : rendererRef{ rendererStack.emplace() }
+  RenderStateKeeper() : rendererRef{ rendererStack.emplace() }
   {
   }
 
-  ~RendererKeeper()
+  ~RenderStateKeeper()
   {
     rendererStack.pop();
   }
 
-  const Renderer::Renderer& expose() const
+  const RenderState& expose() const
   {
     return rendererRef;
   }
 
-  const RenderProviderHeader::Renderer exposeAsVoidPtr() const
+  const RenderProviderHeader::RenderKey exposeAsVoidPtr() const
   {
     return static_cast<const void*>(&rendererRef);
   }
@@ -64,6 +57,6 @@ public:
 
 extern "C" __declspec(dllexport) void __stdcall render(RenderProviderHeader::RenderTarget target, RenderProviderHeader::FuncRenderAction renderAction, void* misc)
 {
-  const RendererKeeper keeper;
+  const RenderStateKeeper keeper;
   renderAction(keeper.exposeAsVoidPtr(), misc);
 }
