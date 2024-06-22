@@ -22,13 +22,13 @@ private:
 public:
   static bool verifyActiveRenderer(RenderProviderHeader::RenderKey receivedKey)
   {
-    if (rendererStack.empty())
+    if (!rendererStack.empty() && &rendererStack.top() == receivedKey)
     {
-      Log(LogLevel::LOG_FATAL, "Requested render without the active key. Render order broken. Exiting game.");
-      return false;
+      return true;
     }
 
-    return &rendererStack.top() == receivedKey;
+    Log(LogLevel::LOG_FATAL, "Requested render without the active key. Render order broken. Exiting game.");
+    return false;
   }
 
 private:
