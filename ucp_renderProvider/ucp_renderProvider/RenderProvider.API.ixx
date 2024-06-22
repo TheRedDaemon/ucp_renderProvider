@@ -20,10 +20,11 @@ private:
   static inline std::stack<RenderState> rendererStack{};
 
 public:
-  static bool isActiveRenderer(RenderProviderHeader::RenderKey receivedKey)
+  static bool verifyActiveRenderer(RenderProviderHeader::RenderKey receivedKey)
   {
     if (rendererStack.empty())
     {
+      Log(LogLevel::LOG_FATAL, "Requested render without the active key. Render order broken. Exiting game.");
       return false;
     }
 
