@@ -1,7 +1,5 @@
 module;
 
-#include <string>
-
 #include "windowsInclude.h"
 #include "lua.hpp"
 
@@ -13,20 +11,16 @@ import RenderProvider.Testing;
 
 module :private; // prevents re-compilation of other importing modules if the following part is changed
 
-static void addFillAddress(lua_State* L, DWORD fillAddress, const char* name)
+static void addAddress(lua_State* L, DWORD address, const char* name)
 {
-  static const std::string PREFIX{ "address_" };
-
-  lua_pushinteger(L, fillAddress);
-  lua_setfield(L, -2, (PREFIX + name).c_str());
+  lua_pushinteger(L, address);
+  lua_setfield(L, -2, name);
 }
 
-static void addMemberFunctionAddress(lua_State* L, auto memberFunctionAddress, const char* name)
+static void addMemberAddress(lua_State* L, auto memberAddress, const char* name)
 {
-  static const std::string PREFIX{ "funcAddress_" };
-
-  lua_pushinteger(L, *(DWORD*) &memberFunctionAddress);
-  lua_setfield(L, -2, (PREFIX + name).c_str());
+  lua_pushinteger(L, *(DWORD*) &memberAddress);
+  lua_setfield(L, -2, name);
 }
 
 // lua module load
@@ -34,15 +28,25 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
 {
   lua_newtable(L); // push a new table on the stack
 
+  // push game ptr fill address table
+  lua_newtable(L);
+
   // add struct addresses
-  addFillAddress(L, (DWORD) &GameStruct::PencilRenderCore, "PencilRenderCore");
-  addFillAddress(L, (DWORD) &GameStruct::TextManager, "TextManager");
-  addFillAddress(L, (DWORD) &GameStruct::TextureRenderCore, "TextureRenderCore");
-  addFillAddress(L, (DWORD) &GameStruct::WindowAndDirectDraw, "WindowAndDirectDraw");
+  addAddress(L, (DWORD) &GameStruct::PencilRenderCore, "PencilRenderCore");
+  addAddress(L, (DWORD) &GameStruct::TextManager, "TextManager");
+  addAddress(L, (DWORD) &GameStruct::TextureRenderCore, "TextureRenderCore");
+  addAddress(L, (DWORD) &GameStruct::WindowAndDirectDraw, "WindowAndDirectDraw");
+
+  // add func addresses
+  /*addAddress(L, (DWORD) &TextManagerDrawFunction::renderGameInGameText, "RenderGameInGameText");
+  addAddress(L, (DWORD) &TextManagerDrawFunction::computeGameTextWidth, "ComputeGameTextWidth");
+  addAddress(L, (DWORD) &TextManagerDrawFunction::computeTextWidth, "ComputeTextWidth");*/
+  
+  lua_setfield(L, -2, "gamePtr"); // add table to table
 
   // add addresses for testing
-  addFillAddress(L, (DWORD) &FakeTextureRenderCore::actualMenuToMapSurface, "ActualMenuToMapSurface");
-  addMemberFunctionAddress(L, &FakeTextureRenderCore::detouredMenuToMapSurface, "DetouredMenuToMapSurface");
+  addAddress(L, (DWORD) &FakeTextureRenderCore::actualMenuToMapSurface, "address_ActualMenuToMapSurface");
+  addMemberAddress(L, &FakeTextureRenderCore::detouredMenuToMapSurface, "funcAddress_DetouredMenuToMapSurface");
 
   return 1;
 }

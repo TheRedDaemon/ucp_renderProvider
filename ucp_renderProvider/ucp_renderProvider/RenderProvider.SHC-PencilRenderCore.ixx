@@ -1,6 +1,8 @@
-export module RenderProvider.SHC:PencilRenderCore;
+module;
 
-import :RenderTarget;
+#include "renderProviderHeader.h"
+
+export module RenderProvider.SHC:PencilRenderCore;
 
 export namespace SHC
 {
@@ -8,7 +10,7 @@ export namespace SHC
   struct PencilRenderCore
   {
     const int unused[3]; // here unused
-    RenderTarget pencilSurfaceTarget;
+    RenderProviderHeader::RenderTarget pencilSurfaceTarget;
     // there is more, but not relevant if used by functions
   };
 }

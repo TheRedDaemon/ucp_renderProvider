@@ -14,10 +14,30 @@ namespace RenderProviderHeader
 
   /* Enums */
 
+  /* The enum describes the rendering target. */
   enum class RenderTarget
   {
     MENU = 0,
     GAME = 1,
+    BUTTON_AND_ALPHA = 2, // Memory used for alpha textures for example.
+    CONTEXT_BASED = -1 // Used to indicate to some functions that a surface should be chosen based on context.
+  };
+
+  enum TextXOffsetHandling : int
+  {
+    DISCARD = 0,
+    KEEP = 1,
+  };
+
+  enum TextAlignment : int
+  {
+    LEFT = 0,
+    CENTER = 1,
+    RIGHT = -1,
+  };
+
+  enum FontSize : int
+  {
   };
 
   /* Functions */
@@ -32,7 +52,16 @@ namespace RenderProviderHeader
   namespace Render
   {
     // will contains functions as stdcalls
-    // using Func... = ...(__stdcall*)(Renderer renderer, ...)
+    // using Func... = ...(__stdcall*)(RenderKey key, ...)
+
+    /* Text */
+
+    using FuncRenderGameInGameText = void(__stdcall*)(RenderKey key, int textOffsetIndex, int textNumInGroup, int xParam, int yParam,
+      TextAlignment alignment, unsigned int color1, unsigned int color2, FontSize fontSize, TextXOffsetHandling keepOffsetX, int blendStrength);
+
+    // utility
+    using FuncComputeGameTextWidth = void(__stdcall*)(RenderKey key, int textOffsetIndex, int textNumInGroup, RenderProviderHeader::FontSize fontSize);
+    using FuncComputeTextWidth = void(__stdcall*)(RenderKey key, const char* text, RenderProviderHeader::FontSize fontSize);
   };
 
   // Cpp API

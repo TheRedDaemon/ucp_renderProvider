@@ -259,7 +259,6 @@
     <ClCompile Include="RenderProvider.Lua.ixx" />
     <ClCompile Include="RenderProvider.RenderState.ixx" />
     <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx" />
-    <ClCompile Include="RenderProvider.SHC-RenderTarget.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextManager.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx" />
     <ClCompile Include="RenderProvider.SHC-WindowAndDirectDraw.ixx" />

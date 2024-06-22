@@ -1,3 +1,7 @@
+module;
+
+#include "renderProviderHeader.h"
+
 export module RenderProvider.GamePointer;
 
 import RenderProvider.SHC;
@@ -27,5 +31,9 @@ export struct PencilRenderCoreFunction
 
 export struct TextManagerDrawFunction
 {
+  inline static SHC::TextManager::FuncRenderGameInGameText renderGameInGameText{ nullptr };
 
+  // utility
+  inline static SHC::TextManager::FuncComputeGameTextWidth computeGameTextWidth{ nullptr };
+  inline static SHC::TextManager::FuncComputeTextWidth computeTextWidth{ nullptr };
 };

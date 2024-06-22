@@ -1,8 +1,10 @@
+module;
+
+#include "renderProviderHeader.h"
+
 export module RenderProvider.SHC:TextureRenderCore;
 
 import RenderProvider.Utility;
-
-import :RenderTarget;
 
 export namespace SHC
 {
@@ -57,8 +59,8 @@ export namespace SHC
   struct TextureRenderCore
   {
     const int unused_0x0;
-    RenderTarget drawBufferChoiceValue; // seems to be general enum for most cases (also get override in a lot of cases by the others)
-    RenderTarget currentRenderSurfaceIdentifier; // takes precedence in certain situations
+    RenderProviderHeader::RenderTarget drawBufferChoiceValue; // seems to be general enum for most cases (also get override in a lot of cases by the others)
+    RenderProviderHeader::RenderTarget currentRenderSurfaceIdentifier; // takes precedence in certain situations
     const int unused_0xc[17];
     int unknownGmRelatedFlag; // If set to 1, only one variation of the big menu buttons is used.
     const int unused_0x54;

@@ -1,3 +1,7 @@
+module;
+
+#include "renderProviderHeader.h"
+
 export module RenderProvider.RenderState;
 
 import RenderProvider.Utility;
@@ -8,10 +12,10 @@ import RenderProvider.GamePointer;
 export class RenderState
 {
 private:
-  SHC::RenderTarget originalDrawBufferChoiceValue;
-  SHC::RenderTarget originalCurrentRenderSurfaceIdentifier;
-  SHC::RenderTarget originalTextSurfaceTarget;
-  SHC::RenderTarget originalPencilSurfaceTarget;
+  RenderProviderHeader::RenderTarget originalDrawBufferChoiceValue;
+  RenderProviderHeader::RenderTarget originalCurrentRenderSurfaceIdentifier;
+  RenderProviderHeader::RenderTarget originalTextSurfaceTarget;
+  RenderProviderHeader::RenderTarget originalPencilSurfaceTarget;
   Utility::Range originalMapGameSurfaceHeightRange;
   Utility::Range originalScreenMenuSurfaceHeightRange;
   Utility::Range originalTextXRange;

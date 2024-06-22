@@ -3,8 +3,12 @@ local exports = {}
 local function getAddress(aob, errorMsg, modifierFunc)
   local address = core.AOBScan(aob, 0x400000)
   if address == nil then
-    log(ERROR, errorMsg)
-    error("'timeProvider' can not be initialized.")
+    if type(errorMsg) == "function" then
+      log(ERROR, errorMsg())
+    else
+      log(ERROR, errorMsg)
+    end
+    error("'renderProvider' can not be initialized.")
   end
   if modifierFunc == nil then
     return address;
@@ -16,31 +20,36 @@ local function fillAddress(address, fill)
   core.writeCode(address, {fill})
 end
 
+local function readAddressFromStructUsage(usageAddress)
+  return core.readInteger(usageAddress + 1)
+end
+
+local GAME_ADDRESSES = {
+  -- structs
+  PencilRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? 53 B9 ? ? ? ? E8 ? ? ? ? 6A 08", readAddressFromStructUsage, nil },
+  TextManager = { "B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromStructUsage, nil },
+  TextureRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromStructUsage, nil },
+  WindowAndDirectDraw = { "B9 ? ? ? ? E8 ? ? ? ? 39 ? ? ? ? ? 74 18", readAddressFromStructUsage, nil },
+  
+  -- TextManager
+  --RenderGameInGameText = { "", nil, nil },
+
+  --ComputeGameTextWidth = { "", nil, nil },
+  --ComputeTextWidth = { "", nil, nil },
+}
+
 exports.enable = function(self, moduleConfig, globalConfig)
 
-  local addrOfPencilRenderCore = getAddress(
-    "B9 ? ? ? ? E8 ? ? ? ? 53 B9 ? ? ? ? E8 ? ? ? ? 6A 08",
-    "'renderProvider' was unable to find the address for the 'PencilRenderCore' object.",
-    function(foundAddress) return core.readInteger(foundAddress + 1) end
-  )
-
-  local addrOfTextManager = getAddress(
-    "B9 ? ? ? ? E8 ? ? ? ? 53 6A 03",
-    "'renderProvider' was unable to find the address for the 'TextManager' object.",
-    function(foundAddress) return core.readInteger(foundAddress + 1) end
-  )
-  
-  local addrOfTextureRenderCore = getAddress(
-    "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 6A 03",
-    "'renderProvider' was unable to find the address for the 'TextureRenderCore' object.",
-    function(foundAddress) return core.readInteger(foundAddress + 1) end
-  )
-  
-  local addrOfWindowAndDirectDraw = getAddress(
-    "B9 ? ? ? ? E8 ? ? ? ? 39 ? ? ? ? ? 74 18 ",
-    "'renderProvider' was unable to find the address for the 'WindowAndDirectDraw' object.",
-    function(foundAddress) return core.readInteger(foundAddress + 1) end
-  )
+  -- get game structs and functions
+  for name, addressData in pairs(GAME_ADDRESSES) do
+    addressData[3] = getAddress(
+      addressData[1],
+      function()
+        return string.format("'renderProvider' was unable to find the address for '%s'.", name)
+      end,
+      addressData[2]
+    )
+  end
   
   local addrOfCallAddrOfTestFunctionMenuToMapSurface = getAddress(
     "E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 39",
@@ -54,10 +63,18 @@ exports.enable = function(self, moduleConfig, globalConfig)
   
   local requireTable = require("renderProvider.dll") -- loads the dll in memory and runs luaopen_renderProvider
   
-  fillAddress(requireTable.address_PencilRenderCore, addrOfPencilRenderCore)
-  fillAddress(requireTable.address_TextManager, addrOfTextManager)
-  fillAddress(requireTable.address_TextureRenderCore, addrOfTextureRenderCore)
-  fillAddress(requireTable.address_WindowAndDirectDraw, addrOfWindowAndDirectDraw)
+  -- fill addresses
+  for name, addressToFill in pairs(requireTable.gamePtr) do
+    local addressData = GAME_ADDRESSES[name]
+    if addressData == nil then
+      error(string.format("No data about requested address to fill '%s'. 'renderProvider' can not be initialized.", name))
+    end
+    local address = addressData[3]
+    if addressData == nil then
+      error(string.format("No address for requested address to fill '%s'. 'renderProvider' can not be initialized.", name))
+    end
+    fillAddress(addressToFill, address)
+  end
   
   core.writeCode(
     requireTable.address_ActualMenuToMapSurface,
