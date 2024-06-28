@@ -253,11 +253,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="RenderProvider.API-RenderContext.ixx" />
     <ClCompile Include="RenderProvider.API.ixx" />
+    <ClCompile Include="RenderProvider.API_TokenHandling.cpp" />
     <ClCompile Include="RenderProvider.GamePointer.ixx" />
     <ClCompile Include="RenderProvider.Logger.ixx" />
     <ClCompile Include="RenderProvider.Lua.ixx" />
-    <ClCompile Include="RenderProvider.RenderState.ixx" />
+    <ClCompile Include="RenderProvider.API-RenderState.ixx" />
     <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextManager.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx" />

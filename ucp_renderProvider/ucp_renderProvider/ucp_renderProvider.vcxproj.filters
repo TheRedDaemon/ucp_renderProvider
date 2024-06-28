@@ -19,6 +19,9 @@
     <Filter Include="Modules\SHC">
       <UniqueIdentifier>{2c9a1cd9-8bbd-4bcc-9bd3-255879835f22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Modules\API">
+      <UniqueIdentifier>{1c675dbf-93ac-45eb-a26c-4e5ecdd937f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windowsInclude.h">
@@ -53,9 +56,6 @@
     <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx">
       <Filter>Modules\SHC</Filter>
     </ClCompile>
-    <ClCompile Include="RenderProvider.RenderState.ixx">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="RenderProvider.GamePointer.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -65,8 +65,17 @@
     <ClCompile Include="RenderProvider.Logger.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="RenderProvider.API_TokenHandling.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
     <ClCompile Include="RenderProvider.API.ixx">
-      <Filter>Modules</Filter>
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-RenderState.ixx">
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-RenderContext.ixx">
+      <Filter>Modules\API</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

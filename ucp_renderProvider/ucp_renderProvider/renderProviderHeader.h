@@ -42,12 +42,14 @@ namespace RenderProviderHeader
 
   /* Functions */
 
-  using RenderKey = const void*;
+  using Renderer = const int; // configure a renderer state
+  using RenderToken = const int; // requests actual render actions with the currently active renderer
 
-  using FuncRenderAction = void(__stdcall)(RenderKey renderer, void* misc);
-  using FuncRender = void(__stdcall)(RenderTarget target, FuncRenderAction renderAction, void* misc);
-  using FuncSizedRender = void(__stdcall)(RenderTarget target, int xStart, int xEnd, int yStart, int yEnd,
-    FuncRenderAction renderAction, void* misc);
+  using FuncRequestRenderer = Renderer(__stdcall)();
+  using FuncReleaseRenderer = void(__stdcall)(Renderer renderer);
+
+  using FuncRenderAction = void(__stdcall)(RenderToken token, void* misc);
+  using FuncRender = void(__stdcall)(Renderer renderer, FuncRenderAction renderAction, void* misc);
 
   namespace Render
   {
@@ -56,12 +58,12 @@ namespace RenderProviderHeader
 
     /* Text */
 
-    using FuncRenderGameInGameText = void(__stdcall*)(RenderKey key, int textOffsetIndex, int textNumInGroup, int xParam, int yParam,
+    using FuncRenderGameInGameText = void(__stdcall)(RenderToken token, int textOffsetIndex, int textNumInGroup, int xParam, int yParam,
       TextAlignment alignment, unsigned int color1, unsigned int color2, FontSize fontSize, TextXOffsetHandling keepOffsetX, int blendStrength);
 
     // utility
-    using FuncComputeGameTextWidth = void(__stdcall*)(RenderKey key, int textOffsetIndex, int textNumInGroup, RenderProviderHeader::FontSize fontSize);
-    using FuncComputeTextWidth = void(__stdcall*)(RenderKey key, const char* text, RenderProviderHeader::FontSize fontSize);
+    using FuncComputeGameTextWidth = int(__stdcall)(RenderToken token, int textOffsetIndex, int textNumInGroup, RenderProviderHeader::FontSize fontSize);
+    using FuncComputeTextWidth = int(__stdcall)(RenderToken token, const char* text, RenderProviderHeader::FontSize fontSize);
   };
 
   // Cpp API
