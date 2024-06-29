@@ -24,6 +24,7 @@ private:
 public:
   static bool verifyActiveToken(RenderToken token);
   static bool isContextUsed(const RenderContext& context);
+  static bool isContextUsed(Renderer renderer);
 
 private:
   const RenderProviderHeader::RenderTarget originalDrawBufferChoiceValue;
@@ -92,13 +93,18 @@ bool RenderState::verifyActiveToken(RenderToken token)
 
 bool RenderState::isContextUsed(const RenderContext& context)
 {
-  auto it{ std::find(stateStack.begin(), stateStack.end(),
+  auto it{ std::find(stateStack.rbegin(), stateStack.rend(),
     [&context](const RenderState* state) -> bool
     {
       return &(state->getRenderContext()) == &context;
     })
   };
-  return it != stateStack.end();
+  return it != stateStack.rend();
+}
+
+bool RenderState::isContextUsed(Renderer renderer)
+{
+  return isContextUsed(*reinterpret_cast<const RenderContext*>(renderer));
 }
 
 const RenderContext& RenderState::getRenderContext() const

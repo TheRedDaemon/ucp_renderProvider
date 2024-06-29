@@ -253,9 +253,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="RenderProvider.API-Basic.ixx" />
     <ClCompile Include="RenderProvider.API-RenderContext.ixx" />
     <ClCompile Include="RenderProvider.API.ixx" />
-    <ClCompile Include="RenderProvider.API_TokenHandling.cpp" />
     <ClCompile Include="RenderProvider.GamePointer.ixx" />
     <ClCompile Include="RenderProvider.Logger.ixx" />
     <ClCompile Include="RenderProvider.Lua.ixx" />

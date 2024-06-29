@@ -65,9 +65,6 @@
     <ClCompile Include="RenderProvider.Logger.ixx">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="RenderProvider.API_TokenHandling.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="RenderProvider.API.ixx">
       <Filter>Modules\API</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
       <Filter>Modules\API</Filter>
     </ClCompile>
     <ClCompile Include="RenderProvider.API-RenderContext.ixx">
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-Basic.ixx">
       <Filter>Modules\API</Filter>
     </ClCompile>
   </ItemGroup>
