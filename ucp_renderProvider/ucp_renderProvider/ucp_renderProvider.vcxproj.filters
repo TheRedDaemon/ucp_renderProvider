@@ -22,6 +22,9 @@
     <Filter Include="Modules\API">
       <UniqueIdentifier>{1c675dbf-93ac-45eb-a26c-4e5ecdd937f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\API">
+      <UniqueIdentifier>{977f5e5e-008a-4a73-a82a-f6f09bf1815d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="windowsInclude.h">
@@ -76,6 +79,18 @@
     </ClCompile>
     <ClCompile Include="RenderProvider.API-Basic.ixx">
       <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-TextManager.ixx">
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-Basic.cpp">
+      <Filter>Quelldateien\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-RenderContext.cpp">
+      <Filter>Quelldateien\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-RenderState.cpp">
+      <Filter>Quelldateien\API</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

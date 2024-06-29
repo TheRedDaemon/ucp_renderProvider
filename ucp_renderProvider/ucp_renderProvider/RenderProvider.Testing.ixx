@@ -22,7 +22,7 @@ RenderProviderHeader::FuncRenderAction testAction;
 
 module :private;
 
-void __stdcall testAction(RenderProviderHeader::RenderKey key, void* nothing)
+void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing)
 {
   //const int size = computeGameTextWidth(key, 1, 1, static_cast<RenderProviderHeader::FontSize>(0));
   //const int size2 = computeTextWidth(key, "1, 1", static_cast<RenderProviderHeader::FontSize>(0));
@@ -33,7 +33,9 @@ void __stdcall testAction(RenderProviderHeader::RenderKey key, void* nothing)
 void FakeTextureRenderCore::detouredMenuToMapSurface()
 {
   // Testing:
-  //render(RenderProviderHeader::RenderTarget::GAME, testAction, nullptr);
+  RenderProviderHeader::Renderer renderer{ requestRenderer() };
+  render(renderer, testAction, nullptr);
+  releaseRenderer(renderer);
  
 
   // Run actual function

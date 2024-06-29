@@ -7,17 +7,68 @@ module;
 
 export module RenderProvider.API:RenderContext;
 
-import RenderProvider.GamePointer;
 import RenderProvider.Logger;
 
 using namespace RenderProviderHeader;
 
-struct RenderContextHash;
+class RenderContext;
+
+// source: https://www.cppstories.com/2021/heterogeneous-access-cpp20/#how-to-enable-it-for-unordered-containers
+struct RenderContextHash
+{
+  using is_transparent = void;
+  [[nodiscard]] size_t operator()(std::unique_ptr<RenderContext>& contextPtr) const
+  {
+    return std::hash<void*>{}(contextPtr.get());
+  }
+  [[nodiscard]] size_t operator()(const std::unique_ptr<RenderContext>& contextPtr) const
+  {
+    return std::hash<void*>{}(contextPtr.get());
+  }
+  [[nodiscard]] size_t operator()(RenderContext& contextPtr) const
+  {
+    return std::hash<void*>{}(&contextPtr);
+  }
+  [[nodiscard]] size_t operator()(const RenderContext& contextPtr) const
+  {
+    return std::hash<const void*>{}(&contextPtr);
+  }
+  [[nodiscard]] size_t operator()(Renderer renderer) const
+  {
+    return std::hash<void*>{}(reinterpret_cast<void*>(renderer));
+  }
+};
+
+// source: https://stackoverflow.com/a/69496377
+struct RenderContextEqual
+{
+  using is_transparent = void;
+  bool operator()(const std::unique_ptr<RenderContext>& lhs, const std::unique_ptr<RenderContext>& rhs) const
+  {
+    return lhs == rhs;
+  }
+  bool operator()(const std::unique_ptr<RenderContext>& lhs, const RenderContext& rhs) const
+  {
+    return lhs.get() == &rhs;
+  }
+  bool operator()(const std::unique_ptr<RenderContext>& lhs, const Renderer& rhs) const
+  {
+    return lhs.get() == reinterpret_cast<void*>(rhs);
+  }
+  bool operator()(const RenderContext& lhs, const std::unique_ptr<RenderContext>& rhs) const
+  {
+    return &lhs == rhs.get();
+  }
+  bool operator()(const Renderer& lhs, const std::unique_ptr<RenderContext>& rhs) const
+  {
+    return reinterpret_cast<void*>(lhs) == rhs.get();
+  }
+};
 
 export class RenderContext
 {
 private:
-  static std::unordered_set<std::unique_ptr<RenderContext>, RenderContextHash, std::equal_to<>> existingContexts;
+  static inline std::unordered_set<std::unique_ptr<RenderContext>, RenderContextHash, RenderContextEqual> existingContexts{};
 
 public:
   static RenderContext& createContext();
@@ -26,84 +77,11 @@ public:
   static bool removeContext(Renderer renderer);
 
 private:
+
+public:
   RenderContext();
   virtual ~RenderContext();
 
-public:
   void initRender() const;
   const Renderer asRenderer() const;
 };
-
-module :private;
-
-// source: https://www.cppstories.com/2021/heterogeneous-access-cpp20/#how-to-enable-it-for-unordered-containers
-struct RenderContextHash
-{
-  using is_transparent = void;
-  [[nodiscard]] size_t operator()(std::unique_ptr<RenderContext> contextPtr) const
-  {
-    return std::hash<void*>{}(contextPtr.get());
-  }
-  [[nodiscard]] size_t operator()(RenderContext& contextPtr) const
-  {
-    return std::hash<void*>{}(&contextPtr);
-  }
-  [[nodiscard]] size_t operator()(Renderer renderer) const
-  {
-    return std::hash<void*>{}(reinterpret_cast<void*>(renderer));
-  }
-};
-
-
-RenderContext::RenderContext()
-{
-
-}
-
-RenderContext::~RenderContext() {}
-
-RenderContext& RenderContext::createContext()
-{
-  auto contextUniquePtr{ std::make_unique<RenderContext>() };
-  RenderContext& newContext{ *contextUniquePtr };
-  existingContexts.insert(contextUniquePtr);
-  return newContext;
-}
-
-RenderContext& RenderContext::verifyValidContext(Renderer renderer)
-{
-  auto it{ existingContexts.find(renderer) };
-  if (it == existingContexts.end())
-  {
-    Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested render with invalid render context. Critical error. Exiting game.");
-    // NO_RETURN: should end the game here via fatal log
-  }
-  return *(it->get());
-}
-
-bool RenderContext::removeContext(const RenderContext& context)
-{
-  auto it{ existingContexts.find(context) };
-  if (it == existingContexts.end())
-  {
-    Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested removal of not existing render context. Critical error. Exiting game.");
-    return false;
-  }
-  existingContexts.erase(it);
-  return true;
-}
-
-bool RenderContext::removeContext(Renderer renderer)
-{
-  return removeContext(*reinterpret_cast<RenderContext*>(renderer));
-}
-
-const Renderer RenderContext::asRenderer() const
-{
-  return reinterpret_cast<Renderer>(this);
-}
-
-void RenderContext::initRender() const
-{
-  // TODO: init context of the game
-}

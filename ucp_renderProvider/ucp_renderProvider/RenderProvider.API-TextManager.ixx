@@ -11,7 +11,7 @@ using namespace RenderProviderHeader;
 //export extern "C" __declspec(dllexport) Render::FuncComputeGameTextWidth computeGameTextWidth;
 //export extern "C" __declspec(dllexport) Render::FuncComputeTextWidth computeTextWidth;
 
-module :private;
+//module :private;
 
 //template<auto objectPtrPtr, auto functionPtrPtr, typename... Args>
 //auto verifyAndExecute(RenderToken token, Args&&... args)
