@@ -15,7 +15,7 @@ import :RenderContext;
 
 using namespace RenderProviderHeader;
 
-export class RenderState
+export class RenderState final
 {
 private:
   static inline std::vector<RenderState*> stateStack{};
@@ -39,7 +39,7 @@ private:
 
 public:
   RenderState(const RenderContext& renderContext);
-  virtual ~RenderState();
+  ~RenderState();
 
   const RenderContext& getRenderContext() const;
   const RenderToken asRenderToken() const;

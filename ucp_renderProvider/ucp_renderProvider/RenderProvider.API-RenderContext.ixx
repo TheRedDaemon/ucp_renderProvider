@@ -65,7 +65,7 @@ struct RenderContextEqual
   }
 };
 
-export class RenderContext
+export class RenderContext final
 {
 private:
   static inline std::unordered_set<std::unique_ptr<RenderContext>, RenderContextHash, RenderContextEqual> existingContexts{};
@@ -80,7 +80,7 @@ private:
 
 public:
   RenderContext();
-  virtual ~RenderContext();
+  ~RenderContext();
 
   void initRender() const;
   const Renderer asRenderer() const;
