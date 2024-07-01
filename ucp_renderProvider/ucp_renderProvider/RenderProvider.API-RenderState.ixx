@@ -21,7 +21,7 @@ private:
   static inline std::vector<RenderState*> stateStack{};
 
 public:
-  static bool verifyActiveToken(RenderToken token);
+  static RenderState& verifyActiveToken(RenderToken token);
   static bool isContextUsed(const RenderContext& context);
   static bool isContextUsed(Renderer renderer);
 
@@ -30,9 +30,15 @@ private:
   const RenderProviderHeader::RenderTarget originalCurrentRenderSurfaceIdentifier;
   const RenderProviderHeader::RenderTarget originalTextSurfaceTarget;
   const RenderProviderHeader::RenderTarget originalPencilSurfaceTarget;
+
+  // are not of much use, since the x range seems not clamped, likely need to be set to max value during draw
   const Utility::Range originalMapGameSurfaceHeightRange;
   const Utility::Range originalScreenMenuSurfaceHeightRange;
+
+  // has an effect on text rendering, although the nature is unclear, it seems to reduce the X range of text
   const Utility::Range originalTextXRange;
+
+  // needs to be set, but seems to be only for tgx menu rendering
   const Utility::Rect originalRenderingRect;
 
   const RenderContext& renderContext;

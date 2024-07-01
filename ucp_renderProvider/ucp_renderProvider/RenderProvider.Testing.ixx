@@ -24,6 +24,7 @@ module :private;
 
 void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing)
 {
+  RenderProviderHeader::Renderer renderer{ receiveRenderer(token)};
   //const int size = computeGameTextWidth(key, 1, 1, static_cast<RenderProviderHeader::FontSize>(0));
   //const int size2 = computeTextWidth(key, "1, 1", static_cast<RenderProviderHeader::FontSize>(0));
   //renderGameInGameText(key, 1, 15, 10, 10, RenderProviderHeader::TextAlignment::LEFT, 0xb8e6f5, 0, static_cast<RenderProviderHeader::FontSize>(0x12), RenderProviderHeader::TextXOffsetHandling::DISCARD, 0);

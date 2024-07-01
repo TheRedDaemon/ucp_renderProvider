@@ -38,15 +38,14 @@ RenderState::~RenderState()
 }
 
 
-bool RenderState::verifyActiveToken(RenderToken token)
+RenderState& RenderState::verifyActiveToken(RenderToken token)
 {
-  if (!stateStack.empty() && &stateStack.back() == (const void*) token)
+  if (stateStack.empty() || &stateStack.back() != (const void*) token)
   {
-    return true;
+    Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested render without the active token. Render order broken. Exiting game.");
+    // NO_RETURN: should end the game here via fatal log
   }
-
-  Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested render without the active token. Render order broken. Exiting game.");
-  return false;
+  return *(stateStack.back());
 }
 
 bool RenderState::isContextUsed(const RenderContext& context)

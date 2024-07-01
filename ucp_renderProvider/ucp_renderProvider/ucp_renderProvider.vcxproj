@@ -257,6 +257,8 @@
     <ClCompile Include="RenderProvider.API-Basic.ixx" />
     <ClCompile Include="RenderProvider.API-RenderContext.cpp" />
     <ClCompile Include="RenderProvider.API-RenderContext.ixx" />
+    <ClCompile Include="RenderProvider.API-RenderContextApi.cpp" />
+    <ClCompile Include="RenderProvider.API-RenderContextApi.ixx" />
     <ClCompile Include="RenderProvider.API-RenderState.cpp" />
     <ClCompile Include="RenderProvider.API-TextManager.ixx" />
     <ClCompile Include="RenderProvider.API.ixx" />

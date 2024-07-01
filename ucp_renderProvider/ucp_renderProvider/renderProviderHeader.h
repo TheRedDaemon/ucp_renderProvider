@@ -51,8 +51,23 @@ namespace RenderProviderHeader
   using FuncRenderAction = void(__stdcall)(RenderToken token, void* misc);
   using FuncRender = void(__stdcall)(Renderer renderer, FuncRenderAction renderAction, void* misc);
 
+  namespace Context
+  {
+    // general
+    using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
+
+    // text
+    using FuncSetFontSize = void(__stdcall)(Renderer renderer, int fontSize);
+    using FuncSetFontPrimaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
+    using FuncSetFontSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
+    using FuncSetTextAlignment = void(__stdcall)(Renderer renderer, TextAlignment alignment);
+    using FuncResetTextPosition = void(__stdcall)(Renderer renderer);
+  }
+
   namespace Render
   {
+    using FuncReceiveRenderer = Renderer(__stdcall)(RenderToken token);
+
     // will contains functions as stdcalls
     // using Func... = ...(__stdcall*)(RenderKey key, ...)
 

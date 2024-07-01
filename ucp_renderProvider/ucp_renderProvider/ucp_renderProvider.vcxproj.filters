@@ -92,5 +92,11 @@
     <ClCompile Include="RenderProvider.API-RenderState.cpp">
       <Filter>Quelldateien\API</Filter>
     </ClCompile>
+    <ClCompile Include="RenderProvider.API-RenderContextApi.ixx">
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-RenderContextApi.cpp">
+      <Filter>Quelldateien\API</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

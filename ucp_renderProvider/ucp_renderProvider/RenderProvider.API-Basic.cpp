@@ -26,3 +26,8 @@ extern "C" __declspec(dllexport) void __stdcall render(Renderer renderer, FuncRe
   const RenderState state{ RenderContext::verifyValidContext(renderer) };
   renderAction(state.asRenderToken(), misc);
 }
+
+extern "C" __declspec(dllexport) Renderer __stdcall receiveRenderer(RenderToken token)
+{
+  return RenderState::verifyActiveToken(token).getRenderContextAsRenderer();
+}

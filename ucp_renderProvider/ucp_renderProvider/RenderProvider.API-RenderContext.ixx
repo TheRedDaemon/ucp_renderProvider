@@ -7,6 +7,7 @@ module;
 
 export module RenderProvider.API:RenderContext;
 
+import RenderProvider.Utility;
 import RenderProvider.Logger;
 
 using namespace RenderProviderHeader;
@@ -77,10 +78,36 @@ public:
   static bool removeContext(Renderer renderer);
 
 private:
+  Utility::Rect relativeMenuRect;
+  Utility::Rect relativeMapRect;
+  int blendStrength;
+
+  FontSize fontSize;
+  TextAlignment textAlignment;
+  int fontPrimaryColor;
+  int fontSecondaryColor;
 
 public:
   RenderContext();
   ~RenderContext();
+
+  void setAlpha(float alpha); // transforms alpha to blendStrength
+  int getBlendStrength() const;
+
+  // TODO: implement, need to set game values
+  void setRelativeMenuRect(Utility::Rect rect);
+  Utility::Rect getRelativeMenuRect() const;
+  void setRelativeMapRect(Utility::Rect rect);
+  Utility::Rect getRelativeMapRect() const;
+
+  void setFontSize(FontSize fontSize);
+  FontSize getFontSize() const;
+  void setFontPrimaryColor(int fontPrimaryColor);
+  int getFontPrimaryColor() const;
+  void setFontSecondaryColor(int fontSecondaryColor);
+  int getFontSecondaryColor() const;
+  void setFontAlignment(TextAlignment textAlignment);
+  TextAlignment getFontAlignment() const;
 
   void initRender() const;
   const Renderer asRenderer() const;
