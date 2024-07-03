@@ -6,7 +6,6 @@ module;
 
 export module RenderProvider.API:RenderState;
 
-import RenderProvider.Utility;
 import RenderProvider.SHC;
 import RenderProvider.GamePointer;
 import RenderProvider.Logger;
@@ -32,14 +31,14 @@ private:
   const RenderProviderHeader::RenderTarget originalPencilSurfaceTarget;
 
   // are not of much use, since the x range seems not clamped, likely need to be set to max value during draw
-  const Utility::Range originalMapGameSurfaceHeightRange;
-  const Utility::Range originalScreenMenuSurfaceHeightRange;
+  const Range originalMapGameSurfaceHeightRange;
+  const Range originalScreenMenuSurfaceHeightRange;
 
   // has an effect on text rendering, although the nature is unclear, it seems to reduce the X range of text
-  const Utility::Range originalTextXRange;
+  const Range originalTextXRange;
 
   // needs to be set, but seems to be only for tgx menu rendering
-  const Utility::Rect originalRenderingRect;
+  const Rect originalRenderingRect;
 
   const RenderContext& renderContext;
 

@@ -272,7 +272,6 @@
     <ClCompile Include="RenderProvider.SHC-WindowAndDirectDraw.ixx" />
     <ClCompile Include="RenderProvider.SHC.ixx" />
     <ClCompile Include="RenderProvider.Testing.ixx" />
-    <ClCompile Include="RenderProvider.Utility.ixx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

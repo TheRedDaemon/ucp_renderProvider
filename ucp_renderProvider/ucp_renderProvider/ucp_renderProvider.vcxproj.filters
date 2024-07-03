@@ -50,9 +50,6 @@
     <ClCompile Include="RenderProvider.SHC-TextManager.ixx">
       <Filter>Modules\SHC</Filter>
     </ClCompile>
-    <ClCompile Include="RenderProvider.Utility.ixx">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx">
       <Filter>Modules\SHC</Filter>
     </ClCompile>

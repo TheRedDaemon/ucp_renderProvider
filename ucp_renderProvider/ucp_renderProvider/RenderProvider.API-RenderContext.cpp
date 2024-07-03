@@ -8,6 +8,9 @@ module;
 
 module RenderProvider.API:RenderContext;
 
+import RenderProvider.Logger;
+import RenderProvider.GamePointer;
+
 using namespace RenderProviderHeader;
 
 // constants
@@ -16,9 +19,17 @@ static int BLEND_MAX = 32;
 
 // functions
 
-RenderContext::RenderContext()
+RenderContext::RenderContext() :
+  target{ RenderTarget::MENU },
+  blendStrength(BLEND_MAX),
+  fontSize(0),  // todo
+  textAlignment{ TextAlignment::LEFT },
+  fontPrimaryColor{ 0 },
+  fontSecondaryColor( 0xffffff ),
+  textWidth{ 800 }
 {
-
+  this->receiveScreenRect(this->relativeMenuTargetRect);
+  this->receiveMapRect(this->relativeMapTargetRect);
 }
 
 RenderContext::~RenderContext() {}
@@ -60,6 +71,31 @@ bool RenderContext::removeContext(Renderer renderer)
 }
 
 // general
+
+
+void RenderContext::receiveScreenRect(Rect& rectToFill)
+{
+  rectToFill.x = 0;
+  rectToFill.y = 0;
+  rectToFill.width = GameStruct::WindowAndDirectDraw->gameResolutionX;
+  rectToFill.height = GameStruct::WindowAndDirectDraw->gameResolutionY;
+}
+void RenderContext::receiveMenuRect(Rect& rectToFill)
+{
+  const int borderWidth = GameStruct::WindowAndDirectDraw->mainMenuBorderWidth;
+  const int borderHeight = GameStruct::WindowAndDirectDraw->mainMenuBorderHeight;
+  rectToFill.x = borderWidth;
+  rectToFill.y = borderHeight;
+  rectToFill.width = GameStruct::WindowAndDirectDraw->gameResolutionX - 2 * borderWidth;
+  rectToFill.height = GameStruct::WindowAndDirectDraw->gameResolutionY - 2 * borderHeight;
+}
+void RenderContext::receiveMapRect(Rect& rectToFill)
+{
+  rectToFill.x = 0;
+  rectToFill.y = 0;
+  rectToFill.width = 4056;
+  rectToFill.height = 2076;
+}
 
 void RenderContext::setAlpha(float alpha)
 {

@@ -7,7 +7,6 @@ module;
 
 export module RenderProvider.API:RenderContext;
 
-import RenderProvider.Utility;
 import RenderProvider.Logger;
 
 using namespace RenderProviderHeader;
@@ -78,27 +77,30 @@ public:
   static bool removeContext(Renderer renderer);
 
 private:
-  Utility::Rect relativeMenuRect;
-  Utility::Rect relativeMapRect;
+  RenderTarget target;
+  Rect relativeMenuTargetRect;
+  Rect relativeMapTargetRect;
   int blendStrength;
 
   FontSize fontSize;
   TextAlignment textAlignment;
   int fontPrimaryColor;
   int fontSecondaryColor;
+  int textWidth;
 
 public:
   RenderContext();
   ~RenderContext();
 
+  void setTarget(RenderTarget target);
+  void setRelativeMenuTargetRect(const Rect& rect);
+  void setRelativeMapTargetRect(const Rect& rect);
+  void receiveScreenRect(Rect& rectToFill);
+  void receiveMenuRect(Rect& rectToFill);
+  void receiveMapRect(Rect& rectToFill);
   void setAlpha(float alpha); // transforms alpha to blendStrength
   int getBlendStrength() const;
 
-  // TODO: implement, need to set game values
-  void setRelativeMenuRect(Utility::Rect rect);
-  Utility::Rect getRelativeMenuRect() const;
-  void setRelativeMapRect(Utility::Rect rect);
-  Utility::Rect getRelativeMapRect() const;
 
   void setFontSize(FontSize fontSize);
   FontSize getFontSize() const;
@@ -108,6 +110,8 @@ public:
   int getFontSecondaryColor() const;
   void setFontAlignment(TextAlignment textAlignment);
   TextAlignment getFontAlignment() const;
+  void setTextWidth(int textWidth);
+  int getTextWidth() const;
 
   void initRender() const;
   const Renderer asRenderer() const;

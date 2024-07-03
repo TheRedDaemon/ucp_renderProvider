@@ -4,8 +4,6 @@ module;
 
 export module RenderProvider.SHC:TextureRenderCore;
 
-import RenderProvider.Utility;
-
 export namespace SHC
 {
   enum class GmImageType
@@ -64,15 +62,15 @@ export namespace SHC
     const int unused_0xc[17];
     int unknownGmRelatedFlag; // If set to 1, only one variation of the big menu buttons is used.
     const int unused_0x54;
-    Utility::Range mapGameSurfaceHeightRange;
-    Utility::Range screenMenuSurfaceHeightRange;
+    RenderProviderHeader::Range mapGameSurfaceHeightRange;
+    RenderProviderHeader::Range screenMenuSurfaceHeightRange;
     const int unused_0x68[301];
     GMFileHeaderColorpalette gmFileHeaderColorpaletteArray[240];
     const char unused_0x13179c[240][1001];
     GfxRef loadedGfxArray[100];
     int numOfLoadedGfx;
     int backwardsLoadedGfxIndex;
-    Utility::Rect renderingRect;
+    RenderProviderHeader::Rect renderingRect;
     // there is more, but seemingly not of use for this module
   };
 }

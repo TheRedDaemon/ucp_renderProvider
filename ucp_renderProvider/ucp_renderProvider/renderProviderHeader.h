@@ -40,6 +40,22 @@ namespace RenderProviderHeader
   {
   };
 
+  /* Structs */
+
+  struct Range
+  {
+    int start;
+    int end;
+  };
+
+  struct Rect
+  {
+    int x;
+    int y;
+    int width;
+    int height;
+  };
+
   /* Functions */
 
   using Renderer = const int; // configure a renderer state
@@ -54,6 +70,12 @@ namespace RenderProviderHeader
   namespace Context
   {
     // general
+    using FuncSetRenderTarget = void(__stdcall)(Renderer renderer, RenderTarget target);
+    using FuncSetRelativeMenuTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
+    using FuncSetRelativeMapTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
+    using FuncReceiveScreenRect = void(__stdcall)(Renderer renderer, Rect* rect);
+    using FuncReceiveMenuRect = void(__stdcall)(Renderer renderer, Rect* rect);
+    using FuncReceiveMapRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
 
     // text
@@ -62,6 +84,7 @@ namespace RenderProviderHeader
     using FuncSetFontSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
     using FuncSetTextAlignment = void(__stdcall)(Renderer renderer, TextAlignment alignment);
     using FuncResetTextPosition = void(__stdcall)(Renderer renderer);
+    using FuncSetTextWidth = void(__stdcall)(Renderer renderer, int width);
   }
 
   namespace Render
