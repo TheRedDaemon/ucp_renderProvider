@@ -139,7 +139,7 @@ void RenderContext::setRelativeMenuTargetRect(const Rect& rect)
   receiveScreenRect(compareRect);
   if (!isRectInsideBounds(targetRect, compareRect))
   {
-    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Menu target rectangle is out of bounds. Adjusting to screen size.");
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Menu target rectangle is out of bounds. Adjusting to resolution size.");
     limitRectToBounds(targetRect, compareRect);
   }
 

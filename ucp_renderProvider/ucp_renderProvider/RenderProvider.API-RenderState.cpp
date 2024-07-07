@@ -54,7 +54,7 @@ RenderState::~RenderState()
 
 RenderState& RenderState::verifyActiveToken(RenderToken token)
 {
-  if (stateStack.empty() || &stateStack.back() != (const void*) token)
+  if (stateStack.empty() || stateStack.back() != (const void*) token)
   {
     Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested render without the active token. Render order broken. Exiting game.");
     // NO_RETURN: should end the game here via fatal log
