@@ -50,11 +50,12 @@ void RenderContext::limitRectToBounds(Rect& rect, const Rect& bounds)
 RenderContext::RenderContext() :
   active{ false },
   target{ RenderTarget::MENU },
-  blendStrength(BLEND_MAX),
-  fontSize(0),  // todo
+  blendStrength{ BLEND_MAX },
+  fontSize{ FontSize::MEDIUM },
   textAlignment{ TextAlignment::LEFT },
-  fontPrimaryColor{ 0 },
-  fontSecondaryColor( 0xffffff ),
+  textPrimaryColor{ 0 },
+  textSecondaryColor( 0xffffff ),
+  requestedTextPositionReset{ true }, // assume first text request to start at position
   textWidth{ 10000 }
 {
   this->receiveScreenRect(this->relativeMenuTargetRect);
@@ -155,6 +156,7 @@ void RenderContext::setRelativeMenuTargetRect(const Rect& rect)
 void RenderContext::setRelativeGameTargetRect(const Rect& rect)
 {
   Rect& targetRect{ this->relativeGameTargetRect };
+  targetRect = rect;
   if (!isRectInsideBounds(targetRect, GAME_MAP_RECT))
   {
     Log(LogLevel::LOG_WARNING, "[RenderProvider]: Game target rectangle is out of bounds. Adjusting to game map size.");
@@ -217,31 +219,45 @@ FontSize RenderContext::getFontSize() const
   return this->fontSize;
 }
 
-void RenderContext::setFontPrimaryColor(int fontPrimaryColor)
+void RenderContext::setTextPrimaryColor(int textPrimaryColor)
 {
-  this->fontPrimaryColor = fontPrimaryColor;
+  this->textPrimaryColor = textPrimaryColor;
 }
-int RenderContext::getFontPrimaryColor() const
+int RenderContext::getTextPrimaryColor() const
 {
-  return this->fontPrimaryColor;
-}
-
-void RenderContext::setFontSecondaryColor(int fontSecondaryColor)
-{
-  this->fontSecondaryColor = fontSecondaryColor;
-}
-int RenderContext::getFontSecondaryColor() const
-{
-  return this->fontSecondaryColor;
+  return this->textPrimaryColor;
 }
 
-void RenderContext::setFontAlignment(TextAlignment textAlignment)
+void RenderContext::setTextSecondaryColor(int textSecondaryColor)
+{
+  this->textSecondaryColor = textSecondaryColor;
+}
+int RenderContext::getTextSecondaryColor() const
+{
+  return this->textSecondaryColor;
+}
+
+void RenderContext::setTextAlignment(TextAlignment textAlignment)
 {
   this->textAlignment = textAlignment;
 }
-TextAlignment RenderContext::getFontAlignment() const
+TextAlignment RenderContext::getTextAlignment() const
 {
   return this->textAlignment;
+}
+
+void RenderContext::requestTextPositionReset()
+{
+  this->requestedTextPositionReset = true;
+}
+TextXOffsetHandling RenderContext::getTextXOffsetHandling()
+{
+  if (this->requestedTextPositionReset)
+  {
+    this->requestedTextPositionReset = false;
+    return TextXOffsetHandling::DISCARD;
+  }
+  return TextXOffsetHandling::KEEP;
 }
 
 void RenderContext::setTextWidth(int textWidth)

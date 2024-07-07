@@ -38,6 +38,11 @@ namespace RenderProviderHeader
 
   enum FontSize : int
   {
+    VERY_BIG = 15,
+    BIG = 16,
+    MEDIUM = 17,
+    SMALL = 18,
+    VERY_SMALL = 19,
   };
 
   /* Structs */
@@ -79,9 +84,9 @@ namespace RenderProviderHeader
     using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
 
     // text
-    using FuncSetFontSize = void(__stdcall)(Renderer renderer, int fontSize);
-    using FuncSetFontPrimaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
-    using FuncSetFontSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
+    using FuncSetFontSize = void(__stdcall)(Renderer renderer, FontSize fontSize);
+    using FuncSetTextPrimaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
+    using FuncSetTextSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
     using FuncSetTextAlignment = void(__stdcall)(Renderer renderer, TextAlignment alignment);
     using FuncResetTextPosition = void(__stdcall)(Renderer renderer);
     using FuncSetTextWidth = void(__stdcall)(Renderer renderer, int width);

@@ -22,20 +22,20 @@ private:
   // keep original values as static, since in multi renderer contexts the values
   // of the individual contexts are restored by the context when set active
 
-  static RenderProviderHeader::RenderTarget originalDrawBufferChoiceValue;
-  static RenderProviderHeader::RenderTarget originalCurrentRenderSurfaceIdentifier;
-  static RenderProviderHeader::RenderTarget originalTextSurfaceTarget;
-  static RenderProviderHeader::RenderTarget originalPencilSurfaceTarget;
+  static inline RenderProviderHeader::RenderTarget originalDrawBufferChoiceValue;
+  static inline RenderProviderHeader::RenderTarget originalCurrentRenderSurfaceIdentifier;
+  static inline RenderProviderHeader::RenderTarget originalTextSurfaceTarget;
+  static inline RenderProviderHeader::RenderTarget originalPencilSurfaceTarget;
 
   // are not of much use, since the x range seems not clamped, likely need to be set to max value during draw
-  static Range originalMapGameSurfaceHeightRange;
-  static Range originalScreenMenuSurfaceHeightRange;
+  static inline Range originalMapGameSurfaceHeightRange;
+  static inline Range originalScreenMenuSurfaceHeightRange;
 
   // has an effect on text rendering, although the nature is unclear, it seems to reduce the X range of text
-  static Range originalTextXRange;
+  static inline Range originalTextXRange;
 
   // needs to be set, but seems to be only for tgx menu rendering
-  static Rect originalRenderingRect;
+  static inline Rect originalRenderingRect;
 
 public:
   static RenderState& verifyActiveToken(RenderToken token);

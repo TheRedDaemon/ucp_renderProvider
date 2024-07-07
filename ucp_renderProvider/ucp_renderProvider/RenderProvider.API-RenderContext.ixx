@@ -89,8 +89,9 @@ private:
 
   FontSize fontSize;
   TextAlignment textAlignment;
-  int fontPrimaryColor;
-  int fontSecondaryColor;
+  int textPrimaryColor;
+  int textSecondaryColor;
+  bool requestedTextPositionReset;
   int textWidth;
 
 public:
@@ -109,12 +110,14 @@ public:
 
   void setFontSize(FontSize fontSize);
   FontSize getFontSize() const;
-  void setFontPrimaryColor(int fontPrimaryColor);
-  int getFontPrimaryColor() const;
-  void setFontSecondaryColor(int fontSecondaryColor);
-  int getFontSecondaryColor() const;
-  void setFontAlignment(TextAlignment textAlignment);
-  TextAlignment getFontAlignment() const;
+  void setTextPrimaryColor(int textPrimaryColor);
+  int getTextPrimaryColor() const;
+  void setTextSecondaryColor(int textSecondaryColor);
+  int getTextSecondaryColor() const;
+  void setTextAlignment(TextAlignment textAlignment);
+  TextAlignment getTextAlignment() const;
+  void requestTextPositionReset();
+  TextXOffsetHandling getTextXOffsetHandling();
   void setTextWidth(int textWidth);
   int getTextWidth() const;
 
