@@ -19,8 +19,8 @@ namespace RenderProviderHeader
   {
     MENU = 0,
     GAME = 1,
-    BUTTON_AND_ALPHA = 2, // Memory used for alpha textures for example.
-    CONTEXT_BASED = -1 // Used to indicate to some functions that a surface should be chosen based on context.
+    BUTTON_AND_ALPHA = 2, // internal, do not use, Memory used for alpha textures for example.
+    CONTEXT_BASED = -1 // internal, do not use, used to indicate to some functions that a surface should be chosen based on context.
   };
 
   enum TextXOffsetHandling : int
@@ -72,7 +72,7 @@ namespace RenderProviderHeader
     // general
     using FuncSetRenderTarget = void(__stdcall)(Renderer renderer, RenderTarget target);
     using FuncSetRelativeMenuTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
-    using FuncSetRelativeMapTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
+    using FuncSetRelativeGameTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
     using FuncReceiveScreenRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncReceiveMenuRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncReceiveMapRect = void(__stdcall)(Renderer renderer, Rect* rect);

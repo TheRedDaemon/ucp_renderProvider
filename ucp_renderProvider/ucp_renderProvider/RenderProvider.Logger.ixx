@@ -16,10 +16,16 @@ export enum class LogLevel : int
 
 
 export void Log(const LogLevel level, const char* message);
+export LogLevel GetCurrentLogLevel();
 
 module :private;
 
 void Log(const LogLevel level, const char* message)
 {
   ucp_log(static_cast<ucp_NamedVerbosity>(level), message);
+}
+
+LogLevel GetCurrentLogLevel()
+{
+  return static_cast<LogLevel>(ucp_logLevel());
 }

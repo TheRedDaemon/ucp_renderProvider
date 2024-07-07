@@ -15,21 +15,50 @@ using namespace RenderProviderHeader;
 
 // constants
 
-static int BLEND_MAX = 32;
+static constexpr Rect GAME_MAP_RECT{ 0, 0, 4056, 2076 };
+static constexpr int BLEND_MAX = 32;
 
 // functions
 
+bool RenderContext::isRectInsideBounds(const Rect& rect, const Rect& bounds)
+{
+  return (rect.x >= bounds.x && rect.y >= bounds.y && rect.x + rect.width <= bounds.x + bounds.width && rect.y + rect.height <= bounds.y + bounds.height);
+}
+
+void RenderContext::limitRectToBounds(Rect& rect, const Rect& bounds)
+{
+  if (rect.x < bounds.x)
+  {
+    rect.width -= bounds.x - rect.x;
+    rect.x = bounds.x;
+  }
+  if (rect.y < bounds.y)
+  {
+    rect.height -= bounds.y - rect.y;
+    rect.y = bounds.y;
+  }
+  if (rect.x + rect.width > bounds.x + bounds.width)
+  {
+    rect.width = bounds.x + bounds.width - rect.x;
+  }
+  if (rect.y + rect.height > bounds.y + bounds.height)
+  {
+    rect.height = bounds.y + bounds.height - rect.y;
+  }
+}
+
 RenderContext::RenderContext() :
+  active{ false },
   target{ RenderTarget::MENU },
   blendStrength(BLEND_MAX),
   fontSize(0),  // todo
   textAlignment{ TextAlignment::LEFT },
   fontPrimaryColor{ 0 },
   fontSecondaryColor( 0xffffff ),
-  textWidth{ 800 }
+  textWidth{ 10000 }
 {
   this->receiveScreenRect(this->relativeMenuTargetRect);
-  this->receiveMapRect(this->relativeMapTargetRect);
+  this->receiveMapRect(this->relativeGameTargetRect);
 }
 
 RenderContext::~RenderContext() {}
@@ -72,6 +101,75 @@ bool RenderContext::removeContext(Renderer renderer)
 
 // general
 
+void RenderContext::setTarget(RenderTarget target)
+{
+  if (target == RenderTarget::BUTTON_AND_ALPHA || target == RenderTarget::CONTEXT_BASED)
+  {
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Requested invalid render target. Only GAME and MENU are supported. Request ignored.");
+    return;
+  }
+  // set always, do not optimize
+  this->target = target;
+
+  if (active)
+  {
+    GameStruct::TextureRenderCore->drawBufferChoiceValue = target;
+    GameStruct::TextureRenderCore->currentRenderSurfaceIdentifier = target;
+    GameStruct::TextManager->textSurfaceTarget = target;
+    GameStruct::PencilRenderCore->pencilSurfaceTarget = target;
+  }
+
+  if (target == RenderTarget::MENU)
+  {
+    this->setRelativeMenuTargetRect(this->relativeMenuTargetRect); // set/reset
+  }
+  else if (target == RenderTarget::GAME)
+  {
+    this->setRelativeGameTargetRect(this->relativeGameTargetRect); // set/reset
+  }
+}
+
+void RenderContext::setRelativeMenuTargetRect(const Rect& rect)
+{
+  Rect& targetRect{ this->relativeMenuTargetRect };
+  targetRect = rect;
+
+  Rect compareRect;
+  receiveScreenRect(compareRect);
+  if (!isRectInsideBounds(targetRect, compareRect))
+  {
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Menu target rectangle is out of bounds. Adjusting to screen size.");
+    limitRectToBounds(targetRect, compareRect);
+  }
+
+  if (this->active && this->target == RenderTarget::MENU)
+  {
+    // TODO check ranges
+    const Range yRange{ targetRect.y, targetRect.y + targetRect.height };
+    GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = yRange;
+    GameStruct::TextureRenderCore->renderingRect = targetRect;
+    // Text-Range should be defined on text render calls
+  }
+}
+
+void RenderContext::setRelativeGameTargetRect(const Rect& rect)
+{
+  Rect& targetRect{ this->relativeGameTargetRect };
+  if (!isRectInsideBounds(targetRect, GAME_MAP_RECT))
+  {
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Game target rectangle is out of bounds. Adjusting to game map size.");
+    limitRectToBounds(targetRect, GAME_MAP_RECT);
+  }
+
+  if (this->active && this->target == RenderTarget::GAME)
+  {
+    // TODO check ranges
+    const Range yRange{ targetRect.y, targetRect.y + targetRect.height };
+    GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = yRange;
+    GameStruct::TextureRenderCore->renderingRect = targetRect;
+    // Text-Range should be defined on text render calls
+  }
+}
 
 void RenderContext::receiveScreenRect(Rect& rectToFill)
 {
@@ -91,10 +189,7 @@ void RenderContext::receiveMenuRect(Rect& rectToFill)
 }
 void RenderContext::receiveMapRect(Rect& rectToFill)
 {
-  rectToFill.x = 0;
-  rectToFill.y = 0;
-  rectToFill.width = 4056;
-  rectToFill.height = 2076;
+  rectToFill = GAME_MAP_RECT;
 }
 
 void RenderContext::setAlpha(float alpha)
@@ -149,6 +244,15 @@ TextAlignment RenderContext::getFontAlignment() const
   return this->textAlignment;
 }
 
+void RenderContext::setTextWidth(int textWidth)
+{
+  this->textWidth = textWidth;
+}
+int RenderContext::getTextWidth() const
+{
+  return this->textWidth;
+}
+
 
 
 const Renderer RenderContext::asRenderer() const
@@ -156,7 +260,15 @@ const Renderer RenderContext::asRenderer() const
   return reinterpret_cast<Renderer>(this);
 }
 
-void RenderContext::initRender() const
+void RenderContext::setActive()
 {
-  // TODO: init context of the game
+  this->active = true;
+
+  // just set target again, should take care of setting the needed values
+  setTarget(this->target);
+}
+
+void RenderContext::setInactive()
+{
+  this->active = false;
 }

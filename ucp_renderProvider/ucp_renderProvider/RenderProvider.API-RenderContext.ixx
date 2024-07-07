@@ -70,6 +70,9 @@ export class RenderContext final
 private:
   static inline std::unordered_set<std::unique_ptr<RenderContext>, RenderContextHash, RenderContextEqual> existingContexts{};
 
+  static bool isRectInsideBounds(const Rect& rect, const Rect& bounds);
+  static void limitRectToBounds(Rect& rect, const Rect& bounds);
+
 public:
   static RenderContext& createContext();
   static RenderContext& verifyValidContext(Renderer renderer);
@@ -77,9 +80,11 @@ public:
   static bool removeContext(Renderer renderer);
 
 private:
+  bool active;
+
   RenderTarget target;
   Rect relativeMenuTargetRect;
-  Rect relativeMapTargetRect;
+  Rect relativeGameTargetRect;
   int blendStrength;
 
   FontSize fontSize;
@@ -94,7 +99,7 @@ public:
 
   void setTarget(RenderTarget target);
   void setRelativeMenuTargetRect(const Rect& rect);
-  void setRelativeMapTargetRect(const Rect& rect);
+  void setRelativeGameTargetRect(const Rect& rect);
   void receiveScreenRect(Rect& rectToFill);
   void receiveMenuRect(Rect& rectToFill);
   void receiveMapRect(Rect& rectToFill);
@@ -113,6 +118,7 @@ public:
   void setTextWidth(int textWidth);
   int getTextWidth() const;
 
-  void initRender() const;
+  void setActive();
+  void setInactive();
   const Renderer asRenderer() const;
 };

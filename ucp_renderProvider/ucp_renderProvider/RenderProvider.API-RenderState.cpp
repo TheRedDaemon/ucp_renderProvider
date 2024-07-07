@@ -8,33 +8,47 @@ module RenderProvider.API:RenderState;
 
 using namespace RenderProviderHeader;
 
-RenderState::RenderState(const RenderContext& renderContext) :
-  originalDrawBufferChoiceValue{ GameStruct::TextureRenderCore->drawBufferChoiceValue },
-  originalCurrentRenderSurfaceIdentifier{ GameStruct::TextureRenderCore->currentRenderSurfaceIdentifier },
-  originalTextSurfaceTarget{ GameStruct::TextManager->textSurfaceTarget },
-  originalPencilSurfaceTarget{ GameStruct::PencilRenderCore->pencilSurfaceTarget },
-  originalMapGameSurfaceHeightRange{ GameStruct::TextureRenderCore->mapGameSurfaceHeightRange },
-  originalScreenMenuSurfaceHeightRange{ GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange },
-  originalTextXRange{ GameStruct::TextManager->textXRange },
-  originalRenderingRect{ GameStruct::TextureRenderCore->renderingRect },
-  renderContext{ renderContext }
+RenderState::RenderState(RenderContext& renderContext) : renderContext{ renderContext }
 {
+  if (stateStack.empty())
+  {
+    originalDrawBufferChoiceValue = GameStruct::TextureRenderCore->drawBufferChoiceValue;
+    originalCurrentRenderSurfaceIdentifier = GameStruct::TextureRenderCore->currentRenderSurfaceIdentifier;
+    originalTextSurfaceTarget = GameStruct::TextManager->textSurfaceTarget;
+    originalPencilSurfaceTarget = GameStruct::PencilRenderCore->pencilSurfaceTarget;
+    originalMapGameSurfaceHeightRange = GameStruct::TextureRenderCore->mapGameSurfaceHeightRange;
+    originalScreenMenuSurfaceHeightRange = GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange;
+    originalTextXRange = GameStruct::TextManager->textXRange;
+    originalRenderingRect = GameStruct::TextureRenderCore->renderingRect;
+  }
+  else
+  {
+    (*stateStack.back()).renderContext.setInactive();
+  }
   stateStack.push_back(this);
-  renderContext.initRender();
+  renderContext.setActive();
 }
 
 RenderState::~RenderState()
 {
-  GameStruct::TextureRenderCore->drawBufferChoiceValue = originalDrawBufferChoiceValue;
-  GameStruct::TextureRenderCore->currentRenderSurfaceIdentifier = originalCurrentRenderSurfaceIdentifier;
-  GameStruct::TextManager->textSurfaceTarget = originalTextSurfaceTarget;
-  GameStruct::PencilRenderCore->pencilSurfaceTarget = originalPencilSurfaceTarget;
-  GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = originalMapGameSurfaceHeightRange;
-  GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = originalScreenMenuSurfaceHeightRange;
-  GameStruct::TextManager->textXRange = originalTextXRange;
-  GameStruct::TextureRenderCore->renderingRect = originalRenderingRect;
-
+  (*stateStack.back()).renderContext.setInactive();
   stateStack.pop_back();
+
+  if (stateStack.empty())
+  {
+    GameStruct::TextureRenderCore->drawBufferChoiceValue = originalDrawBufferChoiceValue;
+    GameStruct::TextureRenderCore->currentRenderSurfaceIdentifier = originalCurrentRenderSurfaceIdentifier;
+    GameStruct::TextManager->textSurfaceTarget = originalTextSurfaceTarget;
+    GameStruct::PencilRenderCore->pencilSurfaceTarget = originalPencilSurfaceTarget;
+    GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = originalMapGameSurfaceHeightRange;
+    GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = originalScreenMenuSurfaceHeightRange;
+    GameStruct::TextManager->textXRange = originalTextXRange;
+    GameStruct::TextureRenderCore->renderingRect = originalRenderingRect;
+  }
+  else
+  {
+    (*stateStack.back()).renderContext.setActive();
+  }
 }
 
 
