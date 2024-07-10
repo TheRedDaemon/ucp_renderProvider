@@ -92,6 +92,8 @@ private:
   int textPrimaryColor;
   int textSecondaryColor;
   bool requestedTextPositionReset;
+  bool textShadow;
+  bool textMultiline;
   int textWidth;
 
 public:
@@ -118,6 +120,10 @@ public:
   TextAlignment getTextAlignment() const;
   void requestTextPositionReset();
   TextXOffsetHandling getTextXOffsetHandling();
+  void setTextShadow(bool textShadow);
+  bool hasTextShadow() const;
+  void setTextMultiline(bool textMultiline);
+  bool isTextMultiline() const;
   void setTextWidth(int textWidth);
   int getTextWidth() const;
 

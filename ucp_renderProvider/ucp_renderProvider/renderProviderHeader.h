@@ -89,6 +89,8 @@ namespace RenderProviderHeader
     using FuncSetTextSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
     using FuncSetTextAlignment = void(__stdcall)(Renderer renderer, TextAlignment alignment);
     using FuncResetTextPosition = void(__stdcall)(Renderer renderer);
+    using FuncSetTextShadow = void(__stdcall)(Renderer renderer, bool active);
+    using FuncSetTextMultiline = void(__stdcall)(Renderer renderer, bool active);
     using FuncSetTextWidth = void(__stdcall)(Renderer renderer, int width);
   }
 
@@ -100,6 +102,8 @@ namespace RenderProviderHeader
     // using Func... = ...(__stdcall*)(RenderKey key, ...)
 
     /* Text */
+
+    // TODO: remove textOffsetCalls and reduce to 2 or 3 Text calls, the rest is done via context and switching of functions in the backend
 
     using FuncRenderGameInGameText = void(__stdcall)(RenderToken token, int textOffsetIndex, int textNumInGroup, int xParam, int yParam,
       TextAlignment alignment, unsigned int color1, unsigned int color2, FontSize fontSize, TextXOffsetHandling keepOffsetX, int blendStrength);

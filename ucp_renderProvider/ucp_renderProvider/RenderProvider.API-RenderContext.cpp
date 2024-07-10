@@ -56,6 +56,8 @@ RenderContext::RenderContext() :
   textPrimaryColor{ 0 },
   textSecondaryColor( 0xffffff ),
   requestedTextPositionReset{ true }, // assume first text request to start at position
+  textShadow{ false },
+  textMultiline{ false },
   textWidth{ 10000 }
 {
   this->receiveScreenRect(this->relativeMenuTargetRect);
@@ -258,6 +260,24 @@ TextXOffsetHandling RenderContext::getTextXOffsetHandling()
     return TextXOffsetHandling::DISCARD;
   }
   return TextXOffsetHandling::KEEP;
+}
+
+void RenderContext::setTextShadow(bool textShadow)
+{
+  this->textShadow = textShadow;
+}
+bool RenderContext::hasTextShadow() const
+{
+  return this->textShadow;
+}
+
+void RenderContext::setTextMultiline(bool textMultiline)
+{
+  this->textMultiline = textMultiline;
+}
+bool RenderContext::isTextMultiline() const
+{
+  return this->textMultiline;
 }
 
 void RenderContext::setTextWidth(int textWidth)

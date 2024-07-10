@@ -103,6 +103,16 @@ extern "C" __declspec(dllexport) void __stdcall resetTextPosition(Renderer rende
   verifyAndExecute<&RenderContext::requestTextPositionReset>(renderer);
 }
 
+extern "C" __declspec(dllexport) void __stdcall setTextShadow(Renderer renderer, bool active)
+{
+  verifyAndExecute<&RenderContext::setTextShadow>(renderer, active);
+}
+
+extern "C" __declspec(dllexport) void __stdcall setTextMultiline(Renderer renderer, bool active)
+{
+  verifyAndExecute<&RenderContext::setTextMultiline>(renderer, active);
+}
+
 extern "C" __declspec(dllexport) void __stdcall setTextWidth(Renderer renderer, int width)
 {
   verifyAndExecute<&RenderContext::setTextWidth>(renderer, width);

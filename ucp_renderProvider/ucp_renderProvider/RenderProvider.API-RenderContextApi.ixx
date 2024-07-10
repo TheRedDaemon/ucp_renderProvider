@@ -23,4 +23,6 @@ export extern "C" __declspec(dllexport) Context::FuncSetTextPrimaryColor setText
 export extern "C" __declspec(dllexport) Context::FuncSetTextSecondaryColor setTextSecondaryColor;
 export extern "C" __declspec(dllexport) Context::FuncSetTextAlignment setTextAlignment;
 export extern "C" __declspec(dllexport) Context::FuncResetTextPosition resetTextPosition;
+export extern "C" __declspec(dllexport) Context::FuncSetTextShadow setTextShadow;
+export extern "C" __declspec(dllexport) Context::FuncSetTextMultiline setTextMultiline;
 export extern "C" __declspec(dllexport) Context::FuncSetTextWidth setTextWidth;
