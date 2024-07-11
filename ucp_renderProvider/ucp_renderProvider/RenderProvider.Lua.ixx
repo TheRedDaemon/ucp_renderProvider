@@ -38,9 +38,8 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
   addAddress(L, (DWORD) &GameStruct::WindowAndDirectDraw, "WindowAndDirectDraw");
 
   // add func addresses
-  addAddress(L, (DWORD) &TextManagerDrawFunction::renderGameInGameText, "RenderGameInGameText");
+  addAddress(L, (DWORD) &TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, "RenderSinglelineBlendableTextWithShadow");
 
-  addAddress(L, (DWORD) &TextManagerDrawFunction::computeGameTextWidth, "ComputeGameTextWidth");
   addAddress(L, (DWORD) &TextManagerDrawFunction::computeTextWidth, "ComputeTextWidth");
   
   lua_setfield(L, -2, "gamePtr"); // add table to table

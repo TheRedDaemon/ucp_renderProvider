@@ -61,6 +61,12 @@ namespace RenderProviderHeader
     int height;
   };
 
+  struct Coord
+  {
+    int x;
+    int y;
+  };
+
   /* Functions */
 
   using Renderer = const int; // configure a renderer state
@@ -81,14 +87,15 @@ namespace RenderProviderHeader
     using FuncReceiveScreenRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncReceiveMenuRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncReceiveMapRect = void(__stdcall)(Renderer renderer, Rect* rect);
+    using FuncSetPosition = void(__stdcall)(Renderer renderer, const Coord position);
     using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
 
     // text
     using FuncSetFontSize = void(__stdcall)(Renderer renderer, FontSize fontSize);
-    using FuncSetTextPrimaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
-    using FuncSetTextSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color);
+    using FuncSetTextPrimaryColor = void(__stdcall)(Renderer renderer, unsigned int color); // color: 0x00BBGGRR
+    using FuncSetTextSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color); // color: 0x00BBGGRR
     using FuncSetTextAlignment = void(__stdcall)(Renderer renderer, TextAlignment alignment);
-    using FuncResetTextPosition = void(__stdcall)(Renderer renderer);
+    using FuncResetTextPosition = void(__stdcall)(Renderer renderer); // TODO: rework, only works for left alignment it seems
     using FuncSetTextShadow = void(__stdcall)(Renderer renderer, bool active);
     using FuncSetTextMultiline = void(__stdcall)(Renderer renderer, bool active);
     using FuncSetTextWidth = void(__stdcall)(Renderer renderer, int width);
@@ -98,20 +105,14 @@ namespace RenderProviderHeader
   {
     using FuncReceiveRenderer = Renderer(__stdcall)(RenderToken token);
 
-    // will contains functions as stdcalls
-    // using Func... = ...(__stdcall*)(RenderKey key, ...)
-
-    /* Text */
-
-    // TODO: remove textOffsetCalls and reduce to 2 or 3 Text calls, the rest is done via context and switching of functions in the backend
-
-    using FuncRenderGameInGameText = void(__stdcall)(RenderToken token, int textOffsetIndex, int textNumInGroup, int xParam, int yParam,
-      TextAlignment alignment, unsigned int color1, unsigned int color2, FontSize fontSize, TextXOffsetHandling keepOffsetX, int blendStrength);
-
-    // utility
-    using FuncComputeGameTextWidth = int(__stdcall)(RenderToken token, int textOffsetIndex, int textNumInGroup, RenderProviderHeader::FontSize fontSize);
-    using FuncComputeTextWidth = int(__stdcall)(RenderToken token, const char* text, RenderProviderHeader::FontSize fontSize);
+    // text
+    using FuncRenderText = void(__stdcall)(RenderToken token, const char* text);
   };
+
+  namespace Misc
+  {
+    using FuncComputeTextWidth = int(__stdcall)(RenderProviderHeader::FontSize fontSize, const char* text);
+  }
 
   // Cpp API
   //using FuncTextReceiver = void(__stdcall*)(const char* transformedString, void* misc);

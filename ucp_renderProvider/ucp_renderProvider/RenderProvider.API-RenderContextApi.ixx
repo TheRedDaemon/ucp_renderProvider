@@ -4,8 +4,6 @@ module;
 
 export module RenderProvider.API:RenderContextApi;
 
-import :RenderContext;
-
 using namespace RenderProviderHeader;
 
 // general
@@ -15,6 +13,7 @@ export extern "C" __declspec(dllexport) Context::FuncSetRelativeGameTargetRect s
 export extern "C" __declspec(dllexport) Context::FuncReceiveScreenRect receiveScreenRect;
 export extern "C" __declspec(dllexport) Context::FuncReceiveMenuRect receiveMenuRect;
 export extern "C" __declspec(dllexport) Context::FuncReceiveMapRect receiveMapRect;
+export extern "C" __declspec(dllexport) Context::FuncSetPosition setPosition;
 export extern "C" __declspec(dllexport) Context::FuncSetAlpha setAlpha;
 
 // text

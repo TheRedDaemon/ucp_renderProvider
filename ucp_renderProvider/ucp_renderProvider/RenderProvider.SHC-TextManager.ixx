@@ -21,10 +21,8 @@ export namespace SHC
     // there is more, but not relevant here
 
     /* Member functions definitions */
-    using FuncRenderGameInGameText = void (TextManager::*)(int textOffsetIndex, int textNumInGroup, int xParam, int yParam, RenderProviderHeader::TextAlignment alignment,
-      unsigned int color1, unsigned int color2, RenderProviderHeader::FontSize fontSize, RenderProviderHeader::TextXOffsetHandling keepOffsetX, int blendStrength);
-    using FuncRenderInGameText = void (TextManager::*)(char* textAddress, int xParam, int yParam, RenderProviderHeader::TextAlignment alignment,
-      unsigned int color1, unsigned int color2, RenderProviderHeader::FontSize fontSize, RenderProviderHeader::TextXOffsetHandling keepOffsetX, int blendStrength);
+    using FuncRenderSinglelineBlendableTextWithShadow = void (TextManager::*)(const char* textAddress, int xParam, int yParam, RenderProviderHeader::TextAlignment alignment,
+      unsigned int primaryColor, unsigned int secondaryColor, RenderProviderHeader::FontSize fontSize, RenderProviderHeader::TextXOffsetHandling keepOffsetX, int blendStrength);
     //renderMultilineText ? : 00424500
     //renderMultilineText ? : 00473a70
     //renderMultilineText ? : 00424580
@@ -35,7 +33,6 @@ export namespace SHC
     //renderTextToScreen : 00474250
 
     // utility
-    using FuncComputeGameTextWidth = int (TextManager::*)(int textOffsetIndex, int textNumInGroup, RenderProviderHeader::FontSize fontSize);
     using FuncComputeTextWidth = int (TextManager::*)(const char* text, RenderProviderHeader::FontSize fontSize);
   };
 }

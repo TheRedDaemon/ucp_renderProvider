@@ -260,6 +260,7 @@
     <ClCompile Include="RenderProvider.API-RenderContextApi.cpp" />
     <ClCompile Include="RenderProvider.API-RenderContextApi.ixx" />
     <ClCompile Include="RenderProvider.API-RenderState.cpp" />
+    <ClCompile Include="RenderProvider.API-TextManager.cpp" />
     <ClCompile Include="RenderProvider.API-TextManager.ixx" />
     <ClCompile Include="RenderProvider.API.ixx" />
     <ClCompile Include="RenderProvider.GamePointer.ixx" />

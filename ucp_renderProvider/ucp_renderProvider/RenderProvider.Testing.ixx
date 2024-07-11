@@ -33,8 +33,20 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
   setTextWidth(renderer, 200);
 
+  setTextSecondaryColor(renderer, 0xffffffff);
+
+  int x = rect.x + rect.width;
+  setPosition(renderer, { x, 0 });
   setTextPrimaryColor(renderer, 0x00ff0000);
-  setTextSecondaryColor(renderer, 0x000000ff);
+  renderText(token, "TesT");
+
+  setPosition(renderer, { x, 40 });
+  setTextPrimaryColor(renderer, 0x0000ff00);
+  renderText(token, "TesT");
+
+  setPosition(renderer, { x, 80 });
+  setTextPrimaryColor(renderer, 0x000000ff);
+  renderText(token, "TesT");
 
   //const int size = computeGameTextWidth(key, 1, 1, static_cast<RenderProviderHeader::FontSize>(0));
   //const int size2 = computeTextWidth(key, "1, 1", static_cast<RenderProviderHeader::FontSize>(0));
@@ -48,9 +60,8 @@ void FakeTextureRenderCore::detouredMenuToMapSurface()
   RenderProviderHeader::Renderer renderer{ requestRenderer() };
 
   setRenderTarget(renderer, RenderProviderHeader::RenderTarget::MENU);
-  setAlpha(renderer, 0.5f);
-  setFontSize(renderer, RenderProviderHeader::FontSize::VERY_BIG);
-
+  setAlpha(renderer, 1.f);
+  setFontSize(renderer, RenderProviderHeader::FontSize::BIG);
   render(renderer, testAction, nullptr);
   releaseRenderer(renderer);
  

@@ -32,9 +32,8 @@ local GAME_ADDRESSES = {
   WindowAndDirectDraw = { "B9 ? ? ? ? E8 ? ? ? ? 39 ? ? ? ? ? 74 18", readAddressFromStructUsage, nil },
   
   -- TextManager
-  RenderGameInGameText = { "8B 44 24 28 8B 54 24 20", nil, nil },
+  RenderSinglelineBlendableTextWithShadow = { "8B 44 24 20 8B 54 24 18 53", nil, nil },
 
-  ComputeGameTextWidth = { "8B 44 24 0C 8B 54 24 04 56 8B F1", nil, nil },
   ComputeTextWidth = { "56 8B 74 24 08 85 F6 75 06", nil, nil },
 }
 

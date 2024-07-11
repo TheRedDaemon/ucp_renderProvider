@@ -50,7 +50,8 @@ void RenderContext::limitRectToBounds(Rect& rect, const Rect& bounds)
 RenderContext::RenderContext() :
   active{ false },
   target{ RenderTarget::MENU },
-  blendStrength{ BLEND_MAX },
+  position{ 0, 0 },
+  blendStrength{ 0 },
   fontSize{ FontSize::MEDIUM },
   textAlignment{ TextAlignment::LEFT },
   textPrimaryColor{ 0 },
@@ -196,6 +197,24 @@ void RenderContext::receiveMapRect(Rect& rectToFill)
   rectToFill = GAME_MAP_RECT;
 }
 
+void RenderContext::setPosition(const Coord position)
+{
+  this->position = position;
+}
+Coord RenderContext::receiveAdjustedPosition() const
+{
+  if (this->target == RenderTarget::GAME)
+  {
+    return { this->position.x + this->relativeGameTargetRect.x, this->position.y + this->relativeGameTargetRect.y };
+  }
+  else if (this->target == RenderTarget::MENU)
+  {
+    return { this->position.x + this->relativeMenuTargetRect.x, this->position.y + this->relativeMenuTargetRect.y };
+  }
+  Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested position adjusted to unknown render target. Exiting game.");
+  return this->position;
+}
+
 void RenderContext::setAlpha(float alpha)
 {
   if (alpha < 0.0f || alpha > 1.0f)
@@ -221,20 +240,20 @@ FontSize RenderContext::getFontSize() const
   return this->fontSize;
 }
 
-void RenderContext::setTextPrimaryColor(int textPrimaryColor)
+void RenderContext::setTextPrimaryColor(unsigned int textPrimaryColor)
 {
   this->textPrimaryColor = textPrimaryColor;
 }
-int RenderContext::getTextPrimaryColor() const
+unsigned int RenderContext::getTextPrimaryColor() const
 {
   return this->textPrimaryColor;
 }
 
-void RenderContext::setTextSecondaryColor(int textSecondaryColor)
+void RenderContext::setTextSecondaryColor(unsigned int textSecondaryColor)
 {
   this->textSecondaryColor = textSecondaryColor;
 }
-int RenderContext::getTextSecondaryColor() const
+unsigned int RenderContext::getTextSecondaryColor() const
 {
   return this->textSecondaryColor;
 }

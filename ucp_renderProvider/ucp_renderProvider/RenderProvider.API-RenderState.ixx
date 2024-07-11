@@ -1,14 +1,11 @@
 module;
 
 #include <vector>
+#include <functional>
 
 #include "renderProviderHeader.h"
 
 export module RenderProvider.API:RenderState;
-
-import RenderProvider.SHC;
-import RenderProvider.GamePointer;
-import RenderProvider.Logger;
 
 import :RenderContext;
 
@@ -49,7 +46,7 @@ public:
   RenderState(RenderContext& renderContext);
   ~RenderState();
 
-  const RenderContext& getRenderContext() const;
+  RenderContext& getRenderContext() const;
   const RenderToken asRenderToken() const;
   const Renderer getRenderContextAsRenderer() const;
 };

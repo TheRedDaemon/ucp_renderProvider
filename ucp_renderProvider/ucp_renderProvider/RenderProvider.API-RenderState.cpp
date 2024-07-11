@@ -6,6 +6,10 @@ module;
 
 module RenderProvider.API:RenderState;
 
+import RenderProvider.SHC;
+import RenderProvider.GamePointer;
+import RenderProvider.Logger;
+
 using namespace RenderProviderHeader;
 
 RenderState::RenderState(RenderContext& renderContext) : renderContext{ renderContext }
@@ -78,7 +82,7 @@ bool RenderState::isContextUsed(Renderer renderer)
   return isContextUsed(*reinterpret_cast<const RenderContext*>(renderer));
 }
 
-const RenderContext& RenderState::getRenderContext() const
+RenderContext& RenderState::getRenderContext() const
 {
   return renderContext;
 }

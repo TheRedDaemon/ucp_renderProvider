@@ -2,12 +2,11 @@ module;
 
 #include <memory>
 #include <unordered_set>
+#include <functional>
 
 #include "renderProviderHeader.h"
 
 export module RenderProvider.API:RenderContext;
-
-import RenderProvider.Logger;
 
 using namespace RenderProviderHeader;
 
@@ -79,18 +78,25 @@ public:
   static bool removeContext(const RenderContext& context);
   static bool removeContext(Renderer renderer);
 
+  template<auto functionPtr, typename... Args>
+  static auto verifyAndExecute(Renderer renderer, Args&&... args)
+  {
+    return std::invoke(functionPtr, verifyValidContext(renderer), std::forward<Args>(args)...);
+  }
+
 private:
   bool active;
 
   RenderTarget target;
   Rect relativeMenuTargetRect;
   Rect relativeGameTargetRect;
+  Coord position;
   int blendStrength;
 
   FontSize fontSize;
   TextAlignment textAlignment;
-  int textPrimaryColor;
-  int textSecondaryColor;
+  unsigned int textPrimaryColor;
+  unsigned int textSecondaryColor;
   bool requestedTextPositionReset;
   bool textShadow;
   bool textMultiline;
@@ -106,16 +112,18 @@ public:
   void receiveScreenRect(Rect& rectToFill);
   void receiveMenuRect(Rect& rectToFill);
   void receiveMapRect(Rect& rectToFill);
+  void setPosition(const Coord position);
+  Coord receiveAdjustedPosition() const;
   void setAlpha(float alpha); // transforms alpha to blendStrength
   int getBlendStrength() const;
 
 
   void setFontSize(FontSize fontSize);
   FontSize getFontSize() const;
-  void setTextPrimaryColor(int textPrimaryColor);
-  int getTextPrimaryColor() const;
-  void setTextSecondaryColor(int textSecondaryColor);
-  int getTextSecondaryColor() const;
+  void setTextPrimaryColor(unsigned int textPrimaryColor);
+  unsigned int getTextPrimaryColor() const;
+  void setTextSecondaryColor(unsigned int textSecondaryColor);
+  unsigned int getTextSecondaryColor() const;
   void setTextAlignment(TextAlignment textAlignment);
   TextAlignment getTextAlignment() const;
   void requestTextPositionReset();
