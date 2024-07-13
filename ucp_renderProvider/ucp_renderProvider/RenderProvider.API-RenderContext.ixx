@@ -68,6 +68,7 @@ export class RenderContext final
 {
 private:
   static inline std::unordered_set<std::unique_ptr<RenderContext>, RenderContextHash, RenderContextEqual> existingContexts{};
+  static inline RenderContext* lastUsedContext{ nullptr };
 
   static bool isRectInsideBounds(const Rect& rect, const Rect& bounds);
   static void limitRectToBounds(Rect& rect, const Rect& bounds);
@@ -107,11 +108,11 @@ public:
   ~RenderContext();
 
   void setTarget(RenderTarget target);
-  void setRelativeMenuTargetRect(const Rect& rect);
-  void setRelativeGameTargetRect(const Rect& rect);
-  void receiveScreenRect(Rect& rectToFill);
-  void receiveMenuRect(Rect& rectToFill);
-  void receiveMapRect(Rect& rectToFill);
+  void setRelativeMenuTargetRect(const Rect* rect);
+  void setRelativeGameTargetRect(const Rect* rect);
+  void receiveScreenRect(Rect* rectToFill);
+  void receiveMenuRect(Rect* rectToFill);
+  void receiveMapRect(Rect* rectToFill);
   void setPosition(const Coord position);
   Coord receiveAdjustedPosition() const;
   void setAlpha(float alpha); // transforms alpha to blendStrength

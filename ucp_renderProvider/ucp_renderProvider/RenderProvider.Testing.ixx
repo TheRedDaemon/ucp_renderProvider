@@ -35,16 +35,15 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextSecondaryColor(renderer, 0xffffffff);
 
-  int x = rect.x + rect.width;
-  setPosition(renderer, { x, 0 });
+  setPosition(renderer, { rect.width, 0 });
   setTextPrimaryColor(renderer, 0x00ff0000);
   renderText(token, "TesT");
 
-  setPosition(renderer, { x, 40 });
+  setPosition(renderer, { rect.width, 40 });
   setTextPrimaryColor(renderer, 0x0000ff00);
   renderText(token, "TesT");
 
-  setPosition(renderer, { x, 80 });
+  setPosition(renderer, { rect.width, 80 });
   setTextPrimaryColor(renderer, 0x000000ff);
   renderText(token, "TesT");
 

@@ -107,6 +107,7 @@ namespace RenderProviderHeader
 
     // text
     using FuncRenderText = void(__stdcall)(RenderToken token, const char* text);
+    // TODO: maybe create font to get font metadata
   };
 
   namespace Misc

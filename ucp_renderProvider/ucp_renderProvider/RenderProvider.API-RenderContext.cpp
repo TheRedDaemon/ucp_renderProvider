@@ -61,8 +61,8 @@ RenderContext::RenderContext() :
   textMultiline{ false },
   textWidth{ 10000 }
 {
-  this->receiveScreenRect(this->relativeMenuTargetRect);
-  this->receiveMapRect(this->relativeGameTargetRect);
+  this->receiveScreenRect(&this->relativeMenuTargetRect);
+  this->receiveMapRect(&this->relativeGameTargetRect);
 }
 
 RenderContext::~RenderContext() {}
@@ -77,13 +77,19 @@ RenderContext& RenderContext::createContext()
 
 RenderContext& RenderContext::verifyValidContext(Renderer renderer)
 {
+  if (reinterpret_cast<const int>(lastUsedContext) == renderer)
+  {
+    return *lastUsedContext;
+  }
+
   auto it{ existingContexts.find(renderer) };
   if (it == existingContexts.end())
   {
     Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested render with invalid render context. Critical error. Exiting game.");
     // NO_RETURN: should end the game here via fatal log
   }
-  return *(it->get());
+  lastUsedContext = it->get();
+  return *lastUsedContext;
 }
 
 bool RenderContext::removeContext(const RenderContext& context)
@@ -93,6 +99,10 @@ bool RenderContext::removeContext(const RenderContext& context)
   {
     Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested removal of not existing render context. Critical error. Exiting game.");
     return false;
+  }
+  if (lastUsedContext == it->get())
+  {
+    lastUsedContext = nullptr;
   }
   existingContexts.erase(it);
   return true;
@@ -125,21 +135,27 @@ void RenderContext::setTarget(RenderTarget target)
 
   if (target == RenderTarget::MENU)
   {
-    this->setRelativeMenuTargetRect(this->relativeMenuTargetRect); // set/reset
+    this->setRelativeMenuTargetRect(&this->relativeMenuTargetRect); // set/reset
   }
   else if (target == RenderTarget::GAME)
   {
-    this->setRelativeGameTargetRect(this->relativeGameTargetRect); // set/reset
+    this->setRelativeGameTargetRect(&this->relativeGameTargetRect); // set/reset
   }
 }
 
-void RenderContext::setRelativeMenuTargetRect(const Rect& rect)
+void RenderContext::setRelativeMenuTargetRect(const Rect* rect)
 {
+  if (!rect)
+  {
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeMenuTargetRect'. Ignoring request.");
+    return;
+  };
+
   Rect& targetRect{ this->relativeMenuTargetRect };
-  targetRect = rect;
+  targetRect = *rect;
 
   Rect compareRect;
-  receiveScreenRect(compareRect);
+  receiveScreenRect(&compareRect);
   if (!isRectInsideBounds(targetRect, compareRect))
   {
     Log(LogLevel::LOG_WARNING, "[RenderProvider]: Menu target rectangle is out of bounds. Adjusting to resolution size.");
@@ -156,10 +172,16 @@ void RenderContext::setRelativeMenuTargetRect(const Rect& rect)
   }
 }
 
-void RenderContext::setRelativeGameTargetRect(const Rect& rect)
+void RenderContext::setRelativeGameTargetRect(const Rect* rect)
 {
+  if (!rect)
+  {
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeGameTargetRect'. Ignoring request.");
+    return;
+  };
+
   Rect& targetRect{ this->relativeGameTargetRect };
-  targetRect = rect;
+  targetRect = *rect;
   if (!isRectInsideBounds(targetRect, GAME_MAP_RECT))
   {
     Log(LogLevel::LOG_WARNING, "[RenderProvider]: Game target rectangle is out of bounds. Adjusting to game map size.");
@@ -176,25 +198,43 @@ void RenderContext::setRelativeGameTargetRect(const Rect& rect)
   }
 }
 
-void RenderContext::receiveScreenRect(Rect& rectToFill)
+void RenderContext::receiveScreenRect(Rect* rectToFill)
 {
-  rectToFill.x = 0;
-  rectToFill.y = 0;
-  rectToFill.width = GameStruct::WindowAndDirectDraw->gameResolutionX;
-  rectToFill.height = GameStruct::WindowAndDirectDraw->gameResolutionY;
+  if (!rectToFill)
+  {
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'receiveScreenRect'. Ignoring request.");
+    return;
+  };
+
+  rectToFill->x = 0;
+  rectToFill->y = 0;
+  rectToFill->width = GameStruct::WindowAndDirectDraw->gameResolutionX;
+  rectToFill->height = GameStruct::WindowAndDirectDraw->gameResolutionY;
 }
-void RenderContext::receiveMenuRect(Rect& rectToFill)
+void RenderContext::receiveMenuRect(Rect* rectToFill)
 {
+  if (!rectToFill)
+  {
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'receiveMenuRect'. Ignoring request.");
+    return;
+  };
+
   const int borderWidth = GameStruct::WindowAndDirectDraw->mainMenuBorderWidth;
   const int borderHeight = GameStruct::WindowAndDirectDraw->mainMenuBorderHeight;
-  rectToFill.x = borderWidth;
-  rectToFill.y = borderHeight;
-  rectToFill.width = GameStruct::WindowAndDirectDraw->gameResolutionX - 2 * borderWidth;
-  rectToFill.height = GameStruct::WindowAndDirectDraw->gameResolutionY - 2 * borderHeight;
+  rectToFill->x = borderWidth;
+  rectToFill->y = borderHeight;
+  rectToFill->width = GameStruct::WindowAndDirectDraw->gameResolutionX - 2 * borderWidth;
+  rectToFill->height = GameStruct::WindowAndDirectDraw->gameResolutionY - 2 * borderHeight;
 }
-void RenderContext::receiveMapRect(Rect& rectToFill)
+void RenderContext::receiveMapRect(Rect* rectToFill)
 {
-  rectToFill = GAME_MAP_RECT;
+  if (!rectToFill)
+  {
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'receiveMapRect'. Ignoring request.");
+    return;
+  };
+
+  *rectToFill = GAME_MAP_RECT;
 }
 
 void RenderContext::setPosition(const Coord position)

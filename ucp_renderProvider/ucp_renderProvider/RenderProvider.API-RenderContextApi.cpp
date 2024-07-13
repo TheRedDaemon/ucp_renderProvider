@@ -17,52 +17,27 @@ extern "C" __declspec(dllexport) void __stdcall setRenderTarget(Renderer rendere
 
 extern "C" __declspec(dllexport) void __stdcall setRelativeMenuTargetRect(Renderer renderer, const Rect* rect)
 {
-  if (!rect)
-  {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeMenuTargetRect'. Ignoring request.");
-    return;
-  };
-  RenderContext::verifyAndExecute<&RenderContext::setRelativeMenuTargetRect>(renderer, *rect);
+  RenderContext::verifyAndExecute<&RenderContext::setRelativeMenuTargetRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall setRelativeGameTargetRect(Renderer renderer, const Rect* rect)
 {
-  if (!rect)
-  {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeGameTargetRect'. Ignoring request.");
-    return;
-  };
-  RenderContext::verifyAndExecute<&RenderContext::setRelativeGameTargetRect>(renderer, *rect);
+  RenderContext::verifyAndExecute<&RenderContext::setRelativeGameTargetRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall receiveScreenRect(Renderer renderer, Rect* rect)
 {
-  if (!rect)
-  {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'receiveScreenRect'. Ignoring request.");
-    return;
-  };
-  RenderContext::verifyAndExecute<&RenderContext::receiveScreenRect>(renderer, *rect);
+  RenderContext::verifyAndExecute<&RenderContext::receiveScreenRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall receiveMenuRect(Renderer renderer, Rect* rect)
 {
-  if (!rect)
-  {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'receiveMenuRect'. Ignoring request.");
-    return;
-  };
-  RenderContext::verifyAndExecute<&RenderContext::receiveMenuRect>(renderer, *rect);
+  RenderContext::verifyAndExecute<&RenderContext::receiveMenuRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall receiveMapRect(Renderer renderer, Rect* rect)
 {
-  if (!rect)
-  {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'receiveMapRect'. Ignoring request.");
-    return;
-  };
-  RenderContext::verifyAndExecute<&RenderContext::receiveMapRect>(renderer, *rect);
+  RenderContext::verifyAndExecute<&RenderContext::receiveMapRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall setPosition(Renderer renderer, const Coord position) {
