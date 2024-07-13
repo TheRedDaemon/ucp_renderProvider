@@ -7,6 +7,7 @@ module;
 module RenderProvider.API:TextManager;
 
 import RenderProvider.GamePointer;
+import RenderProvider.Logger;
 
 import :RenderState;
 
@@ -14,7 +15,7 @@ using namespace RenderProviderHeader;
 
 extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, const char* text)
 {
-  RenderContext& context{ RenderState::verifyActiveToken(token).getRenderContext() };
+  auto& context{ RenderState::verifyActiveToken(token).getRenderContext() };
 
 
 
@@ -44,6 +45,15 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
     context.getFontSize(), context.getTextXOffsetHandling(), context.getBlendStrength());
 }
 
+extern "C" __declspec(dllexport) void __stdcall receiveFontData(FontSize fontSize, FontData* receiver)
+{
+  if (!receiver)
+  {
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr receiver for 'receiveFontData'. Ignoring request.");
+    return;
+  };
+  *receiver = *reinterpret_cast<FontData*>(&(GameStruct::TextManager->gameFont[fontSize].baselineOffset_0x10));
+}
 
 extern "C" __declspec(dllexport) int __stdcall computeTextWidth(FontSize fontSize, const char* text)
 {

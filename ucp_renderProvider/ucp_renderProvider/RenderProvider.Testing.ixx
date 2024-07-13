@@ -1,11 +1,14 @@
 module;
 
+#include <format>
+
 #include "renderProviderHeader.h"
 
 export module RenderProvider.Testing;
 
 import RenderProvider.SHC;
 import RenderProvider.API;
+import RenderProvider.Logger;
 
 export struct FakeTextureRenderCore
 {
@@ -47,10 +50,36 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setTextPrimaryColor(renderer, 0x000000ff);
   renderText(token, "TesT");
 
-  //const int size = computeGameTextWidth(key, 1, 1, static_cast<RenderProviderHeader::FontSize>(0));
-  //const int size2 = computeTextWidth(key, "1, 1", static_cast<RenderProviderHeader::FontSize>(0));
-  //renderGameInGameText(key, 1, 15, 10, 10, RenderProviderHeader::TextAlignment::LEFT, 0xb8e6f5, 0, static_cast<RenderProviderHeader::FontSize>(0x12), RenderProviderHeader::TextXOffsetHandling::DISCARD, 0);
-  //// TODO: gather font values
+  static bool fontTested = false;
+  if (!fontTested)
+  {
+    const char* textString{ "Test, but a bit longer?" };
+    Log(LogLevel::LOG_INFO, std::format("Test String: {}", textString).c_str());
+    Log(LogLevel::LOG_INFO, std::format("Length Very Small: {}", computeTextWidth(RenderProviderHeader::FontSize::VERY_SMALL, textString)).c_str());
+    Log(LogLevel::LOG_INFO, std::format("Length Small: {}", computeTextWidth(RenderProviderHeader::FontSize::SMALL, textString)).c_str());
+    Log(LogLevel::LOG_INFO, std::format("Length Medium: {}", computeTextWidth(RenderProviderHeader::FontSize::MEDIUM, textString)).c_str());
+    Log(LogLevel::LOG_INFO, std::format("Length Big: {}", computeTextWidth(RenderProviderHeader::FontSize::BIG, textString)).c_str());
+    Log(LogLevel::LOG_INFO, std::format("Length Very Big: {}", computeTextWidth(RenderProviderHeader::FontSize::VERY_BIG, textString)).c_str());
+
+    RenderProviderHeader::FontData fontData;
+    receiveFontData(RenderProviderHeader::FontSize::VERY_SMALL, &fontData);
+    Log(LogLevel::LOG_INFO, std::format("FontData Very Small:\n\tbaselineOffset: {}\n\tlineHeight: {}\n\tletterSpacing: {}\n\twhiteSpaceWidth: {}",
+      fontData.baselineOffset, fontData.lineHeight, fontData.letterSpacing, fontData.whiteSpaceWidth).c_str());
+    receiveFontData(RenderProviderHeader::FontSize::SMALL, &fontData);
+    Log(LogLevel::LOG_INFO, std::format("FontData Small:\n\tbaselineOffset: {}\n\tlineHeight: {}\n\tletterSpacing: {}\n\twhiteSpaceWidth: {}",
+      fontData.baselineOffset, fontData.lineHeight, fontData.letterSpacing, fontData.whiteSpaceWidth).c_str());
+    receiveFontData(RenderProviderHeader::FontSize::MEDIUM, &fontData);
+    Log(LogLevel::LOG_INFO, std::format("FontData Medium:\n\tbaselineOffset: {}\n\tlineHeight: {}\n\tletterSpacing: {}\n\twhiteSpaceWidth: {}",
+      fontData.baselineOffset, fontData.lineHeight, fontData.letterSpacing, fontData.whiteSpaceWidth).c_str());
+    receiveFontData(RenderProviderHeader::FontSize::BIG, &fontData);
+    Log(LogLevel::LOG_INFO, std::format("FontData BIG:\n\tbaselineOffset: {}\n\tlineHeight: {}\n\tletterSpacing: {}\n\twhiteSpaceWidth: {}",
+      fontData.baselineOffset, fontData.lineHeight, fontData.letterSpacing, fontData.whiteSpaceWidth).c_str());
+    receiveFontData(RenderProviderHeader::FontSize::VERY_BIG, &fontData);
+    Log(LogLevel::LOG_INFO, std::format("FontData Very Big:\n\tbaselineOffset: {}\n\tlineHeight: {}\n\tletterSpacing: {}\n\twhiteSpaceWidth: {}",
+      fontData.baselineOffset, fontData.lineHeight, fontData.letterSpacing, fontData.whiteSpaceWidth).c_str());
+
+    fontTested = true;
+  }
 }
 
 void FakeTextureRenderCore::detouredMenuToMapSurface()

@@ -4,6 +4,8 @@ module;
 
 export module RenderProvider.SHC:TextManager;
 
+import :GameFont;
+
 export namespace SHC
 {
   /* Reduced to the likely relevant data. */
@@ -18,6 +20,12 @@ export namespace SHC
     RenderProviderHeader::RenderTarget textSurfaceTarget;
     const int unknown_0x20[4];
     int field12_0x30;         // is some kind of BOOL related to multi-line text I think
+    const int unknown_0x34[2];
+    const int sizeOfOneFontSet; // likely start of parts that are very different in the eastern game versions
+    const int alternativeCodePageUsed; // ?
+    const int gameLanguageEnum;
+    GameFont gameFont[20];
+    
     // there is more, but not relevant here
 
     /* Member functions definitions */

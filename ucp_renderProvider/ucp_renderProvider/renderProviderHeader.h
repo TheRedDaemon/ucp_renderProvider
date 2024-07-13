@@ -45,6 +45,14 @@ namespace RenderProviderHeader
     VERY_SMALL = 19,
   };
 
+  struct FontData
+  {
+    int baselineOffset;
+    int lineHeight;
+    int letterSpacing;
+    int whiteSpaceWidth;
+  };
+
   /* Structs */
 
   struct Range
@@ -112,6 +120,7 @@ namespace RenderProviderHeader
 
   namespace Misc
   {
+    using FuncReceiveFontData = void(__stdcall)(RenderProviderHeader::FontSize fontSize, RenderProviderHeader::FontData* receiver);
     using FuncComputeTextWidth = int(__stdcall)(RenderProviderHeader::FontSize fontSize, const char* text);
   }
 

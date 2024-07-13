@@ -267,6 +267,7 @@
     <ClCompile Include="RenderProvider.Logger.ixx" />
     <ClCompile Include="RenderProvider.Lua.ixx" />
     <ClCompile Include="RenderProvider.API-RenderState.ixx" />
+    <ClCompile Include="RenderProvider.SHC-GameFont.ixx" />
     <ClCompile Include="RenderProvider.SHC-PencilRenderCore.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextManager.ixx" />
     <ClCompile Include="RenderProvider.SHC-TextureRenderCore.ixx" />

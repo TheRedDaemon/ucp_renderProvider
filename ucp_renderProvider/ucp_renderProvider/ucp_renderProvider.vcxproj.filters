@@ -98,5 +98,8 @@
     <ClCompile Include="RenderProvider.API-TextManager.cpp">
       <Filter>Quelldateien\API</Filter>
     </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-GameFont.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
