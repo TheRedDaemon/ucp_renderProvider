@@ -128,7 +128,7 @@ public:
   void setTextAlignment(TextAlignment textAlignment);
   TextAlignment getTextAlignment() const;
   void requestTextPositionReset();
-  TextXOffsetHandling getTextXOffsetHandling();
+  TextXOffsetHandling determineTextXOffsetHandling();
   void setTextShadow(bool textShadow);
   bool hasTextShadow() const;
   void setTextMultiline(bool textMultiline);

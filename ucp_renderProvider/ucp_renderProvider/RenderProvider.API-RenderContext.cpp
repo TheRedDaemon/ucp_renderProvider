@@ -311,7 +311,7 @@ void RenderContext::requestTextPositionReset()
 {
   this->requestedTextPositionReset = true;
 }
-TextXOffsetHandling RenderContext::getTextXOffsetHandling()
+TextXOffsetHandling RenderContext::determineTextXOffsetHandling()
 {
   if (this->requestedTextPositionReset)
   {

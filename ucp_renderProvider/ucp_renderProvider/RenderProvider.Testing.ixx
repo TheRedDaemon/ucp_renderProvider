@@ -33,22 +33,43 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   receiveMenuRect(renderer, &rect);
   setRelativeMenuTargetRect(renderer, &rect);
 
-  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
-  setTextWidth(renderer, 200);
+  setTextWidth(renderer, 10);
+  setTextMultiline(renderer, false);
+  setTextShadow(renderer, true);
 
   setTextSecondaryColor(renderer, 0xffffffff);
 
   setPosition(renderer, { rect.width, 0 });
   setTextPrimaryColor(renderer, 0x00ff0000);
+  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
   renderText(token, "TesT");
 
   setPosition(renderer, { rect.width, 40 });
   setTextPrimaryColor(renderer, 0x0000ff00);
+  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
   renderText(token, "TesT");
 
   setPosition(renderer, { rect.width, 80 });
   setTextPrimaryColor(renderer, 0x000000ff);
+  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
   renderText(token, "TesT");
+
+  setTextMultiline(renderer, true);
+
+  setPosition(renderer, { rect.width, 120 });
+  setTextPrimaryColor(renderer, 0x00ff0000);
+  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
+  renderText(token, "TesT TesT");
+
+  setPosition(renderer, { rect.width, 160 });
+  setTextPrimaryColor(renderer, 0x0000ff00);
+  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
+  renderText(token, "TesT TesT");
+
+  setPosition(renderer, { rect.width, 200 });
+  setTextPrimaryColor(renderer, 0x000000ff);
+  setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
+  renderText(token, "TesT TesT");
 
   static bool fontTested = false;
   if (!fontTested)
