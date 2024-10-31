@@ -32,6 +32,9 @@ export struct PencilRenderCoreFunction
 export struct TextManagerDrawFunction
 {
   inline static SHC::TextManager::FuncRenderSinglelineBlendableTextWithShadow renderSinglelineBlendableTextWithShadow{ nullptr };
+  inline static SHC::TextManager::FuncRenderSinglelineBlendableText renderSinglelineBlendableText{ nullptr };
+  inline static SHC::TextManager::FuncRenderMultilineBlendableTextWithShadow renderMultilineBlendableTextWithShadow{ nullptr };
+  inline static SHC::TextManager::FuncRenderMultilineBlendableText renderMultilineBlendableText{ nullptr };
 
   // utility
   inline static SHC::TextManager::FuncComputeTextWidth computeTextWidth{ nullptr };

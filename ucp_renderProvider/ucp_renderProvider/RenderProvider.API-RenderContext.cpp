@@ -56,7 +56,7 @@ RenderContext::RenderContext() :
   textAlignment{ TextAlignment::LEFT },
   textPrimaryColor{ 0 },
   textSecondaryColor( 0xffffff ),
-  requestedTextPositionReset{ true }, // assume first text request to start at position
+  keepLeftAlignedTextPosition{ false }, // assume first text request to start at position
   textShadow{ false },
   textMultiline{ false },
   textWidth{ 10000 }
@@ -307,18 +307,18 @@ TextAlignment RenderContext::getTextAlignment() const
   return this->textAlignment;
 }
 
-void RenderContext::requestTextPositionReset()
+void RenderContext::keepLeftAlignedTextPositionForNextText()
 {
-  this->requestedTextPositionReset = true;
+  this->keepLeftAlignedTextPosition = true;
 }
-TextXOffsetHandling RenderContext::determineTextXOffsetHandling()
+LeftAlignedTextXOffsetHandling RenderContext::determineLeftAlignedTextPositionHandling()
 {
-  if (this->requestedTextPositionReset)
+  if (this->keepLeftAlignedTextPosition)
   {
-    this->requestedTextPositionReset = false;
-    return TextXOffsetHandling::DISCARD;
+    this->keepLeftAlignedTextPosition = false;
+    return LeftAlignedTextXOffsetHandling::KEEP;
   }
-  return TextXOffsetHandling::KEEP;
+  return LeftAlignedTextXOffsetHandling::DISCARD;
 }
 
 void RenderContext::setTextShadow(bool textShadow)

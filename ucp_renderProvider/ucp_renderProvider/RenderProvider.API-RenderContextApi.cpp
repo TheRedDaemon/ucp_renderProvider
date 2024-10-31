@@ -71,9 +71,9 @@ extern "C" __declspec(dllexport) void __stdcall setTextAlignment(Renderer render
   RenderContext::verifyAndExecute<&RenderContext::setTextAlignment>(renderer, alignment);
 }
 
-extern "C" __declspec(dllexport) void __stdcall resetTextPosition(Renderer renderer)
+extern "C" __declspec(dllexport) void __stdcall keepLeftAlignedTextPositionForNextText(Renderer renderer)
 {
-  RenderContext::verifyAndExecute<&RenderContext::requestTextPositionReset>(renderer);
+  RenderContext::verifyAndExecute<&RenderContext::keepLeftAlignedTextPositionForNextText>(renderer);
 }
 
 extern "C" __declspec(dllexport) void __stdcall setTextShadow(Renderer renderer, bool active)

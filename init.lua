@@ -20,19 +20,27 @@ local function fillAddress(address, fill)
   core.writeCode(address, {fill})
 end
 
-local function readAddressFromStructUsage(usageAddress)
+local function readAddressFromSingleOpcodeUsage(usageAddress)
   return core.readInteger(usageAddress + 1)
+end
+
+local function receiveAbsoluteAddressFromCallOffsetAddress(usageAddress)
+  local offsetAddress = readAddressFromSingleOpcodeUsage(usageAddress)
+  return offsetAddress + usageAddress + 5
 end
 
 local GAME_ADDRESSES = {
   -- structs
-  PencilRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? 53 B9 ? ? ? ? E8 ? ? ? ? 6A 08", readAddressFromStructUsage, nil },
-  TextManager = { "B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromStructUsage, nil },
-  TextureRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromStructUsage, nil },
-  WindowAndDirectDraw = { "B9 ? ? ? ? E8 ? ? ? ? 39 ? ? ? ? ? 74 18", readAddressFromStructUsage, nil },
+  PencilRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? 53 B9 ? ? ? ? E8 ? ? ? ? 6A 08", readAddressFromSingleOpcodeUsage, nil },
+  TextManager = { "B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromSingleOpcodeUsage, nil },
+  TextureRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromSingleOpcodeUsage, nil },
+  WindowAndDirectDraw = { "B9 ? ? ? ? E8 ? ? ? ? 39 ? ? ? ? ? 74 18", readAddressFromSingleOpcodeUsage, nil },
   
   -- TextManager
   RenderSinglelineBlendableTextWithShadow = { "8B 44 24 20 8B 54 24 18 53", nil, nil },
+  RenderSinglelineBlendableText = { "83 7C 24 1C 00 53 56 8B F1 75 06 C7 06 00 00 00 00 8B 5C 24 0C 85 DB 74 7C", nil, nil },
+  RenderMultilineBlendableTextWithShadow = { "E8 ? ? ? ? 5F 5E C2 10 00 8B 4C 24 08", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  RenderMultilineBlendableText = { "8B 44 24 04 85 C0 56 8B F1 74 2C", nil, nil },
 
   ComputeTextWidth = { "56 8B 74 24 08 85 F6 75 06", nil, nil },
 }

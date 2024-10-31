@@ -23,6 +23,7 @@ RenderState::RenderState(RenderContext& renderContext) : renderContext{ renderCo
     originalMapGameSurfaceHeightRange = GameStruct::TextureRenderCore->mapGameSurfaceHeightRange;
     originalScreenMenuSurfaceHeightRange = GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange;
     originalTextXRange = GameStruct::TextManager->textXRange;
+    originalLeftAlignedTextXOffset = GameStruct::TextManager->currentXOffset;
     originalRenderingRect = GameStruct::TextureRenderCore->renderingRect;
   }
   else
@@ -47,6 +48,7 @@ RenderState::~RenderState()
     GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = originalMapGameSurfaceHeightRange;
     GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = originalScreenMenuSurfaceHeightRange;
     GameStruct::TextManager->textXRange = originalTextXRange;
+    GameStruct::TextManager->currentXOffset = originalLeftAlignedTextXOffset;
     GameStruct::TextureRenderCore->renderingRect = originalRenderingRect;
   }
   else

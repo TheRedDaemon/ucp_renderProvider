@@ -23,7 +23,7 @@ namespace RenderProviderHeader
     CONTEXT_BASED = -1 // internal, do not use, used to indicate to some functions that a surface should be chosen based on context.
   };
 
-  enum TextXOffsetHandling : int
+  enum LeftAlignedTextXOffsetHandling : int
   {
     DISCARD = 0,
     KEEP = 1,
@@ -103,9 +103,9 @@ namespace RenderProviderHeader
     using FuncSetTextPrimaryColor = void(__stdcall)(Renderer renderer, unsigned int color); // color: 0x00BBGGRR
     using FuncSetTextSecondaryColor = void(__stdcall)(Renderer renderer, unsigned int color); // color: 0x00BBGGRR
     using FuncSetTextAlignment = void(__stdcall)(Renderer renderer, TextAlignment alignment);
-    using FuncResetTextPosition = void(__stdcall)(Renderer renderer); // TODO: rework, only works for left alignment it seems
+    using FuncKeepLeftAlignedTextPositionForNextText = void(__stdcall)(Renderer renderer); // only works for single line left alignment
     using FuncSetTextShadow = void(__stdcall)(Renderer renderer, bool active);
-    using FuncSetTextMultiline = void(__stdcall)(Renderer renderer, bool active);
+    using FuncSetTextMultiline = void(__stdcall)(Renderer renderer, bool active); // multiline is always left aligned
     using FuncSetTextWidth = void(__stdcall)(Renderer renderer, int width);
   }
 

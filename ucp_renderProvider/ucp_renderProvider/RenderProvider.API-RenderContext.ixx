@@ -98,7 +98,7 @@ private:
   TextAlignment textAlignment;
   unsigned int textPrimaryColor;
   unsigned int textSecondaryColor;
-  bool requestedTextPositionReset;
+  bool keepLeftAlignedTextPosition;
   bool textShadow;
   bool textMultiline;
   int textWidth;
@@ -127,8 +127,8 @@ public:
   unsigned int getTextSecondaryColor() const;
   void setTextAlignment(TextAlignment textAlignment);
   TextAlignment getTextAlignment() const;
-  void requestTextPositionReset();
-  TextXOffsetHandling determineTextXOffsetHandling();
+  void keepLeftAlignedTextPositionForNextText();
+  LeftAlignedTextXOffsetHandling determineLeftAlignedTextPositionHandling();
   void setTextShadow(bool textShadow);
   bool hasTextShadow() const;
   void setTextMultiline(bool textMultiline);

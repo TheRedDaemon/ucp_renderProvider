@@ -31,6 +31,9 @@ private:
   // has an effect on text rendering, although the nature is unclear, it seems to reduce the X range of text
   static inline Range originalTextXRange;
 
+  // singleline, left aligned text can be put together this way
+  static inline int originalLeftAlignedTextXOffset;
+
   // needs to be set, but seems to be only for tgx menu rendering
   static inline Rect originalRenderingRect;
 

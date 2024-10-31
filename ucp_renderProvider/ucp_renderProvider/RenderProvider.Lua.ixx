@@ -39,6 +39,9 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
 
   // add func addresses
   addAddress(L, (DWORD) &TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, "RenderSinglelineBlendableTextWithShadow");
+  addAddress(L, (DWORD) &TextManagerDrawFunction::renderSinglelineBlendableText, "RenderSinglelineBlendableText");
+  addAddress(L, (DWORD) &TextManagerDrawFunction::renderMultilineBlendableTextWithShadow, "RenderMultilineBlendableTextWithShadow");
+  addAddress(L, (DWORD) &TextManagerDrawFunction::renderMultilineBlendableText, "RenderMultilineBlendableText");
 
   addAddress(L, (DWORD) &TextManagerDrawFunction::computeTextWidth, "ComputeTextWidth");
   

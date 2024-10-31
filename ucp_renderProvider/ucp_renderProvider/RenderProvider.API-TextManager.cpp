@@ -17,19 +17,45 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
 {
   auto& context{ RenderState::verifyActiveToken(token).getRenderContext() };
 
+  // resolve all values to consider side effects
   Coord position{ context.receiveAdjustedPosition() };
-
+  const int textWidth{ context.getTextWidth() };
   const TextAlignment alignment{ context.getTextAlignment() };
+  const unsigned int primaryColor{ context.getTextPrimaryColor() };
+  const unsigned int secondaryColor{ context.getTextSecondaryColor() };
+  const FontSize fontSize{ context.getFontSize() };
+  const LeftAlignedTextXOffsetHandling xOffsetHandling{ context.determineLeftAlignedTextPositionHandling() };
+  const int blendStrength{ context.getBlendStrength() };
   const bool hasShadow{ context.hasTextShadow() };
   const bool isMultiline{ context.isTextMultiline() };
 
   // for the shadow call, the position is used for the secondary color, lets adjust this to the primary and alignment
-  // depending on the range, the shadow or the primary color might be missing
+  // depending on the text range, the shadow or the primary color might be missing
+
+  if (isMultiline) // only supports left alignment
+  {
+    position.x += hasShadow ? 2 : 0;
+    position.y += hasShadow ? 1 : 0;
+    GameStruct::TextManager->textXRange = { position.x, position.x + textWidth };
+
+    if (hasShadow)
+    {
+      std::invoke(TextManagerDrawFunction::renderMultilineBlendableTextWithShadow, GameStruct::TextManager,
+        text, position.x, position.y, textWidth, primaryColor, secondaryColor, fontSize, blendStrength);
+    }
+    else
+    {
+      std::invoke(TextManagerDrawFunction::renderMultilineBlendableText, GameStruct::TextManager, text,
+        position.x, position.y, textWidth, primaryColor, fontSize, blendStrength);
+    }
+    return;
+  }
+ 
   switch (alignment)
   {
   case TextAlignment::LEFT:
     position.x += hasShadow ? 2 : 0;
-    GameStruct::TextManager->textXRange = { position.x, position.x + context.getTextWidth() };
+    GameStruct::TextManager->textXRange = { position.x, position.x + textWidth };
     break;
   case TextAlignment::CENTER:
     {
@@ -38,14 +64,14 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
       
       // the range for center works rather strange and might use something like the middle index
       // TODO?: this solution might be good enough, but if issues arise, then this might need improvement
-      const int halfWidth{ context.getTextWidth() / 2 };
+      const int halfWidth{ textWidth / 2 };
       GameStruct::TextManager->textXRange = { position.x - halfWidth + shadowAdjust, position.x + halfWidth + shadowAdjust };
     }
     break;
   case TextAlignment::RIGHT:
     {
       const int shadowAdjust{ hasShadow ? 2 : 0 };
-      GameStruct::TextManager->textXRange = { position.x - context.getTextWidth() - shadowAdjust, position.x - shadowAdjust };
+      GameStruct::TextManager->textXRange = { position.x - textWidth - shadowAdjust, position.x - shadowAdjust };
     }
     break;
   }
@@ -53,27 +79,13 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
 
   if (hasShadow)
   {
-    if (isMultiline)
-    {
-
-    }
-    else
-    {
-      std::invoke(TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, GameStruct::TextManager, text,
-        position.x, position.y, alignment, context.getTextPrimaryColor(), context.getTextSecondaryColor(),
-        context.getFontSize(), context.determineTextXOffsetHandling(), context.getBlendStrength());
-    }
+    std::invoke(TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, GameStruct::TextManager, text,
+      position.x, position.y, alignment, primaryColor, secondaryColor, fontSize, xOffsetHandling, blendStrength);
   }
   else
   {
-    if (isMultiline)
-    {
-
-    }
-    else
-    {
-
-    }
+    std::invoke(TextManagerDrawFunction::renderSinglelineBlendableText, GameStruct::TextManager, text,
+      position.x, position.y, alignment, primaryColor, fontSize, xOffsetHandling, blendStrength);
   }
 }
 

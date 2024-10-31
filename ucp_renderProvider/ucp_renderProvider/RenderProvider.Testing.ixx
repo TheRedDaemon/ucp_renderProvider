@@ -33,7 +33,7 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   receiveMenuRect(renderer, &rect);
   setRelativeMenuTargetRect(renderer, &rect);
 
-  setTextWidth(renderer, 10);
+  setTextWidth(renderer, 100);
   setTextMultiline(renderer, false);
   setTextShadow(renderer, true);
 
@@ -43,6 +43,8 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
   renderText(token, "TesT");
+  keepLeftAlignedTextPositionForNextText(renderer);
+  renderText(token, "2");
 
   setPosition(renderer, { rect.width, 40 });
   setTextPrimaryColor(renderer, 0x0000ff00);
@@ -56,20 +58,36 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextMultiline(renderer, true);
 
-  setPosition(renderer, { rect.width, 120 });
+  setPosition(renderer, { 0, 120 });
+  setTextPrimaryColor(renderer, 0x00ff0000);
+  renderText(token, "This is a test");
+
+  setPosition(renderer, { 0, 200 });
+  setTextPrimaryColor(renderer, 0x0000ff00);
+  renderText(token, "Thisisatest");
+
+  setTextShadow(renderer, false);
+
+  setPosition(renderer, { 0, 280 });
+  setTextPrimaryColor(renderer, 0x000000ff);
+  renderText(token, "This is a test");
+
+  setTextMultiline(renderer, false);
+
+  setPosition(renderer, { rect.width, 360 });
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
-  renderText(token, "TesT TesT");
+  renderText(token, "TesT");
 
-  setPosition(renderer, { rect.width, 160 });
+  setPosition(renderer, { rect.width, 400 });
   setTextPrimaryColor(renderer, 0x0000ff00);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
-  renderText(token, "TesT TesT");
+  renderText(token, "TesT");
 
-  setPosition(renderer, { rect.width, 200 });
+  setPosition(renderer, { rect.width, 440 });
   setTextPrimaryColor(renderer, 0x000000ff);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
-  renderText(token, "TesT TesT");
+  renderText(token, "TesT");
 
   static bool fontTested = false;
   if (!fontTested)
