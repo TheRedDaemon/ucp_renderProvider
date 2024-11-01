@@ -96,6 +96,7 @@ namespace RenderProviderHeader
     using FuncReceiveMenuRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncReceiveMapRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncSetPosition = void(__stdcall)(Renderer renderer, const Coord position);
+    using FuncSetTargetPosition = void(__stdcall)(Renderer renderer, const Coord target);
     using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
 
     // text
@@ -107,6 +108,9 @@ namespace RenderProviderHeader
     using FuncSetTextShadow = void(__stdcall)(Renderer renderer, bool active);
     using FuncSetTextMultiline = void(__stdcall)(Renderer renderer, bool active); // multiline is always left aligned
     using FuncSetTextWidth = void(__stdcall)(Renderer renderer, int width);
+
+    // pencil
+    using FuncSetPencilColor = void(__stdcall)(Renderer renderer, unsigned int color);
   }
 
   namespace Render
@@ -115,12 +119,17 @@ namespace RenderProviderHeader
 
     // text
     using FuncRenderText = void(__stdcall)(RenderToken token, const char* text);
+
+    // pencil
+    using FuncDrawLine = void(__stdcall)(RenderToken token);
+    using FuncDrawRectangle = void(__stdcall)(RenderToken token, bool fill);
   };
 
   namespace Misc
   {
     using FuncReceiveFontData = void(__stdcall)(RenderProviderHeader::FontSize fontSize, RenderProviderHeader::FontData* receiver);
     using FuncComputeTextWidth = int(__stdcall)(RenderProviderHeader::FontSize fontSize, const char* text);
+    using FuncTransformBGRToDisplayFormat = unsigned short(__stdcall)(unsigned int color);
   }
 
   // Cpp API

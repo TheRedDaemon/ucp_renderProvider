@@ -255,6 +255,8 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="RenderProvider.API-Basic.cpp" />
     <ClCompile Include="RenderProvider.API-Basic.ixx" />
+    <ClCompile Include="RenderProvider.API-PencilRenderCore.cpp" />
+    <ClCompile Include="RenderProvider.API-PencilRenderCore.ixx" />
     <ClCompile Include="RenderProvider.API-RenderContext.cpp" />
     <ClCompile Include="RenderProvider.API-RenderContext.ixx" />
     <ClCompile Include="RenderProvider.API-RenderContextApi.cpp" />
@@ -262,6 +264,8 @@
     <ClCompile Include="RenderProvider.API-RenderState.cpp" />
     <ClCompile Include="RenderProvider.API-TextManager.cpp" />
     <ClCompile Include="RenderProvider.API-TextManager.ixx" />
+    <ClCompile Include="RenderProvider.API-TextureRenderCore.cpp" />
+    <ClCompile Include="RenderProvider.API-TextureRenderCore.ixx" />
     <ClCompile Include="RenderProvider.API.ixx" />
     <ClCompile Include="RenderProvider.GamePointer.ixx" />
     <ClCompile Include="RenderProvider.Logger.ixx" />

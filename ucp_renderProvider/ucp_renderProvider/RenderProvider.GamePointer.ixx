@@ -22,11 +22,15 @@ export struct WindowAndDirectDrawFunction
 export struct TextureRenderCoreFunction
 {
 
+  // utility
+  inline static SHC::TextureRenderCore::FuncTransform24bitBGRToDisplayFormat transform24bitBGRToDisplayFormat{ nullptr };
 };
 
 export struct PencilRenderCoreFunction
 {
-
+  inline static SHC::PencilRenderCore::FuncDrawLine drawLine{ nullptr };
+  inline static SHC::PencilRenderCore::FuncDrawRectangle drawRectangle{ nullptr };
+  inline static SHC::PencilRenderCore::FuncDrawFilledRectangle drawFilledRectangle{ nullptr };
 };
 
 export struct TextManagerDrawFunction

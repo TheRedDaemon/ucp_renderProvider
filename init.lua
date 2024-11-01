@@ -41,8 +41,15 @@ local GAME_ADDRESSES = {
   RenderSinglelineBlendableText = { "83 7C 24 1C 00 53 56 8B F1 75 06 C7 06 00 00 00 00 8B 5C 24 0C 85 DB 74 7C", nil, nil },
   RenderMultilineBlendableTextWithShadow = { "E8 ? ? ? ? 5F 5E C2 10 00 8B 4C 24 08", receiveAbsoluteAddressFromCallOffsetAddress, nil },
   RenderMultilineBlendableText = { "8B 44 24 04 85 C0 56 8B F1 74 2C", nil, nil },
-
   ComputeTextWidth = { "56 8B 74 24 08 85 F6 75 06", nil, nil },
+  
+  -- PencilRenderCore
+  DrawLine = { "E8 ? ? ? ? 0F ? ? ? ? ? ? 52 8D 45 01", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawRectangle = { "E8 ? ? ? ? 0F ? ? ? ? ? ? 52 8D 6F 0A", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawFilledRectangle = { "E8 ? ? ? ? 8B 44 24 14 8B 4C 24 10 33 D2", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  
+  -- TextureRenderCore
+  Transform24bitBGRToDisplayFormat = { "8B 44 24 04 8B D0 C1 EA 13", nil, nil },
 }
 
 exports.enable = function(self, moduleConfig, globalConfig)

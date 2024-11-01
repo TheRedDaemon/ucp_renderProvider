@@ -42,8 +42,13 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
   addAddress(L, (DWORD) &TextManagerDrawFunction::renderSinglelineBlendableText, "RenderSinglelineBlendableText");
   addAddress(L, (DWORD) &TextManagerDrawFunction::renderMultilineBlendableTextWithShadow, "RenderMultilineBlendableTextWithShadow");
   addAddress(L, (DWORD) &TextManagerDrawFunction::renderMultilineBlendableText, "RenderMultilineBlendableText");
-
   addAddress(L, (DWORD) &TextManagerDrawFunction::computeTextWidth, "ComputeTextWidth");
+
+  addAddress(L, (DWORD) &PencilRenderCoreFunction::drawLine, "DrawLine");
+  addAddress(L, (DWORD) &PencilRenderCoreFunction::drawRectangle, "DrawRectangle");
+  addAddress(L, (DWORD) &PencilRenderCoreFunction::drawFilledRectangle, "DrawFilledRectangle");
+
+  addAddress(L, (DWORD) &TextureRenderCoreFunction::transform24bitBGRToDisplayFormat, "Transform24bitBGRToDisplayFormat");
   
   lua_setfield(L, -2, "gamePtr"); // add table to table
 

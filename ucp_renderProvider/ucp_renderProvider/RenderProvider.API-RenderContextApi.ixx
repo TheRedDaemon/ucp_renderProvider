@@ -14,6 +14,7 @@ export extern "C" __declspec(dllexport) Context::FuncReceiveScreenRect receiveSc
 export extern "C" __declspec(dllexport) Context::FuncReceiveMenuRect receiveMenuRect;
 export extern "C" __declspec(dllexport) Context::FuncReceiveMapRect receiveMapRect;
 export extern "C" __declspec(dllexport) Context::FuncSetPosition setPosition;
+export extern "C" __declspec(dllexport) Context::FuncSetTargetPosition setTargetPosition;
 export extern "C" __declspec(dllexport) Context::FuncSetAlpha setAlpha;
 
 // text
@@ -25,3 +26,6 @@ export extern "C" __declspec(dllexport) Context::FuncKeepLeftAlignedTextPosition
 export extern "C" __declspec(dllexport) Context::FuncSetTextShadow setTextShadow;
 export extern "C" __declspec(dllexport) Context::FuncSetTextMultiline setTextMultiline;
 export extern "C" __declspec(dllexport) Context::FuncSetTextWidth setTextWidth;
+
+// pencil
+export extern "C" __declspec(dllexport) Context::FuncSetPencilColor setPencilColor;

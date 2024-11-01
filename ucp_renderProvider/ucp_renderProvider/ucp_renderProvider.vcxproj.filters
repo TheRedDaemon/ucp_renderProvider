@@ -101,5 +101,17 @@
     <ClCompile Include="RenderProvider.SHC-GameFont.ixx">
       <Filter>Modules\SHC</Filter>
     </ClCompile>
+    <ClCompile Include="RenderProvider.API-PencilRenderCore.ixx">
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-PencilRenderCore.cpp">
+      <Filter>Quelldateien\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-TextureRenderCore.ixx">
+      <Filter>Modules\API</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderProvider.API-TextureRenderCore.cpp">
+      <Filter>Quelldateien\API</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

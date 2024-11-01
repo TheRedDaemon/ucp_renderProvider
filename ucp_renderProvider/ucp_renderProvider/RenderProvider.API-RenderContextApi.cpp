@@ -44,6 +44,11 @@ extern "C" __declspec(dllexport) void __stdcall setPosition(Renderer renderer, c
   RenderContext::verifyAndExecute<&RenderContext::setPosition>(renderer, position);
 }
 
+extern "C" __declspec(dllexport) void __stdcall setTargetPosition(Renderer renderer, const Coord target)
+{
+  RenderContext::verifyAndExecute<&RenderContext::setTargetPosition>(renderer, target);
+}
+
 extern "C" __declspec(dllexport) void __stdcall setAlpha(Renderer renderer, float alpha)
 {
   RenderContext::verifyAndExecute<&RenderContext::setAlpha>(renderer, alpha);
@@ -89,4 +94,11 @@ extern "C" __declspec(dllexport) void __stdcall setTextMultiline(Renderer render
 extern "C" __declspec(dllexport) void __stdcall setTextWidth(Renderer renderer, int width)
 {
   RenderContext::verifyAndExecute<&RenderContext::setTextWidth>(renderer, width);
+}
+
+
+// pencil
+extern "C" __declspec(dllexport) void __stdcall setPencilColor(Renderer renderer, unsigned int color)
+{
+  RenderContext::verifyAndExecute<&RenderContext::setPencilColor>(renderer, color);
 }

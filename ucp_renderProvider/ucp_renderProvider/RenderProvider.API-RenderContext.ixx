@@ -92,6 +92,7 @@ private:
   Rect relativeMenuTargetRect;
   Rect relativeGameTargetRect;
   Coord position;
+  Coord targetPosition;
   int blendStrength;
 
   FontSize fontSize;
@@ -102,6 +103,8 @@ private:
   bool textShadow;
   bool textMultiline;
   int textWidth;
+
+  unsigned short pencilColor;
 
 public:
   RenderContext();
@@ -115,6 +118,8 @@ public:
   void receiveMapRect(Rect* rectToFill);
   void setPosition(const Coord position);
   Coord receiveAdjustedPosition() const;
+  void setTargetPosition(const Coord position);
+  Coord receiveAdjustedTargetPosition() const;
   void setAlpha(float alpha); // transforms alpha to blendStrength
   int getBlendStrength() const;
 
@@ -135,6 +140,9 @@ public:
   bool isTextMultiline() const;
   void setTextWidth(int textWidth);
   int getTextWidth() const;
+
+  void setPencilColor(unsigned int pencilColor);
+  unsigned short getPencilColor() const;
 
   void setActive();
   void setInactive();

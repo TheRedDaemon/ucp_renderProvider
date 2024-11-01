@@ -72,5 +72,10 @@ export namespace SHC
     int backwardsLoadedGfxIndex;
     RenderProviderHeader::Rect renderingRect;
     // there is more, but seemingly not of use for this module
+
+    /* Member functions definitions */
+
+    // utility
+    using FuncTransform24bitBGRToDisplayFormat = unsigned short (TextureRenderCore::*)(unsigned int color);
   };
 }

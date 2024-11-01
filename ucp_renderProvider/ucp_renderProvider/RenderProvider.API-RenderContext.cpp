@@ -59,7 +59,8 @@ RenderContext::RenderContext() :
   keepLeftAlignedTextPosition{ false }, // assume first text request to start at position
   textShadow{ false },
   textMultiline{ false },
-  textWidth{ 10000 }
+  textWidth{ 10000 },
+  pencilColor{ 0 }
 {
   this->receiveScreenRect(&this->relativeMenuTargetRect);
   this->receiveMapRect(&this->relativeGameTargetRect);
@@ -255,6 +256,24 @@ Coord RenderContext::receiveAdjustedPosition() const
   return this->position;
 }
 
+void RenderContext::setTargetPosition(const Coord targetPosition)
+{
+  this->targetPosition = targetPosition;
+}
+Coord RenderContext::receiveAdjustedTargetPosition() const
+{
+  if (this->target == RenderTarget::GAME)
+  {
+    return { this->targetPosition.x + this->relativeGameTargetRect.x, this->targetPosition.y + this->relativeGameTargetRect.y };
+  }
+  else if (this->target == RenderTarget::MENU)
+  {
+    return { this->targetPosition.x + this->relativeMenuTargetRect.x, this->targetPosition.y + this->relativeMenuTargetRect.y };
+  }
+  Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested target position adjusted to unknown render target. Exiting game.");
+  return this->targetPosition;
+}
+
 void RenderContext::setAlpha(float alpha)
 {
   if (alpha < 0.0f || alpha > 1.0f)
@@ -346,6 +365,17 @@ void RenderContext::setTextWidth(int textWidth)
 int RenderContext::getTextWidth() const
 {
   return this->textWidth;
+}
+
+
+
+void RenderContext::setPencilColor(unsigned int pencilColor)
+{
+  this->pencilColor = std::invoke(TextureRenderCoreFunction::transform24bitBGRToDisplayFormat, GameStruct::TextureRenderCore, pencilColor);
+}
+unsigned short RenderContext::getPencilColor() const
+{
+  return this->pencilColor;
 }
 
 

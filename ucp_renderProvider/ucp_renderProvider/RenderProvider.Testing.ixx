@@ -89,6 +89,39 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
   renderText(token, "TesT");
 
+  // TODO?: once the APIs are "all" done, consider if certain states even make sense, or if
+  // it would be better to just provide it as part of the function call.
+
+  setPosition(renderer, { 100, 100 });
+  setTargetPosition(renderer, { 200, 200 });
+  setPencilColor(renderer, 0x000000ff);
+  drawLine(token);
+
+  setPosition(renderer, { 150, 100 });
+  setTargetPosition(renderer, { 150, 200 });
+  setPencilColor(renderer, 0x0000ff00);
+  drawLine(token);
+
+  setPosition(renderer, { 100, 150 });
+  setTargetPosition(renderer, { 200, 150 });
+  setPencilColor(renderer, 0x00ff0000);
+  drawLine(token);
+
+  setPosition(renderer, { 200, 100 });
+  setTargetPosition(renderer, { 100, 200 });
+  setPencilColor(renderer, 0x00ffffff);
+  drawLine(token);
+
+  setPosition(renderer, { 400, 400 });
+  setTargetPosition(renderer, { 500, 550 });
+  setPencilColor(renderer, 0x00ff00ff);
+  drawRectangle(token, false);
+
+  setPosition(renderer, { 550, 550 });
+  setTargetPosition(renderer, { 600, 580 });
+  setPencilColor(renderer, 0x0000ffff);
+  drawRectangle(token, true);
+
   static bool fontTested = false;
   if (!fontTested)
   {
