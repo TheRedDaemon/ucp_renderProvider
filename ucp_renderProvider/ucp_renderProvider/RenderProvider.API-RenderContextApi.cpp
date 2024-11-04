@@ -30,15 +30,6 @@ extern "C" __declspec(dllexport) void __stdcall receiveMenuRect(Renderer rendere
   RenderContext::verifyAndExecute<&RenderContext::receiveMenuRect>(renderer, rect);
 }
 
-extern "C" __declspec(dllexport) void __stdcall setPosition(Renderer renderer, const Coord position) {
-  RenderContext::verifyAndExecute<&RenderContext::setPosition>(renderer, position);
-}
-
-extern "C" __declspec(dllexport) void __stdcall setTargetPosition(Renderer renderer, const Coord target)
-{
-  RenderContext::verifyAndExecute<&RenderContext::setTargetPosition>(renderer, target);
-}
-
 extern "C" __declspec(dllexport) void __stdcall setAlpha(Renderer renderer, float alpha)
 {
   RenderContext::verifyAndExecute<&RenderContext::setAlpha>(renderer, alpha);

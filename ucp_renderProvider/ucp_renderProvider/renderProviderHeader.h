@@ -64,19 +64,27 @@ namespace RenderProviderHeader
     int end;
   };
 
-  // inclusive ranges if used by API: [,]
-  struct Rect
-  {
-    int left;
-    int top;
-    int right;
-    int bottom;
-  };
-
   struct Coord
   {
     int x;
     int y;
+  };
+
+  union Rect
+  {
+    struct Coords
+    {
+      Coord position;
+      Coord target;
+    } coords;
+    // inclusive ranges if used by API: [,]
+    struct Limits
+    {
+      int left;
+      int top;
+      int right;
+      int bottom;
+    } limits;
   };
 
   /* Functions */
@@ -94,8 +102,6 @@ namespace RenderProviderHeader
   {
     // general
     using FuncSetRenderTarget = void(__stdcall)(Renderer renderer, RenderTarget target);
-    using FuncSetPosition = void(__stdcall)(Renderer renderer, const Coord position);
-    using FuncSetTargetPosition = void(__stdcall)(Renderer renderer, const Coord target);
     using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
     // the following should be set/requested per render cycle, to handle changes in resolution
     using FuncSetRelativeRenderTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
@@ -122,11 +128,11 @@ namespace RenderProviderHeader
     using FuncReceiveRenderer = Renderer(__stdcall)(RenderToken token);
 
     // text
-    using FuncRenderText = void(__stdcall)(RenderToken token, const char* text);
+    using FuncRenderText = void(__stdcall)(RenderToken token, const char* text, const Coord* position);
 
     // pencil
-    using FuncDrawLine = void(__stdcall)(RenderToken token);
-    using FuncDrawRectangle = void(__stdcall)(RenderToken token, bool fill);
+    using FuncDrawLine = void(__stdcall)(RenderToken token, const Rect* fromTo);
+    using FuncDrawRectangle = void(__stdcall)(RenderToken token, bool fill, const Rect* rect);
   };
 
   namespace Misc

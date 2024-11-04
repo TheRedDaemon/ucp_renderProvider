@@ -90,8 +90,6 @@ private:
 
   RenderTarget target;
   Rect relativeRenderTargetRect;
-  Coord position;
-  Coord targetPosition;
   int blendStrength;
 
   FontSize fontSize;
@@ -113,10 +111,7 @@ public:
   void receiveScreenRect(Rect* rectToFill);
   void receiveMenuRect(Rect* rectToFill);
   void receiveMapRect(Rect* rectToFill); // unused currently, since in-game map size handling is unknown at the moment
-  void setPosition(const Coord position);
-  Coord receiveAdjustedPosition() const;
-  void setTargetPosition(const Coord position);
-  Coord receiveAdjustedTargetPosition() const;
+  Coord calculateAdjustedPosition(const Coord& position) const;
   void setAlpha(float alpha); // transforms alpha to blendStrength
   int getBlendStrength() const;
 

@@ -13,12 +13,17 @@ import :RenderState;
 
 using namespace RenderProviderHeader;
 
-extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, const char* text)
+extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, const char* text, const Coord* requestedPosition)
 {
   auto& context{ RenderState::verifyActiveToken(token).getRenderContext() };
+  if (!requestedPosition)
+  {
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Received nullptr position for 'renderText'. Ignoring request.");
+    return;
+  }
 
   // resolve all values to consider side effects
-  Coord position{ context.receiveAdjustedPosition() };
+  Coord position{ context.calculateAdjustedPosition(*requestedPosition) };
   const int textWidth{ context.getTextWidth() };
   const TextAlignment alignment{ context.getTextAlignment() };
   const unsigned int primaryColor{ context.getTextPrimaryColor() };

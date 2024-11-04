@@ -32,7 +32,7 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   RenderProviderHeader::Rect rect;
   receiveMenuRect(renderer, &rect);
   setRelativeRenderTargetRect(renderer, &rect);
-  const int relativeRightPosition = rect.right - rect.left;
+  const int relativeRightPosition = rect.limits.right - rect.limits.left;
 
   setTextWidth(renderer, 100);
   setTextMultiline(renderer, false);
@@ -40,105 +40,95 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextSecondaryColor(renderer, 0xffffffff);
 
-  RenderProviderHeader::Coord position{ relativeRightPosition + 1, 0 };
-  setPosition(renderer, position);
+  RenderProviderHeader::Coord position{ 0, 0 };
+
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
-  renderText(token, "TesT");
-  position.x += receiveLastLeftAlignedTextXOffset(renderer);;
-  setPosition(renderer, position);
-  renderText(token, "2");
+  position.x = relativeRightPosition + 1;
+  renderText(token, "TesT", &position);
+  position.x += receiveLastLeftAlignedTextXOffset(renderer);
+  renderText(token, "2", &position);
 
-  setPosition(renderer, { relativeRightPosition, 40 });
   setTextPrimaryColor(renderer, 0x0000ff00);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
-  renderText(token, "TesT");
+  position = { relativeRightPosition, 40 };
+  renderText(token, "TesT", &position);
 
-  setPosition(renderer, { relativeRightPosition, 80 });
   setTextPrimaryColor(renderer, 0x000000ff);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
-  renderText(token, "TesT");
+  position = { relativeRightPosition, 80 };
+  renderText(token, "TesT", &position);
 
   setTextMultiline(renderer, true);
 
   position = { 0, 120 };
-  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x00ff0000);
-  renderText(token, "This is a test");
+  renderText(token, "This is a test", &position);
 
   // NOTE: likely game bug: long word breaks do not count to Y Offset
   position.y += receiveLastMultilineTextYOffset(renderer);
-  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x0000ff00);
-  renderText(token, "Thisisatestthisisatest");
+  renderText(token, "Thisisatestthisisatest", &position);
 
   setTextShadow(renderer, false);
 
   position.y += receiveLastMultilineTextYOffset(renderer);
-  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x000000ff);
-  renderText(token, "This is a test");
+  renderText(token, "This is a test", &position);
 
   setTextMultiline(renderer, false);
 
-  setPosition(renderer, { relativeRightPosition + 1, 360 });
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
-  renderText(token, "TesT");
+  position = { relativeRightPosition + 1, 360 };
+  renderText(token, "TesT", &position);
 
-  setPosition(renderer, { relativeRightPosition, 400 });
   setTextPrimaryColor(renderer, 0x0000ff00);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
-  renderText(token, "TesT");
+  position = { relativeRightPosition, 400 };
+  renderText(token, "TesT", &position);
 
   setFontSize(renderer, RenderProviderHeader::FontSize::SMALL);
 
-  setPosition(renderer, { relativeRightPosition, 440 });
   setTextPrimaryColor(renderer, 0x000000ff);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
-  renderText(token, "TesTa");
+  position = { relativeRightPosition, 440 };
+  renderText(token, "TesTa", &position);
 
   // TODO?: once the APIs are "all" done, consider if certain states even make sense, or if
-  // it would be better to just provide it as part of the function call.
-  // prime example would be the positions, which are known by the caller
-  // consider!!
+  // it would be better to just provide it as part of the function call
 
-  setPosition(renderer, { 100, 100 });
-  setTargetPosition(renderer, { 200, 200 });
+  RenderProviderHeader::Rect positionRect{};
+
+  positionRect = { 100, 100, 200, 200 };
   setPencilColor(renderer, 0x000000ff);
-  drawLine(token);
+  drawLine(token, &positionRect);
 
-  setPosition(renderer, { 150, 100 });
-  setTargetPosition(renderer, { 150, 200 });
+  positionRect = { 150, 100, 150, 200 };
   setPencilColor(renderer, 0x0000ff00);
-  drawLine(token);
+  drawLine(token, &positionRect);
 
-  setPosition(renderer, { 100, 150 });
-  setTargetPosition(renderer, { 200, 150 });
+  positionRect = { 100, 150, 200, 150 };
   setPencilColor(renderer, 0x00ff0000);
-  drawLine(token);
+  drawLine(token, &positionRect);
 
-  setPosition(renderer, { 200, 100 });
-  setTargetPosition(renderer, { 100, 200 });
+  positionRect = { 200, 100, 100, 200 };
   setPencilColor(renderer, 0x00ffffff);
-  drawLine(token);
+  drawLine(token, &positionRect);
 
-  setPosition(renderer, { 500, 550 });
-  setTargetPosition(renderer, { 400, 400 });
+  positionRect = { 500, 550, 400, 400 };
   setPencilColor(renderer, 0x00ff00ff);
-  drawRectangle(token, false);
+  drawRectangle(token, false, &positionRect);
 
-  setPosition(renderer, { 600, 500 });
-  setTargetPosition(renderer, { 1550, 599 });
+  positionRect = { 600, 500, 1550, 599 };
   setPencilColor(renderer, 0x0000ffff);
-  drawRectangle(token, true);
+  drawRectangle(token, true, &positionRect);
 
   setRenderTarget(renderer, RenderProviderHeader::RenderTarget::GAME);
 
-  setPosition(renderer, { 650, 0 });
-  setTargetPosition(renderer, { 600, 599 });
+  positionRect = { 650, 0, 600, 599 };
   setPencilColor(renderer, 0x00ffffff);
-  drawRectangle(token, true);
+  drawRectangle(token, true, &positionRect);
 
   static bool fontTested = false;
   if (!fontTested)

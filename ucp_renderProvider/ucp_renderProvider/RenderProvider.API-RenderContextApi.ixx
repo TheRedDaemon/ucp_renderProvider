@@ -11,8 +11,6 @@ export extern "C" __declspec(dllexport) Context::FuncSetRenderTarget setRenderTa
 export extern "C" __declspec(dllexport) Context::FuncSetRelativeRenderTargetRect setRelativeRenderTargetRect;
 export extern "C" __declspec(dllexport) Context::FuncReceiveScreenRect receiveScreenRect;
 export extern "C" __declspec(dllexport) Context::FuncReceiveMenuRect receiveMenuRect;
-export extern "C" __declspec(dllexport) Context::FuncSetPosition setPosition;
-export extern "C" __declspec(dllexport) Context::FuncSetTargetPosition setTargetPosition;
 export extern "C" __declspec(dllexport) Context::FuncSetAlpha setAlpha;
 
 // text
