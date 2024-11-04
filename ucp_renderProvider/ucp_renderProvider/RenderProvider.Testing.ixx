@@ -120,8 +120,8 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setPencilColor(renderer, 0x00ff00ff);
   drawRectangle(token, false);
 
-  setPosition(renderer, { 600, 0 });
-  setTargetPosition(renderer, { 550, 599 });
+  setPosition(renderer, { 600, 500 });
+  setTargetPosition(renderer, { 1550, 599 });
   setPencilColor(renderer, 0x0000ffff);
   drawRectangle(token, true);
 

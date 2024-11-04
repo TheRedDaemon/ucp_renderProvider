@@ -57,14 +57,14 @@ namespace RenderProviderHeader
 
   /* Structs */
 
-  // inclusive range: [,]
+  // inclusive range if used by API: [,]
   struct Range
   {
     int start;
     int end;
   };
 
-  // inclusive ranges: [,]
+  // inclusive ranges if used by API: [,]
   struct Rect
   {
     int left;

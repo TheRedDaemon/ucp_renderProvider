@@ -154,38 +154,44 @@ void RenderContext::setRelativeRenderTargetRect(const Rect* rect)
     limitRectToBounds(targetRect, compareRect);
   }
 
-  if (this->active)
+  if (!this->active)
   {
-    // TODO: check ranges one day
-    switch (this->target)
-    {
-    case RenderTarget::MENU:
-      GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = { targetRect.top, targetRect.bottom + 1 };
-      GameStruct::TextureRenderCore->renderingRect = {
-        targetRect.left,
-        targetRect.top,
-        targetRect.right + 1,
-        targetRect.bottom + 1,
-      };
-      break;
-    case RenderTarget::GAME:
-      GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = {
-        targetRect.top + GameStruct::ViewportState->currentCameraOffsetY,
-        targetRect.bottom + 1 + GameStruct::ViewportState->currentCameraOffsetY,
-      };
-      GameStruct::TextureRenderCore->renderingRect = {
-        targetRect.left + GameStruct::ViewportState->currentCameraOffsetX,
-        targetRect.top + GameStruct::ViewportState->currentCameraOffsetY,
-        targetRect.right + 1 + GameStruct::ViewportState->currentCameraOffsetX,
-        targetRect.bottom + 1 + GameStruct::ViewportState->currentCameraOffsetY,
-      };
-      break;
-    default:
-      Log(LogLevel::LOG_FATAL, "[RenderProvider]: An invalid render target was set. Can not adjust surface ranges. Exiting game.");
-      break;
-    }
-    // Text-Range should be defined on text render calls
+    return;
   }
+
+  // TODO: check ranges one day
+  // Could adjust render ranges to partially fit render rect, at least the height range
+  // since there is no easy way to restrict the width, this behavior would be strange, so at the moment
+  // the restriction is set to the screen rect
+  const Rect& restrictionRect{ compareRect };
+  switch (this->target)
+  {
+  case RenderTarget::MENU:
+    GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = { restrictionRect.top, restrictionRect.bottom + 1 };
+    GameStruct::TextureRenderCore->renderingRect = {
+      restrictionRect.left,
+      restrictionRect.top,
+      restrictionRect.right + 1,
+      restrictionRect.bottom + 1,
+    };
+    break;
+  case RenderTarget::GAME:
+    GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = {
+      restrictionRect.top + GameStruct::ViewportState->currentCameraOffsetY,
+      restrictionRect.bottom + 1 + GameStruct::ViewportState->currentCameraOffsetY,
+    };
+    GameStruct::TextureRenderCore->renderingRect = {
+      restrictionRect.left + GameStruct::ViewportState->currentCameraOffsetX,
+      restrictionRect.top + GameStruct::ViewportState->currentCameraOffsetY,
+      restrictionRect.right + 1 + GameStruct::ViewportState->currentCameraOffsetX,
+      restrictionRect.bottom + 1 + GameStruct::ViewportState->currentCameraOffsetY,
+    };
+    break;
+  default:
+    Log(LogLevel::LOG_FATAL, "[RenderProvider]: An invalid render target was set. Can not adjust surface ranges. Exiting game.");
+    break;
+  }
+  // Text-Range should be defined on text render calls
 }
 
 void RenderContext::receiveScreenRect(Rect* rectToFill)
