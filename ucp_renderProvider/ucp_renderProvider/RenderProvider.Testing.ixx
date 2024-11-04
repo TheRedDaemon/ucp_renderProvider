@@ -31,7 +31,8 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   RenderProviderHeader::Rect rect;
   receiveMenuRect(renderer, &rect);
-  setRelativeMenuTargetRect(renderer, &rect);
+  setRelativeRenderTargetRect(renderer, &rect);
+  const int relativeRightPosition = rect.right - rect.left;
 
   setTextWidth(renderer, 100);
   setTextMultiline(renderer, false);
@@ -39,19 +40,19 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextSecondaryColor(renderer, 0xffffffff);
 
-  setPosition(renderer, { rect.width, 0 });
+  setPosition(renderer, { relativeRightPosition + 1, 0 });
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
   renderText(token, "TesT");
   keepLeftAlignedTextPositionForNextText(renderer);
   renderText(token, "2");
 
-  setPosition(renderer, { rect.width, 40 });
+  setPosition(renderer, { relativeRightPosition, 40 });
   setTextPrimaryColor(renderer, 0x0000ff00);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
   renderText(token, "TesT");
 
-  setPosition(renderer, { rect.width, 80 });
+  setPosition(renderer, { relativeRightPosition, 80 });
   setTextPrimaryColor(renderer, 0x000000ff);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
   renderText(token, "TesT");
@@ -74,20 +75,22 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextMultiline(renderer, false);
 
-  setPosition(renderer, { rect.width, 360 });
+  setPosition(renderer, { relativeRightPosition + 1, 360 });
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
   renderText(token, "TesT");
 
-  setPosition(renderer, { rect.width, 400 });
+  setPosition(renderer, { relativeRightPosition, 400 });
   setTextPrimaryColor(renderer, 0x0000ff00);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::CENTER);
   renderText(token, "TesT");
 
-  setPosition(renderer, { rect.width, 440 });
+  setFontSize(renderer, RenderProviderHeader::FontSize::SMALL);
+
+  setPosition(renderer, { relativeRightPosition, 440 });
   setTextPrimaryColor(renderer, 0x000000ff);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::RIGHT);
-  renderText(token, "TesT");
+  renderText(token, "TesTa");
 
   // TODO?: once the APIs are "all" done, consider if certain states even make sense, or if
   // it would be better to just provide it as part of the function call.
@@ -112,14 +115,21 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setPencilColor(renderer, 0x00ffffff);
   drawLine(token);
 
-  setPosition(renderer, { 400, 400 });
-  setTargetPosition(renderer, { 500, 550 });
+  setPosition(renderer, { 500, 550 });
+  setTargetPosition(renderer, { 400, 400 });
   setPencilColor(renderer, 0x00ff00ff);
   drawRectangle(token, false);
 
-  setPosition(renderer, { 550, 550 });
-  setTargetPosition(renderer, { 600, 580 });
+  setPosition(renderer, { 600, 0 });
+  setTargetPosition(renderer, { 550, 599 });
   setPencilColor(renderer, 0x0000ffff);
+  drawRectangle(token, true);
+
+  setRenderTarget(renderer, RenderProviderHeader::RenderTarget::GAME);
+
+  setPosition(renderer, { 650, 0 });
+  setTargetPosition(renderer, { 600, 599 });
+  setPencilColor(renderer, 0x00ffffff);
   drawRectangle(token, true);
 
   static bool fontTested = false;

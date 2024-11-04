@@ -36,6 +36,7 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
   addAddress(L, (DWORD) &GameStruct::TextManager, "TextManager");
   addAddress(L, (DWORD) &GameStruct::TextureRenderCore, "TextureRenderCore");
   addAddress(L, (DWORD) &GameStruct::WindowAndDirectDraw, "WindowAndDirectDraw");
+  addAddress(L, (DWORD) &GameStruct::ViewportState, "ViewportState");
 
   // add func addresses
   addAddress(L, (DWORD) &TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, "RenderSinglelineBlendableTextWithShadow");

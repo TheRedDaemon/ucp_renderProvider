@@ -15,41 +15,41 @@ using namespace RenderProviderHeader;
 
 // constants
 
-static constexpr Rect GAME_MAP_RECT{ 0, 0, 4056, 2076 };
+static constexpr Rect GAME_SURFACE_RECT{ 0, 0, 4056 - 1, 2076 - 1 };
+static constexpr Rect MIN_SURFACE_RECT{ 0, 0, 800 - 1, 600 - 1 };
 static constexpr int BLEND_MAX = 32;
 
 // functions
 
 bool RenderContext::isRectInsideBounds(const Rect& rect, const Rect& bounds)
 {
-  return (rect.x >= bounds.x && rect.y >= bounds.y && rect.x + rect.width <= bounds.x + bounds.width && rect.y + rect.height <= bounds.y + bounds.height);
+  return (rect.left >= bounds.left && rect.top >= bounds.top && rect.right <= bounds.right && rect.bottom <= bounds.bottom);
 }
 
 void RenderContext::limitRectToBounds(Rect& rect, const Rect& bounds)
 {
-  if (rect.x < bounds.x)
+  if (rect.left < bounds.left)
   {
-    rect.width -= bounds.x - rect.x;
-    rect.x = bounds.x;
+    rect.left = bounds.left;
   }
-  if (rect.y < bounds.y)
+  if (rect.top < bounds.top)
   {
-    rect.height -= bounds.y - rect.y;
-    rect.y = bounds.y;
+    rect.top = bounds.top;
   }
-  if (rect.x + rect.width > bounds.x + bounds.width)
+  if (rect.right > bounds.right)
   {
-    rect.width = bounds.x + bounds.width - rect.x;
+    rect.right = bounds.right;
   }
-  if (rect.y + rect.height > bounds.y + bounds.height)
+  if (rect.bottom > bounds.bottom)
   {
-    rect.height = bounds.y + bounds.height - rect.y;
+    rect.bottom = bounds.bottom;
   }
 }
 
 RenderContext::RenderContext() :
   active{ false },
   target{ RenderTarget::MENU },
+  relativeRenderTargetRect{ MIN_SURFACE_RECT }, // set to minimal possible value
   position{ 0, 0 },
   blendStrength{ 0 },
   fontSize{ FontSize::MEDIUM },
@@ -62,8 +62,6 @@ RenderContext::RenderContext() :
   textWidth{ 10000 },
   pencilColor{ 0 }
 {
-  this->receiveScreenRect(&this->relativeMenuTargetRect);
-  this->receiveMapRect(&this->relativeGameTargetRect);
 }
 
 RenderContext::~RenderContext() {}
@@ -134,67 +132,58 @@ void RenderContext::setTarget(RenderTarget target)
     GameStruct::PencilRenderCore->pencilSurfaceTarget = target;
   }
 
-  if (target == RenderTarget::MENU)
-  {
-    this->setRelativeMenuTargetRect(&this->relativeMenuTargetRect); // set/reset
-  }
-  else if (target == RenderTarget::GAME)
-  {
-    this->setRelativeGameTargetRect(&this->relativeGameTargetRect); // set/reset
-  }
+  this->setRelativeRenderTargetRect(&this->relativeRenderTargetRect); // set/reset
 }
 
-void RenderContext::setRelativeMenuTargetRect(const Rect* rect)
+void RenderContext::setRelativeRenderTargetRect(const Rect* rect)
 {
   if (!rect)
   {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeMenuTargetRect'. Ignoring request.");
+    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeRenderTargetRect'. Ignoring request.");
     return;
   };
 
-  Rect& targetRect{ this->relativeMenuTargetRect };
+  Rect& targetRect{ this->relativeRenderTargetRect };
   targetRect = *rect;
 
   Rect compareRect;
   receiveScreenRect(&compareRect);
   if (!isRectInsideBounds(targetRect, compareRect))
   {
-    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Menu target rectangle is out of bounds. Adjusting to resolution size.");
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Target rectangle is out of bounds. Adjusting to resolution size.");
     limitRectToBounds(targetRect, compareRect);
   }
 
-  if (this->active && this->target == RenderTarget::MENU)
+  if (this->active)
   {
-    // TODO check ranges
-    const Range yRange{ targetRect.y, targetRect.y + targetRect.height };
-    GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = yRange;
-    GameStruct::TextureRenderCore->renderingRect = targetRect;
-    // Text-Range should be defined on text render calls
-  }
-}
-
-void RenderContext::setRelativeGameTargetRect(const Rect* rect)
-{
-  if (!rect)
-  {
-    Log(LogLevel::LOG_ERROR, "[RenderProvider]: Received nullptr rect for 'setRelativeGameTargetRect'. Ignoring request.");
-    return;
-  };
-
-  Rect& targetRect{ this->relativeGameTargetRect };
-  targetRect = *rect;
-  if (!isRectInsideBounds(targetRect, GAME_MAP_RECT))
-  {
-    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Game target rectangle is out of bounds. Adjusting to game map size.");
-    limitRectToBounds(targetRect, GAME_MAP_RECT);
-  }
-
-  if (this->active && this->target == RenderTarget::GAME)
-  {
-    // TODO check ranges
-    const Range yRange{ targetRect.y, targetRect.y + targetRect.height };
-    GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = yRange;
-    GameStruct::TextureRenderCore->renderingRect = targetRect;
+    // TODO: check ranges one day
+    switch (this->target)
+    {
+    case RenderTarget::MENU:
+      GameStruct::TextureRenderCore->screenMenuSurfaceHeightRange = { targetRect.top, targetRect.bottom + 1 };
+      GameStruct::TextureRenderCore->renderingRect = {
+        targetRect.left,
+        targetRect.top,
+        targetRect.right + 1,
+        targetRect.bottom + 1,
+      };
+      break;
+    case RenderTarget::GAME:
+      GameStruct::TextureRenderCore->mapGameSurfaceHeightRange = {
+        targetRect.top + GameStruct::ViewportState->currentCameraOffsetY,
+        targetRect.bottom + 1 + GameStruct::ViewportState->currentCameraOffsetY,
+      };
+      GameStruct::TextureRenderCore->renderingRect = {
+        targetRect.left + GameStruct::ViewportState->currentCameraOffsetX,
+        targetRect.top + GameStruct::ViewportState->currentCameraOffsetY,
+        targetRect.right + 1 + GameStruct::ViewportState->currentCameraOffsetX,
+        targetRect.bottom + 1 + GameStruct::ViewportState->currentCameraOffsetY,
+      };
+      break;
+    default:
+      Log(LogLevel::LOG_FATAL, "[RenderProvider]: An invalid render target was set. Can not adjust surface ranges. Exiting game.");
+      break;
+    }
     // Text-Range should be defined on text render calls
   }
 }
@@ -207,10 +196,10 @@ void RenderContext::receiveScreenRect(Rect* rectToFill)
     return;
   };
 
-  rectToFill->x = 0;
-  rectToFill->y = 0;
-  rectToFill->width = GameStruct::WindowAndDirectDraw->gameResolutionX;
-  rectToFill->height = GameStruct::WindowAndDirectDraw->gameResolutionY;
+  rectToFill->left = 0;
+  rectToFill->top = 0;
+  rectToFill->right = GameStruct::WindowAndDirectDraw->gameResolutionX - 1;
+  rectToFill->bottom = GameStruct::WindowAndDirectDraw->gameResolutionY - 1;
 }
 void RenderContext::receiveMenuRect(Rect* rectToFill)
 {
@@ -222,10 +211,10 @@ void RenderContext::receiveMenuRect(Rect* rectToFill)
 
   const int borderWidth = GameStruct::WindowAndDirectDraw->mainMenuBorderWidth;
   const int borderHeight = GameStruct::WindowAndDirectDraw->mainMenuBorderHeight;
-  rectToFill->x = borderWidth;
-  rectToFill->y = borderHeight;
-  rectToFill->width = GameStruct::WindowAndDirectDraw->gameResolutionX - 2 * borderWidth;
-  rectToFill->height = GameStruct::WindowAndDirectDraw->gameResolutionY - 2 * borderHeight;
+  rectToFill->left = borderWidth;
+  rectToFill->top = borderHeight;
+  rectToFill->right = GameStruct::WindowAndDirectDraw->gameResolutionX - borderWidth - 1;
+  rectToFill->bottom = GameStruct::WindowAndDirectDraw->gameResolutionY - borderHeight - 1;
 }
 void RenderContext::receiveMapRect(Rect* rectToFill)
 {
@@ -235,7 +224,7 @@ void RenderContext::receiveMapRect(Rect* rectToFill)
     return;
   };
 
-  *rectToFill = GAME_MAP_RECT;
+  *rectToFill = GAME_SURFACE_RECT;
 }
 
 void RenderContext::setPosition(const Coord position)
@@ -246,11 +235,14 @@ Coord RenderContext::receiveAdjustedPosition() const
 {
   if (this->target == RenderTarget::GAME)
   {
-    return { this->position.x + this->relativeGameTargetRect.x, this->position.y + this->relativeGameTargetRect.y };
+    return {
+      this->position.x + this->relativeRenderTargetRect.left + GameStruct::ViewportState->currentCameraOffsetX,
+      this->position.y + this->relativeRenderTargetRect.top + GameStruct::ViewportState->currentCameraOffsetY
+    };
   }
   else if (this->target == RenderTarget::MENU)
   {
-    return { this->position.x + this->relativeMenuTargetRect.x, this->position.y + this->relativeMenuTargetRect.y };
+    return { this->position.x + this->relativeRenderTargetRect.left, this->position.y + this->relativeRenderTargetRect.top };
   }
   Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested position adjusted to unknown render target. Exiting game.");
   return this->position;
@@ -264,11 +256,14 @@ Coord RenderContext::receiveAdjustedTargetPosition() const
 {
   if (this->target == RenderTarget::GAME)
   {
-    return { this->targetPosition.x + this->relativeGameTargetRect.x, this->targetPosition.y + this->relativeGameTargetRect.y };
+    return {
+      this->targetPosition.x + this->relativeRenderTargetRect.left + GameStruct::ViewportState->currentCameraOffsetX,
+      this->targetPosition.y + this->relativeRenderTargetRect.top + GameStruct::ViewportState->currentCameraOffsetY
+    };
   }
   else if (this->target == RenderTarget::MENU)
   {
-    return { this->targetPosition.x + this->relativeMenuTargetRect.x, this->targetPosition.y + this->relativeMenuTargetRect.y };
+    return { this->targetPosition.x + this->relativeRenderTargetRect.left, this->targetPosition.y + this->relativeRenderTargetRect.top };
   }
   Log(LogLevel::LOG_FATAL, "[RenderProvider]: Requested target position adjusted to unknown render target. Exiting game.");
   return this->targetPosition;

@@ -14,11 +14,13 @@ namespace RenderProviderHeader
 
   /* Enums */
 
+  // NO SUPPORT FOR IN-GAME MAP RELATIVE RENDERING, WILL LIKELY REQUIRE NEW VERSION
+
   /* The enum describes the rendering target. */
   enum class RenderTarget
   {
     MENU = 0,
-    GAME = 1,
+    GAME = 1, // draws on the in-game surface, but still relative to the viewport
     BUTTON_AND_ALPHA = 2, // internal, do not use, Memory used for alpha textures for example.
     CONTEXT_BASED = -1 // internal, do not use, used to indicate to some functions that a surface should be chosen based on context.
   };
@@ -55,18 +57,20 @@ namespace RenderProviderHeader
 
   /* Structs */
 
+  // inclusive range: [,]
   struct Range
   {
     int start;
     int end;
   };
 
+  // inclusive ranges: [,]
   struct Rect
   {
-    int x;
-    int y;
-    int width;
-    int height;
+    int left;
+    int top;
+    int right;
+    int bottom;
   };
 
   struct Coord
@@ -90,14 +94,13 @@ namespace RenderProviderHeader
   {
     // general
     using FuncSetRenderTarget = void(__stdcall)(Renderer renderer, RenderTarget target);
-    using FuncSetRelativeMenuTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
-    using FuncSetRelativeGameTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
-    using FuncReceiveScreenRect = void(__stdcall)(Renderer renderer, Rect* rect);
-    using FuncReceiveMenuRect = void(__stdcall)(Renderer renderer, Rect* rect);
-    using FuncReceiveMapRect = void(__stdcall)(Renderer renderer, Rect* rect);
     using FuncSetPosition = void(__stdcall)(Renderer renderer, const Coord position);
     using FuncSetTargetPosition = void(__stdcall)(Renderer renderer, const Coord target);
     using FuncSetAlpha = void(__stdcall)(Renderer renderer, float alpha);
+    // the following should be set/requested per render cycle, to handle changes in resolution
+    using FuncSetRelativeRenderTargetRect = void(__stdcall)(Renderer renderer, const Rect* rect);
+    using FuncReceiveScreenRect = void(__stdcall)(Renderer renderer, Rect* rect);
+    using FuncReceiveMenuRect = void(__stdcall)(Renderer renderer, Rect* rect);
 
     // text
     using FuncSetFontSize = void(__stdcall)(Renderer renderer, FontSize fontSize);

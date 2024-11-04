@@ -35,6 +35,7 @@ local GAME_ADDRESSES = {
   TextManager = { "B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromSingleOpcodeUsage, nil },
   TextureRenderCore = { "B9 ? ? ? ? E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 53 6A 03", readAddressFromSingleOpcodeUsage, nil },
   WindowAndDirectDraw = { "B9 ? ? ? ? E8 ? ? ? ? 39 ? ? ? ? ? 74 18", readAddressFromSingleOpcodeUsage, nil },
+  ViewportState = { "B9 ? ? ? ? E8 ? ? ? ? E9 69 01 00 00", readAddressFromSingleOpcodeUsage, nil },
   
   -- TextManager
   RenderSinglelineBlendableTextWithShadow = { "8B 44 24 20 8B 54 24 18 53", nil, nil },

@@ -89,8 +89,7 @@ private:
   bool active;
 
   RenderTarget target;
-  Rect relativeMenuTargetRect;
-  Rect relativeGameTargetRect;
+  Rect relativeRenderTargetRect;
   Coord position;
   Coord targetPosition;
   int blendStrength;
@@ -111,11 +110,10 @@ public:
   ~RenderContext();
 
   void setTarget(RenderTarget target);
-  void setRelativeMenuTargetRect(const Rect* rect);
-  void setRelativeGameTargetRect(const Rect* rect);
+  void setRelativeRenderTargetRect(const Rect* rect);
   void receiveScreenRect(Rect* rectToFill);
   void receiveMenuRect(Rect* rectToFill);
-  void receiveMapRect(Rect* rectToFill);
+  void receiveMapRect(Rect* rectToFill); // unused currently, since in-game map size handling is unknown at the moment
   void setPosition(const Coord position);
   Coord receiveAdjustedPosition() const;
   void setTargetPosition(const Coord position);

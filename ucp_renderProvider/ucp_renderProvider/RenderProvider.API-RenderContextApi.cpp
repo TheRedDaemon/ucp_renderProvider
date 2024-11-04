@@ -15,14 +15,9 @@ extern "C" __declspec(dllexport) void __stdcall setRenderTarget(Renderer rendere
   RenderContext::verifyAndExecute<&RenderContext::setTarget>(renderer, target);
 }
 
-extern "C" __declspec(dllexport) void __stdcall setRelativeMenuTargetRect(Renderer renderer, const Rect* rect)
+extern "C" __declspec(dllexport) void __stdcall setRelativeRenderTargetRect(Renderer renderer, const Rect* rect)
 {
-  RenderContext::verifyAndExecute<&RenderContext::setRelativeMenuTargetRect>(renderer, rect);
-}
-
-extern "C" __declspec(dllexport) void __stdcall setRelativeGameTargetRect(Renderer renderer, const Rect* rect)
-{
-  RenderContext::verifyAndExecute<&RenderContext::setRelativeGameTargetRect>(renderer, rect);
+  RenderContext::verifyAndExecute<&RenderContext::setRelativeRenderTargetRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall receiveScreenRect(Renderer renderer, Rect* rect)
@@ -33,11 +28,6 @@ extern "C" __declspec(dllexport) void __stdcall receiveScreenRect(Renderer rende
 extern "C" __declspec(dllexport) void __stdcall receiveMenuRect(Renderer renderer, Rect* rect)
 {
   RenderContext::verifyAndExecute<&RenderContext::receiveMenuRect>(renderer, rect);
-}
-
-extern "C" __declspec(dllexport) void __stdcall receiveMapRect(Renderer renderer, Rect* rect)
-{
-  RenderContext::verifyAndExecute<&RenderContext::receiveMapRect>(renderer, rect);
 }
 
 extern "C" __declspec(dllexport) void __stdcall setPosition(Renderer renderer, const Coord position) {

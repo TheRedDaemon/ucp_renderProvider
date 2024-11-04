@@ -113,5 +113,8 @@
     <ClCompile Include="RenderProvider.API-TextureRenderCore.cpp">
       <Filter>Quelldateien\API</Filter>
     </ClCompile>
+    <ClCompile Include="RenderProvider.SHC-ViewportState.ixx">
+      <Filter>Modules\SHC</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

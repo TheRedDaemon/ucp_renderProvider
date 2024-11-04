@@ -34,9 +34,9 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
 
   if (isMultiline) // only supports left alignment
   {
+    GameStruct::TextManager->textXRange = { position.x, position.x + textWidth };
     position.x += hasShadow ? 2 : 0;
     position.y += hasShadow ? 1 : 0;
-    GameStruct::TextManager->textXRange = { position.x, position.x + textWidth };
 
     if (hasShadow)
     {
@@ -54,25 +54,21 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
   switch (alignment)
   {
   case TextAlignment::LEFT:
-    position.x += hasShadow ? 2 : 0;
     GameStruct::TextManager->textXRange = { position.x, position.x + textWidth };
+    position.x += hasShadow ? 2 : 0;
     break;
   case TextAlignment::CENTER:
     {
-      const int shadowAdjust{ hasShadow ? 1 : 0 };
-      position.x += shadowAdjust;
-      
       // the range for center works rather strange and might use something like the middle index
       // TODO?: this solution might be good enough, but if issues arise, then this might need improvement
       const int halfWidth{ textWidth / 2 };
-      GameStruct::TextManager->textXRange = { position.x - halfWidth + shadowAdjust, position.x + halfWidth + shadowAdjust };
+      GameStruct::TextManager->textXRange = { position.x - halfWidth - 1, position.x + halfWidth - 1 };
+      position.x += hasShadow ? 1 : -1;
     }
     break;
   case TextAlignment::RIGHT:
-    {
-      const int shadowAdjust{ hasShadow ? 2 : 0 };
-      GameStruct::TextManager->textXRange = { position.x - textWidth - shadowAdjust, position.x - shadowAdjust };
-    }
+    GameStruct::TextManager->textXRange = { position.x - textWidth - 1, position.x - 1 };
+    position.x += 2; // adjust for space
     break;
   }
   position.y += hasShadow ? 1 : 0;

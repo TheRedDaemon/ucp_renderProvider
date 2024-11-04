@@ -62,8 +62,8 @@ export namespace SHC
     const int unused_0xc[17];
     int unknownGmRelatedFlag; // If set to 1, only one variation of the big menu buttons is used.
     const int unused_0x54;
-    RenderProviderHeader::Range mapGameSurfaceHeightRange;
-    RenderProviderHeader::Range screenMenuSurfaceHeightRange;
+    RenderProviderHeader::Range mapGameSurfaceHeightRange; // seems to be range [,) (start included, end excluded)
+    RenderProviderHeader::Range screenMenuSurfaceHeightRange; // seems to be range [,) (start included, end excluded)
     const int unused_0x68[301];
     GMFileHeaderColorpalette gmFileHeaderColorpaletteArray[240];
     const char unused_0x13179c[240][1001];
