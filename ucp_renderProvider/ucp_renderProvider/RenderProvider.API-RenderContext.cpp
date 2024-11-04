@@ -56,7 +56,6 @@ RenderContext::RenderContext() :
   textAlignment{ TextAlignment::LEFT },
   textPrimaryColor{ 0 },
   textSecondaryColor( 0xffffff ),
-  keepLeftAlignedTextPosition{ false }, // assume first text request to start at position
   textShadow{ false },
   textMultiline{ false },
   textWidth{ 10000 },
@@ -327,18 +326,14 @@ TextAlignment RenderContext::getTextAlignment() const
   return this->textAlignment;
 }
 
-void RenderContext::keepLeftAlignedTextPositionForNextText()
+int RenderContext::receiveLastLeftAlignedTextXOffset() const
 {
-  this->keepLeftAlignedTextPosition = true;
+  return GameStruct::TextManager->currentXOffset;
 }
-LeftAlignedTextXOffsetHandling RenderContext::determineLeftAlignedTextPositionHandling()
+
+int RenderContext::receiveLastMultilineTextYOffset() const
 {
-  if (this->keepLeftAlignedTextPosition)
-  {
-    this->keepLeftAlignedTextPosition = false;
-    return LeftAlignedTextXOffsetHandling::KEEP;
-  }
-  return LeftAlignedTextXOffsetHandling::DISCARD;
+  return GameStruct::TextManager->currentMultilineYOffset;
 }
 
 void RenderContext::setTextShadow(bool textShadow)

@@ -33,6 +33,8 @@ private:
 
   // singleline, left aligned text can be put together this way
   static inline int originalLeftAlignedTextXOffset;
+  // only multiline
+  static inline int originalMultilineYOffset;
 
   // needs to be set, but seems to be only for tgx menu rendering
   static inline Rect originalRenderingRect;

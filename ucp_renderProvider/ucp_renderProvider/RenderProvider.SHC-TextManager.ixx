@@ -12,7 +12,7 @@ export namespace SHC
   struct TextManager
   {
     int currentXOffset;
-    const int unknown_0x4; // could be some interesting data
+    int currentMultilineYOffset; // could be some interesting data
     RenderProviderHeader::Range textXRange; // start and end of text x-range
     const int codePage;
     const int unknown_0x14;

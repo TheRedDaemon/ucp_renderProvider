@@ -24,7 +24,6 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
   const unsigned int primaryColor{ context.getTextPrimaryColor() };
   const unsigned int secondaryColor{ context.getTextSecondaryColor() };
   const FontSize fontSize{ context.getFontSize() };
-  const LeftAlignedTextXOffsetHandling xOffsetHandling{ context.determineLeftAlignedTextPositionHandling() };
   const int blendStrength{ context.getBlendStrength() };
   const bool hasShadow{ context.hasTextShadow() };
   const bool isMultiline{ context.isTextMultiline() };
@@ -73,15 +72,16 @@ extern "C" __declspec(dllexport) void __stdcall renderText(RenderToken token, co
   }
   position.y += hasShadow ? 1 : 0;
 
+  // offset handling is always reset, the user should request the offset to use it in the next call
   if (hasShadow)
   {
-    std::invoke(TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, GameStruct::TextManager, text,
-      position.x, position.y, alignment, primaryColor, secondaryColor, fontSize, xOffsetHandling, blendStrength);
+    std::invoke(TextManagerDrawFunction::renderSinglelineBlendableTextWithShadow, GameStruct::TextManager, text, position.x,
+      position.y, alignment, primaryColor, secondaryColor, fontSize, LeftAlignedTextXOffsetHandling::DISCARD, blendStrength);
   }
   else
   {
-    std::invoke(TextManagerDrawFunction::renderSinglelineBlendableText, GameStruct::TextManager, text,
-      position.x, position.y, alignment, primaryColor, fontSize, xOffsetHandling, blendStrength);
+    std::invoke(TextManagerDrawFunction::renderSinglelineBlendableText, GameStruct::TextManager, text, position.x,
+      position.y, alignment, primaryColor, fontSize, LeftAlignedTextXOffsetHandling::DISCARD, blendStrength);
   }
 }
 

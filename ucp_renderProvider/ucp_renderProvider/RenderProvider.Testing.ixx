@@ -40,11 +40,13 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextSecondaryColor(renderer, 0xffffffff);
 
-  setPosition(renderer, { relativeRightPosition + 1, 0 });
+  RenderProviderHeader::Coord position{ relativeRightPosition + 1, 0 };
+  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x00ff0000);
   setTextAlignment(renderer, RenderProviderHeader::TextAlignment::LEFT);
   renderText(token, "TesT");
-  keepLeftAlignedTextPositionForNextText(renderer);
+  position.x += receiveLastLeftAlignedTextXOffset(renderer);;
+  setPosition(renderer, position);
   renderText(token, "2");
 
   setPosition(renderer, { relativeRightPosition, 40 });
@@ -59,17 +61,21 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setTextMultiline(renderer, true);
 
-  setPosition(renderer, { 0, 120 });
+  position = { 0, 120 };
+  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x00ff0000);
   renderText(token, "This is a test");
 
-  setPosition(renderer, { 0, 200 });
+  // NOTE: likely game bug: long word breaks do not count to Y Offset
+  position.y += receiveLastMultilineTextYOffset(renderer);
+  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x0000ff00);
-  renderText(token, "Thisisatest");
+  renderText(token, "Thisisatestthisisatest");
 
   setTextShadow(renderer, false);
 
-  setPosition(renderer, { 0, 280 });
+  position.y += receiveLastMultilineTextYOffset(renderer);
+  setPosition(renderer, position);
   setTextPrimaryColor(renderer, 0x000000ff);
   renderText(token, "This is a test");
 
@@ -94,6 +100,8 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   // TODO?: once the APIs are "all" done, consider if certain states even make sense, or if
   // it would be better to just provide it as part of the function call.
+  // prime example would be the positions, which are known by the caller
+  // consider!!
 
   setPosition(renderer, { 100, 100 });
   setTargetPosition(renderer, { 200, 200 });
