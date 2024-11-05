@@ -19,5 +19,9 @@ export namespace SHC
     using FuncDrawColorRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, unsigned short color);
     using FuncDrawDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2);
     using FuncDrawAlphaDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, int blendStrength);
+    using FuncDrawBorderAndDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int width, int height);
+    using FuncDrawBorderAndAlphaDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int width, int height, int blendStrength);
+    using FuncDrawRoundEdgeAndDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, RenderProviderHeader::RoundedEdgeType edgeType);
+    using FuncDrawRoundEdgeAndColorRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, unsigned short color, RenderProviderHeader::RoundedEdgeType edgeType);
   };
 }

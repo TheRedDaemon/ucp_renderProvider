@@ -47,18 +47,27 @@ namespace RenderProviderHeader
     VERY_SMALL = 19,
   };
 
+  enum RoundedEdgeType : int
+  {
+    SLIGHT = 5,
+    STRONG = 22,
+  };
+
   enum RectangleType : int
   {
     DIM = 0,
     BORDER = 1,
     COLOR = 2,
-    ALPHA_BLEND = 3,
-    BORDER_AND_BLEND = 4,
-    BORDER_AND_ALPHA_BLEND = 5,
+    ALPHA_DIM = 3,
     SLIGHT_ROUND_EDGE_AND_DIM = 6,
     STRONG_ROUND_EDGE_AND_DIM = 7,
     SLIGHT_ROUND_EDGE_AND_COLOR = 8,
     STRONG_ROUND_EDGE_AND_COLOR = 9,
+
+    // their sizes work in multiplies of 24, with the border and inside shadow being actually 13 pixels
+    // however, for the computation they are treated as 12 pixels and the code tries to fit the requested rectangle inside
+    BORDER_AND_DIM = 4,
+    BORDER_AND_ALPHA_DIM = 5,
   };
 
   /* Structs */

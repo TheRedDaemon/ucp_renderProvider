@@ -57,22 +57,53 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
     std::invoke(PencilRenderCoreFunction::drawColorRectangle, GameStruct::PencilRenderCore,
       position.x, position.y, target.x, target.y, color);
     break;
-  case RenderProviderHeader::ALPHA_BLEND:
-    std::invoke(PencilRenderCoreFunction::drawAlphaBlendRectangle, GameStruct::PencilRenderCore,
+  case RenderProviderHeader::ALPHA_DIM:
+    std::invoke(PencilRenderCoreFunction::drawAlphaDimRectangle, GameStruct::PencilRenderCore,
       position.x, position.y, target.x, target.y, blendStrength);
     break;
-  case RenderProviderHeader::BORDER_AND_BLEND:
-    break;
-  case RenderProviderHeader::BORDER_AND_ALPHA_BLEND:
-    break;
   case RenderProviderHeader::SLIGHT_ROUND_EDGE_AND_DIM:
+    std::invoke(PencilRenderCoreFunction::drawRoundEdgeAndDimRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, RoundedEdgeType::SLIGHT);
     break;
   case RenderProviderHeader::STRONG_ROUND_EDGE_AND_DIM:
+    std::invoke(PencilRenderCoreFunction::drawRoundEdgeAndDimRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, RoundedEdgeType::STRONG);
     break;
   case RenderProviderHeader::SLIGHT_ROUND_EDGE_AND_COLOR:
+    std::invoke(PencilRenderCoreFunction::drawRoundEdgeAndColorRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, color, RoundedEdgeType::SLIGHT);
     break;
   case RenderProviderHeader::STRONG_ROUND_EDGE_AND_COLOR:
+    std::invoke(PencilRenderCoreFunction::drawRoundEdgeAndColorRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, color, RoundedEdgeType::STRONG);
     break;
+
+  // needs special logic, since the code tries to put the rectangle inside the requested rect
+  case RenderProviderHeader::BORDER_AND_DIM:
+  case RenderProviderHeader::BORDER_AND_ALPHA_DIM:
+    {
+      const int width{ target.x - position.x + 1 };
+      const int height{ target.y - position.y + 1 };
+      const int widthReminder{ width % 24 };
+      const int heightReminder{ height % 24 };
+      const int sizeOfInsideWidth{ width - widthReminder + (widthReminder != 0) * 24 };
+      const int sizeOfInsideHeight{ height - heightReminder + (heightReminder != 0) * 24 };
+      const int adjustXPosition{ position.x - (24 + sizeOfInsideWidth - width) / 2 };
+      const int adjustYPosition{ position.y - (24 + sizeOfInsideHeight - height) / 2 };
+
+      if (type == RenderProviderHeader::BORDER_AND_DIM)
+      {
+        std::invoke(PencilRenderCoreFunction::drawBorderAndDimRectangle, GameStruct::PencilRenderCore,
+          adjustXPosition, adjustYPosition, sizeOfInsideWidth + 1, sizeOfInsideHeight + 1);
+      }
+      else
+      {
+        std::invoke(PencilRenderCoreFunction::drawBorderAndAlphaDimRectangle, GameStruct::PencilRenderCore,
+          adjustXPosition, adjustYPosition, sizeOfInsideWidth + 1, sizeOfInsideHeight + 1, blendStrength);
+      }
+    }
+    break;
+
   default:
     Log(LogLevel::LOG_WARNING, "[RenderProvider]: Received unknown rectangle type for 'drawRectangle'. Ignoring request.");
     break;

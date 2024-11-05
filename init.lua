@@ -50,6 +50,10 @@ local GAME_ADDRESSES = {
   DrawColorRectangle = { "E8 ? ? ? ? 8B 44 24 14 8B 4C 24 10 33 D2", receiveAbsoluteAddressFromCallOffsetAddress, nil },
   DrawDimRectangle = { "E8 ? ? ? ? 0F ? ? ? ? ? ? 8B 4C 24 10 52 8D 46 FF", receiveAbsoluteAddressFromCallOffsetAddress, nil },
   DrawAlphaDimRectangle = { "E8 ? ? ? ? B9 ? ? ? ? E8 ? ? ? ? 85 C0 BB 01 00 00 00", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawBorderAndDimRectangle = { "E8 ? ? ? ? 8B ? ? ? ? ? 66 ? ? ? ? ? ? ? ? 6A 00", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawBorderAndAlphaDimRectangle = { "E8 ? ? ? ? A1 ? ? ? ? 8B ? ? ? ? ? 83 C0 E0 C1 E0 04", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawRoundEdgeAndDimRectangle = { "53 55 8B 6C 24 1C 83 FD 05", nil, nil },
+  DrawRoundEdgeAndColorRectangle = { "53 55 8B 6C 24 20 83 FD 05", nil, nil },
   
   -- TextureRenderCore
   Transform24bitBGRToDisplayFormat = { "8B 44 24 04 8B D0 C1 EA 13", nil, nil },
