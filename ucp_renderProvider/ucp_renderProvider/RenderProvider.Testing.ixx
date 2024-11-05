@@ -130,6 +130,15 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   setPencilColor(renderer, 0x00ffffff);
   drawRectangle(token, RenderProviderHeader::RectangleType::COLOR, &positionRect);
 
+  setRenderTarget(renderer, RenderProviderHeader::RenderTarget::MENU);
+
+  positionRect = { 600, 300, 649, 349 };
+  drawRectangle(token, RenderProviderHeader::RectangleType::DIM, &positionRect);
+
+  setAlpha(renderer, 0.3f);
+  positionRect = { 650, 300, 699, 349 };
+  drawRectangle(token, RenderProviderHeader::RectangleType::ALPHA_BLEND, &positionRect);
+
   static bool fontTested = false;
   if (!fontTested)
   {

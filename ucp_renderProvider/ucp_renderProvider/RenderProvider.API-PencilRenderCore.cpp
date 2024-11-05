@@ -46,6 +46,8 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
   switch (type)
   {
   case RenderProviderHeader::DIM:
+    std::invoke(PencilRenderCoreFunction::drawDimRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y);
     break;
   case RenderProviderHeader::BORDER:
     std::invoke(PencilRenderCoreFunction::drawBorderRectangle, GameStruct::PencilRenderCore,
@@ -55,7 +57,9 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
     std::invoke(PencilRenderCoreFunction::drawColorRectangle, GameStruct::PencilRenderCore,
       position.x, position.y, target.x, target.y, color);
     break;
-  case RenderProviderHeader::BLEND:
+  case RenderProviderHeader::ALPHA_BLEND:
+    std::invoke(PencilRenderCoreFunction::drawAlphaBlendRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, blendStrength);
     break;
   case RenderProviderHeader::BORDER_AND_BLEND:
     break;

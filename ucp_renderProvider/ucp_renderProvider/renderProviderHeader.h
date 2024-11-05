@@ -52,7 +52,7 @@ namespace RenderProviderHeader
     DIM = 0,
     BORDER = 1,
     COLOR = 2,
-    BLEND = 3,
+    ALPHA_BLEND = 3,
     BORDER_AND_BLEND = 4,
     BORDER_AND_ALPHA_BLEND = 5,
     SLIGHT_ROUND_EDGE_AND_DIM = 6,

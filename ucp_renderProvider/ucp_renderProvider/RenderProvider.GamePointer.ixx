@@ -30,8 +30,10 @@ export struct TextureRenderCoreFunction
 export struct PencilRenderCoreFunction
 {
   inline static SHC::PencilRenderCore::FuncDrawLine drawLine{ nullptr };
-  inline static SHC::PencilRenderCore::FuncDrawRectangle drawBorderRectangle{ nullptr };
-  inline static SHC::PencilRenderCore::FuncDrawFilledRectangle drawColorRectangle{ nullptr };
+  inline static SHC::PencilRenderCore::FuncDrawBorderRectangle drawBorderRectangle{ nullptr };
+  inline static SHC::PencilRenderCore::FuncDrawColorRectangle drawColorRectangle{ nullptr };
+  inline static SHC::PencilRenderCore::FuncDrawDimRectangle drawDimRectangle{ nullptr };
+  inline static SHC::PencilRenderCore::FuncDrawAlphaDimRectangle drawAlphaDimRectangle{ nullptr };
 };
 
 export struct TextManagerDrawFunction

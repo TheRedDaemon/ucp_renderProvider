@@ -48,6 +48,8 @@ extern "C" __declspec(dllexport) int __cdecl luaopen_renderProvider(lua_State * 
   addAddress(L, (DWORD) &PencilRenderCoreFunction::drawLine, "DrawLine");
   addAddress(L, (DWORD) &PencilRenderCoreFunction::drawBorderRectangle, "DrawBorderRectangle");
   addAddress(L, (DWORD) &PencilRenderCoreFunction::drawColorRectangle, "DrawColorRectangle");
+  addAddress(L, (DWORD) &PencilRenderCoreFunction::drawDimRectangle, "DrawDimRectangle");
+  addAddress(L, (DWORD) &PencilRenderCoreFunction::drawAlphaDimRectangle, "DrawAlphaDimRectangle");
 
   addAddress(L, (DWORD) &TextureRenderCoreFunction::transform24bitBGRToDisplayFormat, "Transform24bitBGRToDisplayFormat");
   
