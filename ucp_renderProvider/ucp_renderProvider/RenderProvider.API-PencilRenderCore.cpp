@@ -29,7 +29,7 @@ extern "C" __declspec(dllexport) void __stdcall drawLine(RenderToken token, cons
   std::invoke(PencilRenderCoreFunction::drawLine, GameStruct::PencilRenderCore, position.x, position.y, target.x, target.y, color);
 }
 
-extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token, bool fill, const Rect* rect)
+extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token, RectangleType type, const Rect* rect)
 {
   auto& context{ RenderState::verifyActiveToken(token).getRenderContext() };
   if (!rect)
@@ -41,7 +41,36 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
   const Coord position{ context.calculateAdjustedPosition((*rect).coords.position) };
   const Coord target{ context.calculateAdjustedPosition((*rect).coords.target) };
   const unsigned short color{ context.getPencilColor() };
+  const int blendStrength{ context.getBlendStrength() };
 
-  std::invoke(fill ? PencilRenderCoreFunction::drawFilledRectangle : PencilRenderCoreFunction::drawRectangle,
-    GameStruct::PencilRenderCore, position.x, position.y, target.x, target.y, color);
+  switch (type)
+  {
+  case RenderProviderHeader::DIM:
+    break;
+  case RenderProviderHeader::BORDER:
+    std::invoke(PencilRenderCoreFunction::drawBorderRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, color);
+    break;
+  case RenderProviderHeader::COLOR:
+    std::invoke(PencilRenderCoreFunction::drawColorRectangle, GameStruct::PencilRenderCore,
+      position.x, position.y, target.x, target.y, color);
+    break;
+  case RenderProviderHeader::BLEND:
+    break;
+  case RenderProviderHeader::BORDER_AND_BLEND:
+    break;
+  case RenderProviderHeader::BORDER_AND_ALPHA_BLEND:
+    break;
+  case RenderProviderHeader::SLIGHT_ROUND_EDGE_AND_DIM:
+    break;
+  case RenderProviderHeader::STRONG_ROUND_EDGE_AND_DIM:
+    break;
+  case RenderProviderHeader::SLIGHT_ROUND_EDGE_AND_COLOR:
+    break;
+  case RenderProviderHeader::STRONG_ROUND_EDGE_AND_COLOR:
+    break;
+  default:
+    Log(LogLevel::LOG_WARNING, "[RenderProvider]: Received unknown rectangle type for 'drawRectangle'. Ignoring request.");
+    break;
+  }
 }

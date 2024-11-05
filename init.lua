@@ -46,8 +46,8 @@ local GAME_ADDRESSES = {
   
   -- PencilRenderCore
   DrawLine = { "E8 ? ? ? ? 0F ? ? ? ? ? ? 52 8D 45 01", receiveAbsoluteAddressFromCallOffsetAddress, nil },
-  DrawRectangle = { "E8 ? ? ? ? 0F ? ? ? ? ? ? 52 8D 6F 0A", receiveAbsoluteAddressFromCallOffsetAddress, nil },
-  DrawFilledRectangle = { "E8 ? ? ? ? 8B 44 24 14 8B 4C 24 10 33 D2", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawBorderRectangle = { "E8 ? ? ? ? 0F ? ? ? ? ? ? 52 8D 6F 0A", receiveAbsoluteAddressFromCallOffsetAddress, nil },
+  DrawColorRectangle = { "E8 ? ? ? ? 8B 44 24 14 8B 4C 24 10 33 D2", receiveAbsoluteAddressFromCallOffsetAddress, nil },
   
   -- TextureRenderCore
   Transform24bitBGRToDisplayFormat = { "8B 44 24 04 8B D0 C1 EA 13", nil, nil },

@@ -47,12 +47,18 @@ namespace RenderProviderHeader
     VERY_SMALL = 19,
   };
 
-  struct FontData
+  enum RectangleType : int
   {
-    int baselineOffset;
-    int lineHeight;
-    int letterSpacing;
-    int whiteSpaceWidth;
+    DIM = 0,
+    BORDER = 1,
+    COLOR = 2,
+    BLEND = 3,
+    BORDER_AND_BLEND = 4,
+    BORDER_AND_ALPHA_BLEND = 5,
+    SLIGHT_ROUND_EDGE_AND_DIM = 6,
+    STRONG_ROUND_EDGE_AND_DIM = 7,
+    SLIGHT_ROUND_EDGE_AND_COLOR = 8,
+    STRONG_ROUND_EDGE_AND_COLOR = 9,
   };
 
   /* Structs */
@@ -85,6 +91,14 @@ namespace RenderProviderHeader
       int right;
       int bottom;
     } limits;
+  };
+
+  struct FontData
+  {
+    int baselineOffset;
+    int lineHeight;
+    int letterSpacing;
+    int whiteSpaceWidth;
   };
 
   /* Functions */
@@ -132,7 +146,7 @@ namespace RenderProviderHeader
 
     // pencil
     using FuncDrawLine = void(__stdcall)(RenderToken token, const Rect* fromTo);
-    using FuncDrawRectangle = void(__stdcall)(RenderToken token, bool fill, const Rect* rect);
+    using FuncDrawRectangle = void(__stdcall)(RenderToken token, RectangleType type, const Rect* rect);
   };
 
   namespace Misc

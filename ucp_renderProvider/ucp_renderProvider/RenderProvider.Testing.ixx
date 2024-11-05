@@ -118,17 +118,17 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   positionRect = { 500, 550, 400, 400 };
   setPencilColor(renderer, 0x00ff00ff);
-  drawRectangle(token, false, &positionRect);
+  drawRectangle(token, RenderProviderHeader::RectangleType::BORDER, &positionRect);
 
   positionRect = { 600, 500, 1550, 599 };
   setPencilColor(renderer, 0x0000ffff);
-  drawRectangle(token, true, &positionRect);
+  drawRectangle(token, RenderProviderHeader::RectangleType::COLOR, &positionRect);
 
   setRenderTarget(renderer, RenderProviderHeader::RenderTarget::GAME);
 
   positionRect = { 650, 0, 600, 599 };
   setPencilColor(renderer, 0x00ffffff);
-  drawRectangle(token, true, &positionRect);
+  drawRectangle(token, RenderProviderHeader::RectangleType::COLOR, &positionRect);
 
   static bool fontTested = false;
   if (!fontTested)
