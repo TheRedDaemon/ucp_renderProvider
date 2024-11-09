@@ -32,9 +32,7 @@ export struct PencilRenderCoreFunction
   inline static SHC::PencilRenderCore::FuncDrawLine drawLine{ nullptr };
   inline static SHC::PencilRenderCore::FuncDrawBorderRectangle drawBorderRectangle{ nullptr };
   inline static SHC::PencilRenderCore::FuncDrawColorRectangle drawColorRectangle{ nullptr };
-  inline static SHC::PencilRenderCore::FuncDrawDimRectangle drawDimRectangle{ nullptr };
   inline static SHC::PencilRenderCore::FuncDrawAlphaDimRectangle drawAlphaDimRectangle{ nullptr };
-  inline static SHC::PencilRenderCore::FuncDrawBorderAndDimRectangle drawBorderAndDimRectangle{ nullptr };
   inline static SHC::PencilRenderCore::FuncDrawBorderAndAlphaDimRectangle drawBorderAndAlphaDimRectangle{ nullptr };
   inline static SHC::PencilRenderCore::FuncDrawRoundEdgeAndDimRectangle drawRoundEdgeAndDimRectangle{ nullptr };
   inline static SHC::PencilRenderCore::FuncDrawRoundEdgeAndColorRectangle drawRoundEdgeAndColorRectangle{ nullptr };

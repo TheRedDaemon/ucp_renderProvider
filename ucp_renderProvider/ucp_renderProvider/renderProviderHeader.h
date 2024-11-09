@@ -55,19 +55,17 @@ namespace RenderProviderHeader
 
   enum RectangleType : int
   {
-    DIM = 0,
-    BORDER = 1,
-    COLOR = 2,
-    ALPHA_DIM = 3,
-    SLIGHT_ROUND_EDGE_AND_DIM = 6,
-    STRONG_ROUND_EDGE_AND_DIM = 7,
-    SLIGHT_ROUND_EDGE_AND_COLOR = 8,
-    STRONG_ROUND_EDGE_AND_COLOR = 9,
+    BORDER = 0,
+    COLOR = 1,
+    ALPHA_DIM = 2,
+    SLIGHT_ROUND_EDGE_AND_DIM = 3,
+    STRONG_ROUND_EDGE_AND_DIM = 4,
+    SLIGHT_ROUND_EDGE_AND_COLOR = 5,
+    STRONG_ROUND_EDGE_AND_COLOR = 6,
 
-    // their sizes work in multiplies of 24, with the border and inside shadow being actually 13 pixels
+    // the size works in multiplies of 24, with the border and inside shadow being actually 13 pixels
     // however, for the computation they are treated as 12 pixels and the code tries to fit the requested rectangle inside
-    BORDER_AND_DIM = 4,
-    BORDER_AND_ALPHA_DIM = 5,
+    BORDER_AND_ALPHA_DIM = 7,
   };
 
   /* Structs */

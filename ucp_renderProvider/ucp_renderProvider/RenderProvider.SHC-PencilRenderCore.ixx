@@ -17,11 +17,12 @@ export namespace SHC
     using FuncDrawLine = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, unsigned short color);
     using FuncDrawBorderRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, unsigned short color);
     using FuncDrawColorRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, unsigned short color);
-    using FuncDrawDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2);
     using FuncDrawAlphaDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, int blendStrength);
-    using FuncDrawBorderAndDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int width, int height);
     using FuncDrawBorderAndAlphaDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int width, int height, int blendStrength);
     using FuncDrawRoundEdgeAndDimRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, RenderProviderHeader::RoundedEdgeType edgeType);
     using FuncDrawRoundEdgeAndColorRectangle = void (PencilRenderCore::*)(int x1, int y1, int x2, int y2, unsigned short color, RenderProviderHeader::RoundedEdgeType edgeType);
+  
+    // TODO: maybe check if the there are redundant functions, either here or in the API, regarding blending
+    // some seem to have the same effect with the fitting blend strength
   };
 }

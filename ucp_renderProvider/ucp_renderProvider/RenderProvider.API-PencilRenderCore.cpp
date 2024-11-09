@@ -45,10 +45,6 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
 
   switch (type)
   {
-  case RenderProviderHeader::DIM:
-    std::invoke(PencilRenderCoreFunction::drawDimRectangle, GameStruct::PencilRenderCore,
-      position.x, position.y, target.x, target.y);
-    break;
   case RenderProviderHeader::BORDER:
     std::invoke(PencilRenderCoreFunction::drawBorderRectangle, GameStruct::PencilRenderCore,
       position.x, position.y, target.x, target.y, color);
@@ -78,8 +74,7 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
       position.x, position.y, target.x, target.y, color, RoundedEdgeType::STRONG);
     break;
 
-  // needs special logic, since the code tries to put the rectangle inside the requested rect
-  case RenderProviderHeader::BORDER_AND_DIM:
+  // needs special logic, the code tries to put the rectangle inside the requested rect
   case RenderProviderHeader::BORDER_AND_ALPHA_DIM:
     {
       const int width{ target.x - position.x + 1 };
@@ -91,16 +86,9 @@ extern "C" __declspec(dllexport) void __stdcall drawRectangle(RenderToken token,
       const int adjustXPosition{ position.x - (24 + sizeOfInsideWidth - width) / 2 };
       const int adjustYPosition{ position.y - (24 + sizeOfInsideHeight - height) / 2 };
 
-      if (type == RenderProviderHeader::BORDER_AND_DIM)
-      {
-        std::invoke(PencilRenderCoreFunction::drawBorderAndDimRectangle, GameStruct::PencilRenderCore,
-          adjustXPosition, adjustYPosition, sizeOfInsideWidth + 1, sizeOfInsideHeight + 1);
-      }
-      else
-      {
-        std::invoke(PencilRenderCoreFunction::drawBorderAndAlphaDimRectangle, GameStruct::PencilRenderCore,
-          adjustXPosition, adjustYPosition, sizeOfInsideWidth + 1, sizeOfInsideHeight + 1, blendStrength);
-      }
+      // +1 are applied to width and height since the games logic subtracts one of this size
+      std::invoke(PencilRenderCoreFunction::drawBorderAndAlphaDimRectangle, GameStruct::PencilRenderCore,
+        adjustXPosition, adjustYPosition, sizeOfInsideWidth + 1, sizeOfInsideHeight + 1, blendStrength);
     }
     break;
 

@@ -132,12 +132,9 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
 
   setRenderTarget(renderer, RenderProviderHeader::RenderTarget::MENU);
 
-  positionRect = { 600, 300, 649, 349 };
-  drawRectangle(token, RenderProviderHeader::RectangleType::DIM, &positionRect);
-
-  setAlpha(renderer, 0.3f);
+  setAlpha(renderer, 0.5f);
   
-  positionRect = { 650, 300, 699, 349 };
+  positionRect = { 650, 200, 799, 349 };
   drawRectangle(token, RenderProviderHeader::RectangleType::ALPHA_DIM, &positionRect);
 
   positionRect = { 600, 200, 649, 249 };
@@ -146,10 +143,9 @@ void __stdcall testAction(RenderProviderHeader::RenderToken token, void* nothing
   positionRect = { 650, 200, 699, 249 };
   drawRectangle(token, RenderProviderHeader::RectangleType::STRONG_ROUND_EDGE_AND_DIM, &positionRect);
 
-  positionRect = { 601, 350, 648, 399 };
-  drawRectangle(token, RenderProviderHeader::RectangleType::BORDER_AND_DIM, &positionRect);
+  setAlpha(renderer, 1.f);
 
-  positionRect = { 650, 350, 699, 399 };
+  positionRect = { 650, 100, 699, 149 };
   drawRectangle(token, RenderProviderHeader::RectangleType::BORDER_AND_ALPHA_DIM, &positionRect);
 
   setPencilColor(renderer, 0x00ffff00);
